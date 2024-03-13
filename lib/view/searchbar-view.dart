@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import 'package:food_tracker_app/viewmodel/searchbar-viewmodel.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -54,12 +54,20 @@ class SearchBar extends StatefulWidget {
 
 class _SearchBarState extends State<SearchBar> {
   String query = '';
+  Timer? searchTimer;
 
   void onQueryChanged(String newQuery) {
     setState(() {
       query = newQuery;
     });
-    widget.onQueryChanged(newQuery);
+
+    if (searchTimer?.isActive ?? false) {
+      searchTimer?.cancel();
+    }
+
+    searchTimer = Timer(const Duration(seconds: 2), () {
+      widget.onQueryChanged(newQuery);
+    });
   }
 
   @override
