@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/view/searchbar-view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: SearchScreen(),
     );
   }
 }
@@ -55,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        
+
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
