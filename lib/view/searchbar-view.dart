@@ -11,9 +11,10 @@ class _SearchScreenState extends State<SearchScreen> {
   final SearchViewModel _viewModel = SearchViewModel();
   List<String> searchResults = [];
 
-  void onQueryChanged(String query) {
+  void onQueryChanged(String query) async {
+    List<String> results = await _viewModel.getSearchResults(query);
     setState(() {
-      searchResults = _viewModel.getSearchResults(query);
+      searchResults = results;
     });
   }
 
