@@ -22,7 +22,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Search Bar Tutorial'),
+        title: Text('Add Food Items'),
       ),
       body: Column(
         children: [
