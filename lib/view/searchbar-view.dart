@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:food_tracker_app/viewmodel/searchbar-viewmodel.dart';
@@ -9,12 +10,15 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final SearchViewModel _viewModel = SearchViewModel();
-  List<String> searchResults = [];
+  Map<String, bool> searchResults = {
+    'foo': true,
+    'bar': false,
+  };
 
   void onQueryChanged(String query) async {
     List<String> results = await _viewModel.getSearchResults(query);
     setState(() {
-      searchResults = results;
+     searchResults = { for (var e in results) e : false };
     });
   }
 
@@ -28,15 +32,19 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           SearchBar(onQueryChanged: onQueryChanged),
           Expanded(
-            child: ListView.builder(
-              itemCount: searchResults.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(searchResults[index]),
-                );
-              },
-            ),
-          ),
+              child: ListView(
+                children: searchResults.keys.map((String key) {
+                  return CheckboxListTile(
+                    title: Text(key),
+                    value: searchResults[key],
+                    onChanged: (bool? value){
+                      setState(() {
+                        searchResults[key] = value ?? true;
+                      });
+                    },
+                  );
+                }).toList(),          ),
+          )
         ],
       ),
     );
