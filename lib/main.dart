@@ -76,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    int currentIndex = 0;
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
@@ -85,6 +86,16 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Home',),
+          BottomNavigationBarItem(icon: Icon(Icons.search),label: 'Search',),
+        ],
+        currentIndex: currentIndex,
+        onTap: (int index){
+          currentIndex = index;
+        },
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
