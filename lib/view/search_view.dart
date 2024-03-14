@@ -27,10 +27,10 @@ class SearchView extends StatelessWidget {
             child: Consumer<SearchViewModel>(
               builder: (context, viewModel, child) {
                 return ListView.builder(
-                  itemCount: viewModel.searchResults.length,
+                  itemCount: viewModel.getSearchResults().length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(viewModel.searchResults[index]),
+                      title: Text(viewModel.getSearchResults()[index]),
                     );
                   },
                 );
