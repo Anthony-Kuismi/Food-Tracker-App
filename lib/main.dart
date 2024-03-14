@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/viewmodel/meal_viewmodel.dart';
+import 'package:food_tracker_app/view/meal_view.dart';
 import 'package:food_tracker_app/view/searchbar-view.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,13 +14,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: SearchScreen(),
+    return ChangeNotifierProvider(
+        create: (context) => MealListViewModel(),
+        child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: MealListView(),
+        )
     );
   }
 }
