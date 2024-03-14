@@ -7,4 +7,12 @@ class SearchViewModel extends ChangeNotifier {
   Future<List<String>> getSearchResults(String query) {
     return _searchModel.getSearchResults(query);
   }
+
+  Map<String, bool> getChecklistMap(List<String> results){
+    return _searchModel.getChecklistMap(results);
+  }
+
+  void updateSelectedFoods(Map<String, bool> checklist){
+    _searchModel.updateSelectedFoods(checklist);
+  }
 }

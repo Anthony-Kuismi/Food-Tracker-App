@@ -17,8 +17,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void onQueryChanged(String query) async {
     List<String> results = await _viewModel.getSearchResults(query);
+    _viewModel.updateSelectedFoods(searchResults);
     setState(() {
-     searchResults = { for (var e in results) e : false };
+     searchResults = _viewModel.getChecklistMap(results);
     });
   }
 
