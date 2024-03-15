@@ -15,4 +15,8 @@ class SearchViewModel extends ChangeNotifier {
   void updateSelectedFoods(Map<String, bool> checklist){
     _searchModel.updateSelectedFoods(checklist);
   }
+
+  void sendSelectedFoods(){
+    _searchModel.sendSelectedFoods();
+  }
 }

@@ -10,14 +10,10 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final SearchViewModel _viewModel = SearchViewModel();
-  Map<String, bool> searchResults = {
-    'foo': true,
-    'bar': false,
-  };
+  Map<String, bool> searchResults = {};
 
   void onQueryChanged(String query) async {
     List<String> results = await _viewModel.getSearchResults(query);
-    _viewModel.updateSelectedFoods(searchResults);
     setState(() {
      searchResults = _viewModel.getChecklistMap(results);
     });
@@ -56,11 +52,19 @@ class _SearchScreenState extends State<SearchScreen> {
                         setState(() {
                           searchResults[key] = value ?? true;
                         });
+                          _viewModel.updateSelectedFoods(searchResults);
                       },
                     ),
                   );
                 }).toList(),
               ),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              _viewModel.sendSelectedFoods();
+            },
+            icon: const Icon(Icons.add, size: 18),
+            label: const Text("Add Selected Foods"),
           )
         ],
       ),
