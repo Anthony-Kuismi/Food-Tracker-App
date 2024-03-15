@@ -27,24 +27,40 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Food Items'),
+        title: const Text('Add Food Items'),
       ),
       body: Column(
         children: [
           SearchBar(onQueryChanged: onQueryChanged),
           Expanded(
               child: ListView(
+                padding: const EdgeInsets.all(8.0),
                 children: searchResults.keys.map((String key) {
-                  return CheckboxListTile(
-                    title: Text(key),
-                    value: searchResults[key],
-                    onChanged: (bool? value){
-                      setState(() {
-                        searchResults[key] = value ?? true;
-                      });
-                    },
+                  return Container(
+                    margin: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondary,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: CheckboxListTile(
+                      title: Text(
+                          key,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                      ),
+                      checkColor: Theme.of(context).colorScheme.onPrimary,
+                      activeColor: Theme.of(context).colorScheme.secondary,
+                      value: searchResults[key],
+                      onChanged: (bool? value){
+                        setState(() {
+                          searchResults[key] = value ?? true;
+                        });
+                      },
+                    ),
                   );
-                }).toList(),          ),
+                }).toList(),
+              ),
           )
         ],
       ),
@@ -74,7 +90,7 @@ class _SearchBarState extends State<SearchBar> {
       searchTimer?.cancel();
     }
 
-    searchTimer = Timer(const Duration(seconds: 2), () {
+    searchTimer = Timer(const Duration(milliseconds: 500), () {
       widget.onQueryChanged(newQuery);
     });
   }
