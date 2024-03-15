@@ -5,6 +5,13 @@ import 'dart:convert';
 
 class SearchModel {
   List<String> selectedFoods = [];
+
+  void sendSelectedFoods(){
+    for(var food in selectedFoods){
+      print(food);
+    }
+  }
+
   Map<String, bool> getChecklistMap(List<String> results){
     Map<String, bool> checklist = {
       for (var result in results) result : selectedFoods.contains(result) 
@@ -14,9 +21,9 @@ class SearchModel {
 
   void updateSelectedFoods(Map<String, bool> checklist){
     for(MapEntry<String,bool> entry in checklist.entries){
-      if(entry.value==true){
+      if(entry.value==true&&!selectedFoods.contains(entry.key)){
        selectedFoods.add(entry.key);
-      }else if(selectedFoods.contains(entry.key)){
+      }else if(entry.value==false && selectedFoods.contains(entry.key)){
         selectedFoods.remove(entry.key);
       }
     }
@@ -47,9 +54,4 @@ class SearchModel {
       return <String>[];
     });
   }
-
-
-    /*return data
-        .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-        .toList();*/
 }
