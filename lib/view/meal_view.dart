@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../model/meal.dart';
 import 'package:food_tracker_app/viewmodel/meal_viewmodel.dart';
+import 'package:food_tracker_app/view/searchbar-view.dart';
 
 class MealListView extends StatelessWidget {
   @override
@@ -30,7 +31,10 @@ class MealListView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => _showAddDialog(context),
+        onPressed: () { // Wrap the Navigator.push inside a function
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+        },
+
       ),
     );
   }
@@ -76,7 +80,7 @@ class MealListView extends StatelessWidget {
       ),
     );
   }
-  void _showEditDialog(
+  void _showEditDialog( //
       BuildContext context, MealListViewModel viewModel, Meal meal) {
     final nameController = TextEditingController(text: meal.name);
     final foodsController = TextEditingController(text: meal.foods);

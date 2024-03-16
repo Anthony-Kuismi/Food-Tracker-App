@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:food_tracker_app/model/searchmodel.dart';
+import 'package:food_tracker_app/model/meal.dart';
+import 'package:food_tracker_app/viewmodel/meal_viewmodel.dart';
 
 class SearchViewModel extends ChangeNotifier {
   final SearchModel _searchModel = SearchModel();
@@ -17,6 +19,7 @@ class SearchViewModel extends ChangeNotifier {
   }
 
   void sendSelectedFoods(){
-    _searchModel.sendSelectedFoods();
+    MealListViewModel().addMeal(Meal(name:'foobar',foods:_searchModel.selectedFoods.join(', ')));
+    // _searchModel.sendSelectedFoods();
   }
 }

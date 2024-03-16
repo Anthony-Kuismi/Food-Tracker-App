@@ -2,14 +2,17 @@ import 'dart:ffi';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:food_tracker_app/model/meal.dart';
+import 'package:food_tracker_app/viewmodel/meal_viewmodel.dart';
 
 class SearchModel {
   List<String> selectedFoods = [];
 
   void sendSelectedFoods(){
-    for(var food in selectedFoods){
-      print(food);
-    }
+
+    // for(var food in selectedFoods){
+    //   print(food);
+    // }
   }
 
   Map<String, bool> getChecklistMap(List<String> results){

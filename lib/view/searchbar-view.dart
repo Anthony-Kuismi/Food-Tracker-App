@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:food_tracker_app/viewmodel/searchbar-viewmodel.dart';
+import 'package:food_tracker_app/view/meal_view.dart';
+
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -61,7 +63,9 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           ElevatedButton.icon(
             onPressed: () {
-              _viewModel.sendSelectedFoods();
+              //I want this to navigate to MealListView and add the meal as if through MealListViewModel's addMeal method
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MealListView()));
+              // _viewModel.sendSelectedFoods();
             },
             icon: const Icon(Icons.add, size: 18),
             label: const Text("Add Selected Foods"),
