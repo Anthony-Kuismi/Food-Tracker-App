@@ -23,7 +23,14 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Food Items'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: const Text(
+          "Add Foods to Your Diet",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -41,11 +48,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: CheckboxListTile(
                       title: Text(
                           key,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary,
+                          style: const TextStyle(
+                            color: Colors.black,
                           ),
                       ),
-                      checkColor: Theme.of(context).colorScheme.onPrimary,
+                      checkColor: Colors.black,
                       activeColor: Theme.of(context).colorScheme.secondary,
                       value: searchResults[key],
                       onChanged: (bool? value){
@@ -59,12 +66,15 @@ class _SearchScreenState extends State<SearchScreen> {
                 }).toList(),
               ),
           ),
-          ElevatedButton.icon(
-            onPressed: () {
-              _viewModel.sendSelectedFoods();
-            },
-            icon: const Icon(Icons.add, size: 18),
-            label: const Text("Add Selected Foods"),
+          Container(
+            margin: const EdgeInsets.all(16),
+            child: ElevatedButton.icon(
+              onPressed: () {
+                _viewModel.sendSelectedFoods();
+              },
+              icon: const Icon(Icons.add, size: 18),
+              label: const Text("Add Selected Foods"),
+            ),
           )
         ],
       ),
@@ -105,7 +115,7 @@ class _SearchBarState extends State<SearchBar> {
       padding: EdgeInsets.all(16),
       child: TextField(
         onChanged: onQueryChanged,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: OutlineInputBorder(),
           prefixIcon: Icon(Icons.search),
         ),
