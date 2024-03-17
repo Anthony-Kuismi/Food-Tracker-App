@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../model/meal.dart';
+import '../../service/navigator.dart';
+import '../../model/meal.dart';
 import 'package:food_tracker_app/viewmodel/meal_viewmodel.dart';
-import 'package:food_tracker_app/view/searchbar-view.dart';
+import '../component/navbar.dart';
+
 
 class MealListView extends StatelessWidget {
+  const MealListView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final navigatorService = Provider.of<NavigatorService>(context, listen: false);
     return Scaffold(
-      appBar: AppBar(title: Text('Meal List')),
+      appBar: AppBar(title: const Text('Food Log')),
       body: Consumer<MealListViewModel>(
         builder: (context, viewModel, child) {
           return ListView.builder(
@@ -20,7 +24,7 @@ class MealListView extends StatelessWidget {
                 title: Text(meal.name),
                 subtitle: Text('Food Items: ${meal.foods}'),
                 trailing: IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete),
                   onPressed: () => viewModel.removeMeal(meal),
                 ),
                 onTap: () => _showEditDialog(context, viewModel, meal),
@@ -30,85 +34,44 @@ class MealListView extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () { // Wrap the Navigator.push inside a function
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+        child: const Icon(Icons.add),
+        onPressed: () {
+          navigatorService.push('SearchView');
         },
 
       ),
+      bottomNavigationBar: const NavBar(key: Key('customNavBar'),),
     );
   }
-  void _showAddDialog(BuildContext context) {
-    final nameController = TextEditingController();
-    final foodsController = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Add Meal'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(labelText: 'Name'),
-            ),
-            TextField(
-              controller: foodsController,
-              decoration: InputDecoration(labelText: 'Foods'),
-              keyboardType: TextInputType.number,
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            child: Text('Cancel'),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          TextButton(
-            child: Text('Add'),
-            onPressed: () {
-              final name = nameController.text;
-              final foods = foodsController.text;
-              final meal = Meal(name: name, foods: foods);
-              final viewModel =
-              Provider.of<MealListViewModel>(context, listen: false);
-              viewModel.addMeal(meal);
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-  void _showEditDialog( //
+  void _showEditDialog(
       BuildContext context, MealListViewModel viewModel, Meal meal) {
     final nameController = TextEditingController(text: meal.name);
     final foodsController = TextEditingController(text: meal.foods);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Edit Meal'),
+        title: const Text('Edit Meal'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+              decoration: const InputDecoration(labelText: 'Name'),
             ),
             TextField(
               controller: foodsController,
-              decoration: InputDecoration(labelText: 'Age'),
+              decoration: const InputDecoration(labelText: 'Age'),
               keyboardType: TextInputType.number,
             ),
           ],
         ),
         actions: [
           TextButton(
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
             onPressed: () => Navigator.of(context).pop(),
           ),
           TextButton(
-            child: Text('Save'),
+            child: const Text('Save'),
             onPressed: () {
               final name = nameController.text;
               final foods = foodsController.text;

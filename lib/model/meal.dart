@@ -4,3 +4,7 @@ class Meal {
 
   Meal({required this.name, required this.foods});
 }
+
+class MealList {
+  List<Meal> meals = [];
+}

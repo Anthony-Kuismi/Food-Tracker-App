@@ -1,86 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:food_tracker_app/viewmodel/meal_viewmodel.dart';
-import 'package:food_tracker_app/view/meal_view.dart';
-import 'package:food_tracker_app/view/searchbar-view.dart';
-import 'package:provider/provider.dart';
-import 'package:food_tracker_app/viewmodel/customNavBar.dart';
-
+import 'provider/app_provider.dart';
+import 'service/navigator.dart';
+import 'view/screen/homepage_view.dart';
+import 'view/screen/meal_view.dart';
+import 'view/screen/search_view.dart';
 
 void main() {
-  runApp(const MyApp());
+  final NavigatorService navigatorService = NavigatorService();
+  runApp(MyApp(navigatorService: navigatorService));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final NavigatorService navigatorService;
 
-  // This widget is the root of your application.
+  const MyApp({super.key, required this.navigatorService});
+
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => MealListViewModel()),
-      ],
+    return AppProvider(
+      navigatorService: navigatorService,
       child: MaterialApp(
         title: 'Food Tracker App',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: MyHomePage(title: "Hot Dog"),
+        home: const MyHomePage(title: 'Hot Dog'),
+        navigatorKey: navigatorService.navigatorKey,
+        routes: {
+          'MyHomePage': (context) => const MyHomePage(title: 'Hot Dog'),
+          'MealListView': (context) => const MealListView(),
+          'SearchView': (context) => const SearchView(),
+        },
       ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  @override
-  Widget build(BuildContext context) {
-
-
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the
-        // value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      bottomNavigationBar: CustomNavBar(key: Key('customNavBar')), // Integrate the CustomNavBar widget here
-      // bottomNavigationBar: BottomNavigationBar(
-      //   items: [
-      //     BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Home',),
-      //     BottomNavigationBarItem(icon: Icon(Icons.search),label: 'Search', ),
-      //   ],
-      //   currentIndex: currentIndex,
-      //   onTap: (int index){
-      //     currentIndex = index;
-      //   },
-      //
-      // ),
-      body: Center(
-//children:[],
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
-
 import '../model/meal.dart';
+import '../service/navigator.dart';
+import '../service/food_selection.dart';
+
 
 class MealListViewModel extends ChangeNotifier {
-  final List<Meal> _meals = [];
+  final NavigatorService navigatorService;
+  final FoodSelectionService foodSelectionService;
+  MealListViewModel(this.navigatorService,this.foodSelectionService);
+  final MealList _model = MealList();
+  List<Meal> get meals => _model.meals;
 
-  List<Meal> get meals => _meals;
 
-  void addMeal(Meal meal) {
-    _meals.add(meal);
+
+  void addMeal(){
+    Meal newMeal = Meal(name: 'Foodbar', foods: foodSelectionService.selections.join(', '));
+    meals.add(newMeal);
+    navigatorService.push('MealListView');
     notifyListeners();
   }
 
   void removeMeal(Meal meal) {
-    _meals.remove(meal);
+    meals.remove(meal);
     notifyListeners();
   }
 
   void updateMeal(Meal oldMeal, Meal newMeal) {
-    final index = _meals.indexOf(oldMeal);
-    _meals[index] = newMeal;
+    final index = meals.indexOf(oldMeal);
+    meals[index] = newMeal;
     notifyListeners();
   }
 }
