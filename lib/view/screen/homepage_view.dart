@@ -17,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      bottomNavigationBar: const NavBar(key: Key('navBar')), // Integrate the CustomNavBar widget here
+      bottomNavigationBar: const NavBar(key: Key('navBar')),
       body: const Center(
         //children:[],
       ),
