@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_tracker_app/view/searchbar-view.dart';
+//import 'package:food_tracker_app/view/searchbar-view.dart';
+import 'package:food_tracker_app/viewmodel/customNavBar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Hotdog food dieting app',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.blueAccent,
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: SearchScreen(),
+      home: MyHomePage(title: 'hotdog',),
     );
   }
 }
@@ -48,18 +49,32 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
+
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
+        // Here we take the
+        // value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
+      bottomNavigationBar: CustomNavBar(key: Key('customNavBar')), // Integrate the CustomNavBar widget here
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: [
+      //     BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Home',),
+      //     BottomNavigationBarItem(icon: Icon(Icons.search),label: 'Search', ),
+      //   ],
+      //   currentIndex: currentIndex,
+      //   onTap: (int index){
+      //     currentIndex = index;
+      //   },
+      //
+      // ),
       body: Center(
-
+//children:[],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
