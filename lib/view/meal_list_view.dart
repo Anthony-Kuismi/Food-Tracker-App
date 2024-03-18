@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/service/food_selection.dart';
 import 'package:provider/provider.dart';
+import '../model/meal.dart';
 import '../service/navigator.dart';
 import '../viewmodel/meal_list_viewmodel.dart';
+import '../viewmodel/search_viewmodel.dart';
 import 'component/navbar.dart';
 
 
@@ -11,6 +14,8 @@ class MealListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final navigatorService = Provider.of<NavigatorService>(context, listen: false);
+    final foodSelectionService = Provider.of<FoodSelectionService>(context, listen: false);
+    final searchViewModel = Provider.of<SearchViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: const Text('Food Log')),
       body: Consumer<MealListViewModel>(
@@ -27,6 +32,9 @@ class MealListView extends StatelessWidget {
                   onPressed: () => viewModel.removeMeal(meal),
                 ),
                 onTap:(){
+                  foodSelectionService.mode = FoodSelectionMode.edit;
+                  foodSelectionService.editingMeal = meal;
+                  foodSelectionService.update(meal);
                   navigatorService.push('SearchView');
                 },
               );

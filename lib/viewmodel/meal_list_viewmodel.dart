@@ -14,8 +14,9 @@ class MealListViewModel extends ChangeNotifier {
 
 
 
-  void addMeal(){
-    Meal newMeal = Meal(name: 'Foodbar', description: foodSelectionService.selections.join(', '), json: foodSelectionService.data);
+  void addMeal(String name){
+    Meal newMeal = foodSelectionService.data;
+    newMeal.rename(name);
     meals.add(newMeal);
     notifyListeners();
   }

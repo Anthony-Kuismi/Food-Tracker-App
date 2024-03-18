@@ -1,34 +1,40 @@
 import 'package:flutter/cupertino.dart';
+import '../model/food.dart';
+import '../model/meal.dart';
+
+enum FoodSelectionMode {
+  add,
+  edit
+}
 
 class FoodSelectionService extends ChangeNotifier {
-  Set<String> _selections = {};
-  dynamic data = {
-    'items' : [],
-  };
-  Set<String> get selections => _selections;
+  FoodSelectionMode mode = FoodSelectionMode.add;
+  Meal data = Meal(name:'Food Selector', json:{'items':[]});
+  Meal? editingMeal;
 
-
-  void addSelectedFood(String food) {
-    selections.add(food);
+  List<String> get selections {
+    return data.titles;
   }
 
-  void removeSelectedFood(String food) {
-    selections.remove(food);
+  void addSelectedFood(Food food) {
+    data.add(food);
+  }
+
+  void removeSelectedFood(Food food) {
+    data.remove(food);
+  }
+
+  bool isSelected(Food food){
+    return data.foods.containsKey(food.id);
+  }
+
+  void update(Meal meal){
+    data = meal;
   }
 
   void reset(){
-    _selections = {};
-    data = {
-      'items' : [],
-    };
-  }
-
-  void toggleFoodSelection(String food) {
-    if (_selections.contains(food)) {
-      _selections.remove(food);
-    } else {
-      _selections.add(food);
-    }
-    notifyListeners();
+    mode = FoodSelectionMode.add;
+    editingMeal = null;
+    data = Meal(name:'Food Selector', json:{'items':[]});
   }
 }

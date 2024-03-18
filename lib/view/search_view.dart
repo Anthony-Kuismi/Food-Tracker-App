@@ -4,6 +4,8 @@ import '../../service/navigator.dart';
 import '../../service/food_selection.dart';
 import '../../viewmodel/search_viewmodel.dart';
 import '../../viewmodel/meal_list_viewmodel.dart';
+import '../model/food.dart';
+import '../model/meal.dart';
 
 
 
@@ -52,15 +54,16 @@ class SearchResults extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final searchViewModel = Provider.of<SearchViewModel>(context);
+    final foods = searchViewModel.searchResults.foods.values.toList();
     return Consumer<FoodSelectionService>(
       builder: (context, foodSelectionService, child) {
         return Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.all(8.0),
-            itemCount: searchViewModel.searchResults.length,
+            itemCount: foods.length,
             itemBuilder: (context, index) {
-              final food = searchViewModel.searchResults[index];
-              final isSelected = foodSelectionService.selections.contains(food);
+              final food = foods[index];
+              final isSelected = foodSelectionService.isSelected(food);
               return Container(
                 margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -69,7 +72,7 @@ class SearchResults extends StatelessWidget {
                 ),
                 child: CheckboxListTile(
                   title: Text(
-                    food,
+                    food.title,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),
@@ -100,7 +103,12 @@ class AddMealButton extends StatelessWidget {
     final navigatorService = Provider.of<NavigatorService>(context,listen:false);
     return ElevatedButton.icon(
       onPressed: () {
-        mealListViewModel.addMeal();
+        if(foodSelectionService.mode == FoodSelectionMode.edit){
+          Meal oldMeal = foodSelectionService.editingMeal as Meal;
+          mealListViewModel.updateMeal(oldMeal,foodSelectionService.data);
+        }else {
+          mealListViewModel.addMeal(searchViewModel.name);
+        }
         searchViewModel.reset();
         foodSelectionService.reset();
         navigatorService.pushReplace('MealListView');

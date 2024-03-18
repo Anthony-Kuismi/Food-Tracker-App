@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
+import 'package:uuid/uuid.dart';
+import 'dart:convert';
 import 'package:food_tracker_app/model/search.dart';
 import 'package:food_tracker_app/service/food_selection.dart';
 import 'package:food_tracker_app/service/navigator.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
+import '../model/meal.dart';
 
 class SearchViewModel extends ChangeNotifier {
   final Search _searchModel = Search();
@@ -13,11 +15,22 @@ class SearchViewModel extends ChangeNotifier {
   final FoodSelectionService foodSelectionService;
   bool _disposed = false;
   Timer? searchTimer;
+  String name='foodbar'; //TODO: add meal naming functionality
 
   SearchViewModel(this.navigatorService, this.foodSelectionService);
 
-  List<String> get searchResults =>  _searchModel.searchResults;
-  List<String> get selectedFoods => foodSelectionService.selections.toList();
+  Meal get searchResults{
+    Meal out = Meal.clone(foodSelectionService.data);
+    out.addUniqueTitles(_searchModel.data);
+    return out;
+  }
+
+  List<String> get searchResultTitles  {
+    return (foodSelectionService.data + _searchModel.data).titles;
+  }
+
+
+  get data => _searchModel.data;
 
   void updateQuery(String newQuery){
     _searchModel.query = newQuery;
@@ -30,8 +43,8 @@ class SearchViewModel extends ChangeNotifier {
   }
 
   void reset(){
-    _searchModel.searchResults=[];
     _searchModel.query='';
+    _searchModel.data = Meal(name:'Food Search',json:{'items':[]});
   }
 
   String cleanQuerySegment(String querySegment) {
@@ -96,14 +109,11 @@ class SearchViewModel extends ChangeNotifier {
 
   Future<void> updateSearchResults() async{
     if(_searchModel.query.isNotEmpty){
-      return fetchData().then((dynamic data){
-        entitleData(_searchModel.query, data);
-        foodSelectionService.data = data;
-        List<dynamic> items = data?['items'];
-        _searchModel.searchResults = items
-            .where((item) => _searchModel.query.toLowerCase().contains(item['name'].toLowerCase()))
-            .map((item) => item['title'] as String)
-            .toList();
+      return fetchData().then((dynamic json){
+        entitleData(_searchModel.query, json);
+        identifyData(json);
+        json.addAll(foodSelectionService.data.foods);
+        _searchModel.data.update(json);
         if(!_disposed){
           notifyListeners();
         }
@@ -111,11 +121,11 @@ class SearchViewModel extends ChangeNotifier {
     }
   }
 
-  void toggleSelection(bool? isSelected, food){
+  void toggleSelection(bool? isSelected, foodId){
     if (isSelected ?? false) {
-      foodSelectionService.addSelectedFood(food);
+      foodSelectionService.addSelectedFood(foodId);
     } else {
-      foodSelectionService.removeSelectedFood(food);
+      foodSelectionService.removeSelectedFood(foodId);
     }
     if(!_disposed){
       notifyListeners();
@@ -126,5 +136,12 @@ class SearchViewModel extends ChangeNotifier {
   void dispose() {
     _disposed = true;
     super.dispose();
+  }
+
+  void identifyData(json) {
+    Uuid uuid = const Uuid();
+    for(var item in json['items']){
+      item['id'] = uuid.v4();
+    }
   }
 }

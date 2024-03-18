@@ -1,5 +1,7 @@
+
 class Food {
   String title;
+  String id;
   String name;
   double calories;
   double serving_size_g; //serving_size_g
@@ -13,11 +15,12 @@ class Food {
   double fiber_g; //fiber_g
   double sugar_g; //sugar_g
 
-  Food({required this.title, required this.name, required this.calories, required this.serving_size_g, required this.fat_total_g, required this.fat_saturated_g, required this.protein_g, required this.sodium_mg, required this.potassium_mg, required this.cholesterol_mg, required this.carbohydrates_total_g, required this.fiber_g, required this.sugar_g});
+  Food({required this.title, required this.id, required this.name, required this.calories, required this.serving_size_g, required this.fat_total_g, required this.fat_saturated_g, required this.protein_g, required this.sodium_mg, required this.potassium_mg, required this.cholesterol_mg, required this.carbohydrates_total_g, required this.fiber_g, required this.sugar_g});
 
   factory Food.fromJson(Map<String, dynamic> json) {
     return Food(
       title: json['title'],
+      id: json['id'],
       name: json['name'],
       calories: json['calories'].toDouble(),
       serving_size_g: json['serving_size_g'].toDouble(),
