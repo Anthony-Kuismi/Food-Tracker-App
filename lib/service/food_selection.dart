@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 
 class FoodSelectionService extends ChangeNotifier {
   Set<String> _selections = {};
-
+  dynamic data = {
+    'items' : [],
+  };
   Set<String> get selections => _selections;
+
 
   void addSelectedFood(String food) {
     selections.add(food);
@@ -15,6 +18,9 @@ class FoodSelectionService extends ChangeNotifier {
 
   void reset(){
     _selections = {};
+    data = {
+      'items' : [],
+    };
   }
 
   void toggleFoodSelection(String food) {

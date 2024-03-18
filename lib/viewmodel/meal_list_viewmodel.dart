@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../model/meal.dart';
+import '../model/meal_list.dart';
 import '../service/navigator.dart';
 import '../service/food_selection.dart';
 
@@ -14,9 +15,8 @@ class MealListViewModel extends ChangeNotifier {
 
 
   void addMeal(){
-    Meal newMeal = Meal(name: 'Foodbar', foods: foodSelectionService.selections.join(', '));
+    Meal newMeal = Meal(name: 'Foodbar', description: foodSelectionService.selections.join(', '), json: foodSelectionService.data);
     meals.add(newMeal);
-    navigatorService.push('MealListView');
     notifyListeners();
   }
 

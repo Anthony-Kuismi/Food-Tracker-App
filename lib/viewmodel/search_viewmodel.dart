@@ -1,16 +1,14 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
-import 'package:food_tracker_app/model/search_model.dart';
+import 'package:food_tracker_app/model/search.dart';
 import 'package:food_tracker_app/service/food_selection.dart';
 import 'package:food_tracker_app/service/navigator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../model/food.dart';
-
 class SearchViewModel extends ChangeNotifier {
-  final SearchModel _searchModel = SearchModel();
+  final Search _searchModel = Search();
   final NavigatorService navigatorService;
   final FoodSelectionService foodSelectionService;
   bool _disposed = false;
@@ -82,7 +80,6 @@ class SearchViewModel extends ChangeNotifier {
   Future<dynamic> fetchData() async{
     String apiKey = 'B/1b9kr1FV1w0HGz8Faffg==Duj02SZx1cDKhUk0';
     if(_searchModel.query.isNotEmpty) {
-      print('\n----\nAPI CALL\n----\n');
       var response = await http.get(
         Uri.parse(
             'https://api.calorieninjas.com/v1/nutrition?query=${_searchModel.query}'),
@@ -101,7 +98,7 @@ class SearchViewModel extends ChangeNotifier {
     if(_searchModel.query.isNotEmpty){
       return fetchData().then((dynamic data){
         entitleData(_searchModel.query, data);
-        _searchModel.data = data;
+        foodSelectionService.data = data;
         List<dynamic> items = data?['items'];
         _searchModel.searchResults = items
             .where((item) => _searchModel.query.toLowerCase().contains(item['name'].toLowerCase()))

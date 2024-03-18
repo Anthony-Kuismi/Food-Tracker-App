@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'provider/app_provider.dart';
 import 'service/navigator.dart';
-import 'view/screen/homepage_view.dart';
-import 'view/screen/meal_view.dart';
-import 'view/screen/search_view.dart';
+import 'view/homepage_view.dart';
+import 'view/meal_list_view.dart';
+import 'view/search_view.dart';
 
 void main() {
   final NavigatorService navigatorService = NavigatorService();

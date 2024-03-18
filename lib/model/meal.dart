@@ -1,10 +1,12 @@
+import 'food.dart';
+
 class Meal {
   String name;
-  String foods;
+  String description;
+  List<Food> foods;
 
-  Meal({required this.name, required this.foods});
-}
-
-class MealList {
-  List<Meal> meals = [];
+  Meal({required this.name, required this.description, required dynamic json})
+      : foods = (json['items'] as List)
+      .map((item) => Food.fromJson(item))
+      .toList();
 }

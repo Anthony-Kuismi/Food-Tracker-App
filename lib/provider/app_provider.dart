@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../service/food_selection.dart';
 import '../service/navigator.dart';
-import '../viewmodel/meal_viewmodel.dart';
+import '../viewmodel/meal_list_viewmodel.dart';
 import '../viewmodel/search_viewmodel.dart';
 
 class AppProvider extends StatelessWidget {
