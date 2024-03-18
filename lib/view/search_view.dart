@@ -4,7 +4,6 @@ import '../../service/navigator.dart';
 import '../../service/food_selection.dart';
 import '../../viewmodel/search_viewmodel.dart';
 import '../../viewmodel/meal_list_viewmodel.dart';
-import '../model/food.dart';
 import '../model/meal.dart';
 
 

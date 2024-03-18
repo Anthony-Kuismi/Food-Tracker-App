@@ -35,4 +35,24 @@ class Food {
       sugar_g: json['sugar_g'].toDouble(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'id': id,
+      'name': name,
+      'calories': calories,
+      'serving_size_g': serving_size_g,
+      'fat_total_g': fat_total_g,
+      'fat_saturated_g': fat_saturated_g,
+      'protein_g': protein_g,
+      'sodium_mg': sodium_mg,
+      'potassium_mg': potassium_mg,
+      'cholesterol_mg': cholesterol_mg,
+      'carbohydrates_total_g': carbohydrates_total_g,
+      'fiber_g': fiber_g,
+      'sugar_g': sugar_g,
+    };
+  }
+
 }

@@ -70,4 +70,12 @@ class Meal {
       }
     }
   }
+
+  Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>> foodItemsJson = foods.values.map((food) => food.toJson()).toList();
+    return {
+      'name': name,
+      'items': foodItemsJson,
+    };
+  }
 }
