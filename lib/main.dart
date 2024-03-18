@@ -1,71 +1,37 @@
 import 'package:flutter/material.dart';
-//import 'package:food_tracker_app/view/searchbar-view.dart';
-import 'package:food_tracker_app/view/customNavBar.dart';
+import 'provider/app_provider.dart';
+import 'service/navigator.dart';
+import 'view/homepage_view.dart';
+import 'view/meal_list_view.dart';
+import 'view/search_view.dart';
 
 void main() {
-  runApp(const MyApp());
+  final NavigatorService navigatorService = NavigatorService();
+  runApp(MyApp(navigatorService: navigatorService));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final NavigatorService navigatorService;
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Hotdog food dieting app',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurpleAccent,
-            brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'hotdog',),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+  const MyApp({super.key, required this.navigatorService});
 
   @override
   Widget build(BuildContext context) {
-
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text(
-          "Food Tracking: Hotdog Version",
-          style: TextStyle(
-            color: Colors.black,
-          ),
+    return AppProvider(
+      navigatorService: navigatorService,
+      child: MaterialApp(
+        title: 'Food Tracker App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
+        home: const MyHomePage(title: 'Hot Dog'),
+        navigatorKey: navigatorService.navigatorKey,
+        routes: {
+          'MyHomePage': (context) => const MyHomePage(title: 'Hot Dog'),
+          'MealListView': (context) => const MealListView(),
+          'SearchView': (context) => const SearchView(),
+        },
       ),
-      bottomNavigationBar: const CustomNavBar(key: Key('customNavBar')), // Integrate the CustomNavBar widget here
-      // bottomNavigationBar: BottomNavigationBar(
-      //   items: [
-      //     BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Home',),
-      //     BottomNavigationBarItem(icon: Icon(Icons.search),label: 'Search', ),
-      //   ],
-      //   currentIndex: currentIndex,
-      //   onTap: (int index){
-      //     currentIndex = index;
-      //   },
-      //
-      // ),
-      body: Center(
-//children:[],
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
