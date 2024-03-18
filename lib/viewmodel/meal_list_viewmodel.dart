@@ -31,4 +31,10 @@ class MealListViewModel extends ChangeNotifier {
     meals[index] = newMeal;
     notifyListeners();
   }
+
+  void editMeal(Meal meal) {
+    foodSelectionService.mode = FoodSelectionMode.edit;
+    foodSelectionService.editingMeal = meal;
+    foodSelectionService.update(meal);
+  }
 }

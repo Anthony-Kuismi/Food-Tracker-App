@@ -32,9 +32,7 @@ class MealListView extends StatelessWidget {
                   onPressed: () => viewModel.removeMeal(meal),
                 ),
                 onTap:(){
-                  foodSelectionService.mode = FoodSelectionMode.edit;
-                  foodSelectionService.editingMeal = meal;
-                  foodSelectionService.update(meal);
+                  viewModel.editMeal(meal);
                   navigatorService.push('SearchView');
                 },
               );
