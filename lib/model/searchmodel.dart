@@ -1,14 +1,21 @@
 import 'dart:ffi';
 
 import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'dart:convert';
 
 class SearchModel {
   List<String> selectedFoods = [];
 
-  void sendSelectedFoods(){
+  Future<void> sendSelectedFoods() async {
+    final users = FirebaseFirestore.instance.collection('Users');
+    final usersSnapshot = await users.get();
+    final user = usersSnapshot.docs.first;
+    final foodEntries = FirebaseFirestore.instance.collection('Users/${user.id}/Food Entries');
     for(var food in selectedFoods){
-      print(food);
+      Map<String, dynamic> foodEntryData = {'Name':food};
+      foodEntries.add(foodEntryData);
     }
   }
 

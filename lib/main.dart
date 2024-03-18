@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:food_tracker_app/view/searchbar-view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:food_tracker_app/view/customNavBar.dart';
 
 void main() {
@@ -12,17 +14,28 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Hotdog food dieting app',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurpleAccent,
-            brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'hotdog',),
-    );
+    return FutureBuilder(
+        future: Firebase.initializeApp(),
+        builder: (context, snapshot){
+          if(snapshot.hasError){
+            print("could not connect");
+          }
+          if(snapshot.connectionState== ConnectionState.done){
+            return MaterialApp(
+              title: 'Hotdog food dieting app',
+              theme: ThemeData(
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: Colors.deepPurpleAccent,
+                  brightness: Brightness.dark,
+                ),
+                useMaterial3: true,
+              ),
+              home: const MyHomePage(title: 'hotdog',),
+            );
+          }
+          Widget loading = MaterialApp();
+          return loading;
+        });
   }
 }
 
