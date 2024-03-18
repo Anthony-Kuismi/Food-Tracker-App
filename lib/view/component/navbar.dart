@@ -18,11 +18,11 @@ class NavBar extends StatelessWidget {
         children: [
           IconButton(
             icon: const Icon(Icons.search, color: Colors.white),
-            onPressed: (){navigatorService.push('MealListView');},
+            onPressed: (){navigatorService.pushReplace('MealListView');},
           ),
           IconButton(
             icon: const Icon(Icons.home, color: Colors.white),
-            onPressed:(){navigatorService.push('MyHomePage');},
+            onPressed:(){navigatorService.pushReplace('MyHomePage');},
           ),
         ],
       ),
