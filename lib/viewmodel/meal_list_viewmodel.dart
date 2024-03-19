@@ -6,14 +6,13 @@ import '../service/food_selection.dart';
 import '../service/FirestoreService.dart';
 
 
-class MealListViewModel extends ChangeNotifier {
+class MealListViewModel extends ChangeNotifier{
   final NavigatorService navigatorService;
   final FoodSelectionService foodSelectionService;
   MealListViewModel(this.navigatorService,this.foodSelectionService);
   final MealList _model = MealList();
   List<Meal> get meals => _model.meals;
-  final firestore = FirestoreService();
-
+  var firestore = FirestoreService();
 
   void addMeal(String name){
     Meal newMeal = foodSelectionService.data;
