@@ -17,7 +17,15 @@ class MealListView extends StatelessWidget {
     final foodSelectionService = Provider.of<FoodSelectionService>(context, listen: false);
     final searchViewModel = Provider.of<SearchViewModel>(context, listen: false);
     return Scaffold(
-      appBar: AppBar(title: const Text('Food Log')),
+      appBar: AppBar(
+        title: const Text(
+          'Meal Log',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
       body: Consumer<MealListViewModel>(
         builder: (context, viewModel, child) {
           return ListView.builder(
@@ -42,7 +50,7 @@ class MealListView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         onPressed: () {
           navigatorService.push('SearchView');
         },
