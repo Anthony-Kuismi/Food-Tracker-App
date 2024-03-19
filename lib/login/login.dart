@@ -4,7 +4,7 @@ import 'signup.dart';
 import 'forgot_password.dart';
 
 class LoginApp extends StatelessWidget {
-  const LoginApp({super.key});
+  const LoginApp({super.key, required String title});
 
   @override
   Widget build(BuildContext context) {
