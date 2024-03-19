@@ -14,7 +14,14 @@ class SearchView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Food Search'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: const Text(
+          "Add Foods to Your Diet",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
       ),
       body: const Column(
         children: [
@@ -73,11 +80,11 @@ class SearchResults extends StatelessWidget {
                 child: CheckboxListTile(
                   title: Text(
                     food.title,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
+                    style: const TextStyle(
+                      color: Colors.black,
                     ),
                   ),
-                  checkColor: Theme.of(context).colorScheme.onPrimary,
+                  checkColor: Colors.black,
                   activeColor: Theme.of(context).colorScheme.secondary,
                   value: isSelected,
                   onChanged: (bool? isSelected) {
@@ -101,7 +108,9 @@ class AddMealButton extends StatelessWidget {
     final mealListViewModel = Provider.of<MealListViewModel>(context,listen:false);
     final foodSelectionService = Provider.of<FoodSelectionService>(context,listen:false);
     final navigatorService = Provider.of<NavigatorService>(context,listen:false);
-    return ElevatedButton.icon(
+    return Container (
+      margin: const EdgeInsets.all(16),
+      child: ElevatedButton.icon(
       onPressed: () {
         if(foodSelectionService.mode == FoodSelectionMode.edit){
           Meal oldMeal = foodSelectionService.editingMeal as Meal;
@@ -115,6 +124,7 @@ class AddMealButton extends StatelessWidget {
       },
       icon: const Icon(Icons.add, size: 18),
       label: const Text('Add Selected Foods'),
+      ),
     );
   }
 }

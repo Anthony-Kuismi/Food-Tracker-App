@@ -12,7 +12,7 @@ class NavBar extends StatelessWidget {
 
     return Container(
       height: 50,
-      color: Colors.purple,
+      color: Theme.of(context).colorScheme.secondary,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [

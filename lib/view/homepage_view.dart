@@ -14,8 +14,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        backgroundColor:Theme.of(context).colorScheme.primary,
+        title: const Text(
+          'Food Tracking: Hotdog Version',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
       ),
       bottomNavigationBar: const NavBar(key: Key('navBar')),
       body: const Center(

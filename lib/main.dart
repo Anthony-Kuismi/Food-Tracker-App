@@ -22,6 +22,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Food Tracker App',
         theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepPurpleAccent,
+            brightness: Brightness.dark,
+          ),
           primarySwatch: Colors.blue,
         ),
         home: const MyHomePage(title: 'Hot Dog'),
