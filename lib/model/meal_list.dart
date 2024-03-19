@@ -4,10 +4,7 @@ import '../Service/FirestoreService.dart';
 class MealList {
   FirestoreService firestore = FirestoreService();
   List<Meal> meals = [];
-  MealList(){
-    getMealsFromFirestore();
-  }
-  void getMealsFromFirestore() async{
+  Future<void> fetch() async{
     meals = await firestore.getMealsFromUser('Default User');
   }
 }

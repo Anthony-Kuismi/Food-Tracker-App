@@ -14,6 +14,11 @@ class MealListViewModel extends ChangeNotifier{
   List<Meal> get meals => _model.meals;
   var firestore = FirestoreService();
 
+  Future<void> load() async {
+    await _model.fetch();
+    notifyListeners();
+  }
+
   void addMeal(String name){
     Meal newMeal = foodSelectionService.data;
     newMeal.rename(name);
