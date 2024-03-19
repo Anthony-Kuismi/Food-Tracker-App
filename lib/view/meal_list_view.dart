@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/service/food_selection.dart';
 import 'package:provider/provider.dart';
-import '../model/meal.dart';
 import '../service/navigator.dart';
 import '../viewmodel/meal_list_viewmodel.dart';
 import '../viewmodel/search_viewmodel.dart';
@@ -14,12 +13,10 @@ class MealListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final navigatorService = Provider.of<NavigatorService>(context, listen: false);
-    final foodSelectionService = Provider.of<FoodSelectionService>(context, listen: false);
-    final searchViewModel = Provider.of<SearchViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Meal Log',
+          'Diet Log',
           style: TextStyle(
             color: Colors.black,
           ),
@@ -49,12 +46,11 @@ class MealListView extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
         backgroundColor: Theme.of(context).colorScheme.primary,
         onPressed: () {
           navigatorService.push('SearchView');
         },
-
+        child: const Icon(Icons.add),
       ),
       bottomNavigationBar: const NavBar(key: Key('customNavBar'),),
     );

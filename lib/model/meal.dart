@@ -39,8 +39,8 @@ class Meal {
         foods = Map<String, Food>.from(other.foods);
 
   Meal operator +(Meal other) {
-    var newMeal = Meal(name: this.name, json: {'items': []});
-    newMeal.foods.addAll(this.foods);
+    var newMeal = Meal(name: name, json: {'items': []});
+    newMeal.foods.addAll(foods);
 
     for (var food in other.foods.values) {
       newMeal.add(food);
@@ -49,8 +49,8 @@ class Meal {
   }
 
   Meal operator -(Meal other) {
-    var newMeal = Meal(name: this.name, json: {'items': []});
-    newMeal.foods.addAll(this.foods);
+    var newMeal = Meal(name: name, json: {'items': []});
+    newMeal.foods.addAll(foods);
 
     for (var food in other.foods.values) {
       if (newMeal.foods.containsKey(food.id)) {

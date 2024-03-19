@@ -17,7 +17,7 @@ class SearchView extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
-          "Add Foods to Your Diet",
+          'Add Foods to Your Diet',
           style: TextStyle(
             color: Colors.black,
           ),
