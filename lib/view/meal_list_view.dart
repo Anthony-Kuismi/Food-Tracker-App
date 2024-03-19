@@ -42,6 +42,7 @@ class MealListView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         onPressed: () {
           navigatorService.push('SearchView');
         },
