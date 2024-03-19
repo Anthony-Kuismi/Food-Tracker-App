@@ -16,6 +16,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor:Theme.of(context).colorScheme.primary,
+        automaticallyImplyLeading: false,
         title: const Text(
           'Food Tracking: Hotdog Version',
           style: TextStyle(

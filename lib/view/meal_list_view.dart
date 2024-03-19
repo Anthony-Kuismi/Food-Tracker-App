@@ -22,6 +22,7 @@ class MealListView extends StatelessWidget {
           ),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Consumer<MealListViewModel>(
         builder: (context, viewModel, child) {
