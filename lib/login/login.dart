@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../main.dart';
+import '../service/navigator.dart';
+import '../view/homepage_view.dart';
 import 'main_page.dart';
 import 'signup.dart';
 import 'forgot_password.dart';
@@ -9,10 +12,13 @@ class LoginApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Login Demo',
+      title: 'Hot Dog Food Tracking Login',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurpleAccent,
+          brightness: Brightness.dark,
+        ),
+        primarySwatch: Colors.blue,
       ),
       home: const MyLoginPage(title: 'Login Page'),
     );
@@ -71,8 +77,7 @@ class _MyLoginPage extends State<MyLoginPage> {
     if (_validateUser(_usernameController.text, _passwordController.text)) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MainPage(username: _usernameController.text)),
-      );
+        MaterialPageRoute(builder: (context) => MyHomePage(username: _usernameController.text, title: '',)),      );
     } else {
       setState(() {
         _loginStatus = 'Incorrect username or password';
@@ -85,8 +90,13 @@ class _MyLoginPage extends State<MyLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        backgroundColor:Theme.of(context).colorScheme.primary,
+        title: const Text(
+          'Food Tracking: Hotdog Version',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
