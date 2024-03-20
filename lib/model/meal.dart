@@ -2,9 +2,11 @@ import 'food.dart';
 
 class Meal {
   String name;
+  String id;
   Map<String,Food> foods;
   Meal({required this.name, required dynamic json})
-      : foods = { for (var item in json['items']) item['id']: Food.fromJson(item) };
+      : id = json['id'],
+        foods = { for (var item in json['items']) item['id']: Food.fromJson(item) };
 
   void add(Food food){
     if(!foods.containsKey(food.id)) {
@@ -36,6 +38,7 @@ class Meal {
 
   Meal.clone(Meal other)
       : name = other.name,
+        id = other.id,
         foods = Map<String, Food>.from(other.foods);
 
   Meal operator +(Meal other) {
@@ -75,6 +78,7 @@ class Meal {
     List<Map<String, dynamic>> foodItemsJson = foods.values.map((food) => food.toJson()).toList();
     return {
       'name': name,
+      'id' : id,
       'items': foodItemsJson,
     };
   }

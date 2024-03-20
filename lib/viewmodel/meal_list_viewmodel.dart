@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import '../model/meal.dart';
 import '../model/meal_list.dart';
 import '../service/navigator.dart';
@@ -22,6 +23,7 @@ class MealListViewModel extends ChangeNotifier{
   void addMeal(String name){
     Meal newMeal = foodSelectionService.data;
     newMeal.rename(name);
+    newMeal.id = const Uuid().v4();
     meals.add(newMeal);
     firestore.addMealToUser('Default User', newMeal.toJson());
     notifyListeners();

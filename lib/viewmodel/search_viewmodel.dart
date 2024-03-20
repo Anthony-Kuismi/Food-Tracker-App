@@ -44,7 +44,7 @@ class SearchViewModel extends ChangeNotifier {
 
   void reset(){
     _searchModel.query='';
-    _searchModel.data = Meal(name:'Food Search',json:{'items':[]});
+    _searchModel.data = Meal(name:'Food Search',json:{'items':[],'id':'id'});
   }
 
   String cleanQuerySegment(String querySegment) {
@@ -143,5 +143,6 @@ class SearchViewModel extends ChangeNotifier {
     for(var item in json['items']){
       item['id'] = uuid.v4();
     }
+    json['id'] = uuid.v4();
   }
 }
