@@ -20,6 +20,6 @@ class FirestoreService {
 
   Future<void> removeMealFromUser(String username, String id) async{
     final foodEntries = FirebaseFirestore.instance.collection('Users/$username/Food Entries');
-    
+    foodEntries.doc(id).delete();
   }
 }

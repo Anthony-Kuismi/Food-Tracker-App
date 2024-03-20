@@ -27,7 +27,8 @@ class MealListViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  void removeMeal(Meal meal) {
+  void removeMeal(Meal meal){
+    firestore.removeMealFromUser('Default User', meal.id);
     meals.remove(meal);
     notifyListeners();
   }
