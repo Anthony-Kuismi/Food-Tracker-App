@@ -55,6 +55,7 @@ class SearchViewModel extends ChangeNotifier {
     cleanedSegment = cleanedSegment.replaceAll(RegExp('\\s+'), ' ').trim();
     return cleanedSegment;
   }
+
   List<String> segmentQuery(String query, dynamic data) {
     List<dynamic> items = data?['items'] ?? [];
     List foodItems = items

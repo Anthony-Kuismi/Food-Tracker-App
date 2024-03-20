@@ -7,5 +7,4 @@ class Search {
   List<String> get searchResults{
     return data.titles;
   }
-
 }

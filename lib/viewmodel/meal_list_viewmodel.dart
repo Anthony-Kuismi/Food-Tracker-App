@@ -5,7 +5,6 @@ import '../service/navigator.dart';
 import '../service/food_selection.dart';
 import '../service/FirestoreService.dart';
 
-
 class MealListViewModel extends ChangeNotifier{
   final NavigatorService navigatorService;
   final FoodSelectionService foodSelectionService;
