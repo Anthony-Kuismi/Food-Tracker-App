@@ -3,8 +3,10 @@ import 'food.dart';
 class Meal {
   String name;
   Map<String,Food> foods;
+  DateTime timestamp;
   Meal({required this.name, required dynamic json})
-      : foods = { for (var item in json['items']) item['id']: Food.fromJson(item) };
+      : foods = { for (var item in json['items']) item['id']: Food.fromJson(item) },
+      timestamp = DateTime.now();
 
   void add(Food food){
     if(!foods.containsKey(food.id)) {
@@ -36,7 +38,8 @@ class Meal {
 
   Meal.clone(Meal other)
       : name = other.name,
-        foods = Map<String, Food>.from(other.foods);
+        foods = Map<String, Food>.from(other.foods),
+        timestamp = other.timestamp;
 
   Meal operator +(Meal other) {
     var newMeal = Meal(name: name, json: {'items': []});
