@@ -1,12 +1,16 @@
 import 'food.dart';
+import 'package:intl/intl.dart';
+
 
 class Meal {
   String name;
   Map<String,Food> foods;
   DateTime timestamp;
+  static DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+  String get timestampString => dateFormat.format(timestamp);
   Meal({required this.name, required dynamic json})
       : foods = { for (var item in json['items']) item['id']: Food.fromJson(item) },
-      timestamp = DateTime.now();
+      timestamp = Meal.dateFormat.parse(json['timestamp']); //replace with json deserialization method
 
   void add(Food food){
     if(!foods.containsKey(food.id)) {
@@ -78,6 +82,7 @@ class Meal {
     List<Map<String, dynamic>> foodItemsJson = foods.values.map((food) => food.toJson()).toList();
     return {
       'name': name,
+      'timestamp' : timestampString,
       'items': foodItemsJson,
     };
   }

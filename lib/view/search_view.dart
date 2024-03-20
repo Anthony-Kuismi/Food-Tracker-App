@@ -123,7 +123,7 @@ class AddMealButton extends StatelessWidget {
           Meal oldMeal = foodSelectionService.editingMeal as Meal;
           mealListViewModel.updateMeal(oldMeal,foodSelectionService.data);
         }else {
-          mealListViewModel.addMeal(searchViewModel.name);
+          mealListViewModel.addMeal(searchViewModel.name, searchViewModel.timestamp);
         }
         searchViewModel.reset();
         foodSelectionService.reset();

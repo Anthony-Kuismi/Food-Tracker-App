@@ -18,9 +18,10 @@ class MealListViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  void addMeal(String name){
+  void addMeal(String name, DateTime timestamp){
     Meal newMeal = foodSelectionService.data;
     newMeal.rename(name);
+    newMeal.timestamp = timestamp;
     meals.add(newMeal);
     firestore.addMealToUser('Default User', newMeal.toJson());
     notifyListeners();
