@@ -4,7 +4,7 @@ import '../model/meal.dart';
 class FirestoreService {
   Future<void> addMealToUser(String username, Map<String, dynamic> meal) async{
     final foodEntries = FirebaseFirestore.instance.collection('Users/$username/Food Entries');
-    foodEntries.add(meal);
+    foodEntries.doc(meal.id).set(meal);
   }
 
   Future<List<Meal>> getMealsFromUser(String username) async{
@@ -16,5 +16,10 @@ class FirestoreService {
       mealList.add(Meal(name: foodEntry.get('name'), json: foodEntry.data()));
     }
     return mealList;
+  }
+
+  Future<void> removeMealFromUser(String username, String id) async{
+    final foodEntries = FirebaseFirestore.instance.collection('Users/$username/Food Entries');
+    
   }
 }
