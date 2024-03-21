@@ -3,7 +3,7 @@ import 'meal.dart';
 
 class Search {
   String query = '';
-  Meal data = Meal(name:'Food Search',json:{'items':[], 'timestamp': Meal.dateFormat.format(DateTime.now())});
+  Meal data = Meal(json:{'title': 'Food Search', 'items':[], 'timestamp': DateTime.now().millisecondsSinceEpoch});
   List<String> get searchResults{
     return data.titles;
   }

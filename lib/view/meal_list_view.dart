@@ -27,7 +27,7 @@ class MealListView extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final meal = viewModel.meals[index];
                     return ListTile(
-                      title: Text(meal.name),
+                      title: Text(meal.title),
                       subtitle: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,

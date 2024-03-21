@@ -16,6 +16,7 @@ class SearchViewModel extends ChangeNotifier {
   bool _disposed = false;
   Timer? searchTimer;
   String name='foodbar'; //TODO: add meal naming functionality
+  String get query => _searchModel.query;
   DateTime timestamp = DateTime.now();
 
   SearchViewModel(this.navigatorService, this.foodSelectionService);
@@ -45,7 +46,7 @@ class SearchViewModel extends ChangeNotifier {
 
   void reset(){
     _searchModel.query='';
-    _searchModel.data = Meal(name:'Food Search',json:{'items':[], 'timestamp':Meal.dateFormat.format(DateTime.now())});
+    _searchModel.data = Meal(json:{'title': 'Food Selection','items':[],'timestamp': DateTime.now().millisecondsSinceEpoch});
   }
 
   String cleanQuerySegment(String querySegment) {
@@ -90,6 +91,7 @@ class SearchViewModel extends ChangeNotifier {
     if ((data?['items'].length ?? 0) == 1 && querySegments.isNotEmpty) {
       data['items'][0]['title'] = querySegments.first;
     }
+    data['title'] = query;
   }
 
   Future<dynamic> fetchData() async{

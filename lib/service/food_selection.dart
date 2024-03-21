@@ -9,7 +9,7 @@ enum FoodSelectionMode {
 
 class FoodSelectionService extends ChangeNotifier {
   FoodSelectionMode mode = FoodSelectionMode.add;
-  Meal data = Meal(name:'Food Selector', json:{'items':[],'timestamp': Meal.dateFormat.format(DateTime.now())});
+  Meal data = Meal(json:{'title': 'Food Selection','items':[],'timestamp': DateTime.now().millisecondsSinceEpoch});
   Meal? editingMeal;
 
   List<String> get selections {
@@ -35,6 +35,6 @@ class FoodSelectionService extends ChangeNotifier {
   void reset(){
     mode = FoodSelectionMode.add;
     editingMeal = null;
-    data = Meal(name:'Food Selector', json:{'items':[], 'timestamp':Meal.dateFormat.format(DateTime.now())});
+    data = Meal(json:{'title': 'Food Selection','items':[],'timestamp': DateTime.now().millisecondsSinceEpoch});
   }
 }

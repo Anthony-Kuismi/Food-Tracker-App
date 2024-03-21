@@ -13,7 +13,7 @@ class FirestoreService {
     final foodEntriesSnapshot = await foodEntries.get();
     final foodEntriesDocuments = foodEntriesSnapshot.docs;
     for(var foodEntry in foodEntriesDocuments){
-      mealList.add(Meal(name: foodEntry.get('name'), json: foodEntry.data()));
+      mealList.add(Meal(json: foodEntry.data()));
     }
     return mealList;
   }
