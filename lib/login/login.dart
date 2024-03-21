@@ -100,12 +100,14 @@ class _MyLoginPage extends State<MyLoginPage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-              Image.asset('assets/images/TeamHotDogLogo.PNG', height: 140),
+              ClipRRect(
+                child: Image.asset('assets/images/team-hot-dog-logo.png', height: 180),
+              ),
               SizedBox(height: 30),
               TextFormField(
                 controller: _usernameController,
