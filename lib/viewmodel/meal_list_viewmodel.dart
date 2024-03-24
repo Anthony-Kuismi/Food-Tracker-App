@@ -38,6 +38,7 @@ class MealListViewModel extends ChangeNotifier{
 
   void updateMeal(Meal oldMeal, Meal newMeal) {
     newMeal.entitle();
+    newMeal.timestamp = oldMeal.timestamp;
     final index = meals.indexOf(oldMeal);
     meals[index] = newMeal;
     firestore.updateMealForUser('Default User', oldMeal.id, newMeal);
