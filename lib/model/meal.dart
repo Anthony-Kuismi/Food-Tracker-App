@@ -47,7 +47,11 @@ class Meal {
   List<String> get foodTitles => foods.values.map((food) => food.title).toList();
 
   void entitle(){
-    title = foodTitles.join(', ');
+    if (foods.isNotEmpty) {
+      title = foodTitles.join(', ');
+    } else {
+      title = 'New Meal';
+    }
   }
 
   Meal.clone(Meal other)
