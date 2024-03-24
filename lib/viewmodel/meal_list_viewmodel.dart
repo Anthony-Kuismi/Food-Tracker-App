@@ -6,7 +6,6 @@ import '../service/navigator.dart';
 import '../service/food_selection.dart';
 import '../service/FirestoreService.dart';
 
-
 class MealListViewModel extends ChangeNotifier{
   final NavigatorService navigatorService;
   final FoodSelectionService foodSelectionService;
@@ -20,10 +19,12 @@ class MealListViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  void addMeal(String name){
+  void addMeal(String title, DateTime timestamp){
     Meal newMeal = foodSelectionService.data;
-    newMeal.rename(name);
+    // newMeal.rename(title);
+    newMeal.entitle();
     newMeal.id = const Uuid().v4();
+    newMeal.timestamp = timestamp;
     meals.add(newMeal);
     firestore.addMealToUser('Default User', newMeal.toJson());
     notifyListeners();
@@ -36,8 +37,10 @@ class MealListViewModel extends ChangeNotifier{
   }
 
   void updateMeal(Meal oldMeal, Meal newMeal) {
+    newMeal.entitle();
     final index = meals.indexOf(oldMeal);
     meals[index] = newMeal;
+    firestore.updateMealForUser('Default User', oldMeal.id, newMeal);
     notifyListeners();
   }
 

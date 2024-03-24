@@ -27,8 +27,15 @@ class MealListView extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final meal = viewModel.meals[index];
                     return ListTile(
-                      title: Text(meal.name),
-                      subtitle: Text('Food Items: ${meal.description}'),
+                      title: Text(meal.title),
+                      subtitle: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(meal.timestampString),
+                          // Text('Food Items: ${meal.description}'),
+                        ],
+                      ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () => viewModel.removeMeal(meal),
