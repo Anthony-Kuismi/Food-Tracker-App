@@ -1,5 +1,7 @@
 import 'package:uuid/uuid.dart';
 
+import 'package:uuid/uuid.dart';
+
 class Food {
   String title;
   String id;
