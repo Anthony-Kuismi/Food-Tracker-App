@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/view/food_view.dart';
 import 'login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'provider/app_provider.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
                   ),
                   primarySwatch: Colors.blue,
                 ),
-                home: CustomFoodPage(),
+                home: FoodView(),
                 navigatorKey: navigatorService.navigatorKey,
                 routes: {
                   'MyHomePage': (context) => const MyHomePage(title: 'Hot Dog', username: ''),
