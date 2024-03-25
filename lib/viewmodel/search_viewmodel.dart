@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import '../model/meal.dart';
 
 class SearchViewModel extends ChangeNotifier {
-  final Search _searchModel = Search();
+  final Search _searchModel; //this is where I'd like to populate the search model
   final NavigatorService navigatorService;
   final FoodSelectionService foodSelectionService;
   bool _disposed = false;
@@ -19,11 +19,20 @@ class SearchViewModel extends ChangeNotifier {
   String get query => _searchModel.query;
   DateTime timestamp = DateTime.now();
 
-  SearchViewModel(this.navigatorService, this.foodSelectionService);
+  // Constructor
+  SearchViewModel(this.navigatorService, this.foodSelectionService) : _searchModel = Search() {
+    _initializeSearchModel();
+  }
+
+  Future<void> _initializeSearchModel() async {
+    await _searchModel.initialize();
+    notifyListeners();
+  }
 
   Meal get searchResults{
     Meal out = Meal.clone(foodSelectionService.data);
     out.addUniqueTitles(_searchModel.data);
+    out += _searchModel.customData;
     return out;
   }
 

@@ -1,3 +1,5 @@
+import 'package:uuid/uuid.dart';
+
 import 'food.dart';
 import 'package:intl/intl.dart';
 
@@ -15,6 +17,13 @@ class Meal {
         id = json['id'],
         timestamp = DateTime.fromMillisecondsSinceEpoch(json['timestamp']),
         foods = { for (var item in json['items']) item['id']: Food.fromJson(item) };
+
+  Meal.fromFoodList(List<Food> foodList)
+      : title = 'New Meal',
+        id = Uuid().v4(),
+        timestamp = DateTime.now(),
+        foods = { for (var item in foodList) item.id: item };
+
 
   void add(Food food){
     if(!foods.containsKey(food.id)) {
@@ -101,5 +110,15 @@ class Meal {
       'timestamp' : timestampInt,
       'items': foodItemsJson,
     };
+  }
+
+  List<Food> getFoodsByQuery(String query){
+    List<Food> out = [];
+    for(var food in foods.values){
+      if(query.toLowerCase().contains(food.title.toLowerCase())){
+        out.add(food);
+      }
+    }
+    return out;
   }
 }

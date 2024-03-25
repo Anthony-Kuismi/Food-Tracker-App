@@ -38,8 +38,9 @@ class FoodFormState extends State<FoodForm>{
   late TextEditingController _fiberController;
   late TextEditingController _sugarController;
 
-
+  @override
   void initState() {
+    super.initState();
     _nameController = TextEditingController(text: widget.editingFood.title);
     _caloriesController = TextEditingController(text: widget.editingFood.calories.toString());
     _proteinController = TextEditingController(text: widget.editingFood.protein_g.toString());
