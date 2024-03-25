@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../model/food.dart';
 
 class FoodView extends StatelessWidget{
