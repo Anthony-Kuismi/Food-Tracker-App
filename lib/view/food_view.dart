@@ -41,17 +41,17 @@ class FoodFormState extends State<FoodForm>{
 
   void initState() {
     _nameController = TextEditingController(text: widget.editingFood.title);
-    _caloriesController = TextEditingController(text: widget.editingFood.title);
-    _proteinController = TextEditingController(text: widget.editingFood.title);
-    _carbsController = TextEditingController(text: widget.editingFood.title);
-    _servingController = TextEditingController(text: widget.editingFood.title);
-    _fatTotalController = TextEditingController(text: widget.editingFood.title);
-    _fatSatController = TextEditingController(text: widget.editingFood.title);
-    _sodiumController = TextEditingController(text: widget.editingFood.title);
-    _potassiumController = TextEditingController(text: widget.editingFood.title);
-    _cholesterolController = TextEditingController(text: widget.editingFood.title);
-    _fiberController = TextEditingController(text: widget.editingFood.title);
-    _sugarController = TextEditingController(text: widget.editingFood.title);
+    _caloriesController = TextEditingController(text: widget.editingFood.calories.toString());
+    _proteinController = TextEditingController(text: widget.editingFood.protein_g.toString());
+    _carbsController = TextEditingController(text: widget.editingFood.carbohydrates_total_g.toString());
+    _servingController = TextEditingController(text: widget.editingFood.serving_size_g.toString());
+    _fatTotalController = TextEditingController(text: widget.editingFood.fat_total_g.toString());
+    _fatSatController = TextEditingController(text: widget.editingFood.fat_saturated_g.toString());
+    _sodiumController = TextEditingController(text: widget.editingFood.sodium_mg.toString());
+    _potassiumController = TextEditingController(text: widget.editingFood.potassium_mg.toString());
+    _cholesterolController = TextEditingController(text: widget.editingFood.cholesterol_mg.toString());
+    _fiberController = TextEditingController(text: widget.editingFood.fiber_g.toString());
+    _sugarController = TextEditingController(text: widget.editingFood.sugar_g.toString());
   }
 
   @override
