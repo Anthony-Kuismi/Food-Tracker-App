@@ -146,6 +146,23 @@ class FoodFormState extends State<FoodForm>{
 
                   // Do something with the data
 
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Food Saved'),
+                        content: Text('The $name has been saved!'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
 
                   _nameController.text = "";
                   _caloriesController.text = "";
