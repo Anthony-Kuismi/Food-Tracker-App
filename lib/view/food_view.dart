@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import '../model/food.dart';
+import '../service/FirestoreService.dart';
 
 class FoodView extends StatelessWidget {
   final Food? editingFood;
@@ -18,6 +20,8 @@ class FoodView extends StatelessWidget {
 class FoodForm extends StatefulWidget{
 
   final Food editingFood;
+  final FirestoreService firestore = FirestoreService();
+
   FoodForm({Key? key, required this.editingFood});
   @override
   FoodFormState createState() => FoodFormState();
@@ -138,13 +142,22 @@ class FoodFormState extends State<FoodForm>{
 
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   // Handle saving the custom food item
                   String name = _nameController.text;
                   double calories = double.parse(_caloriesController.text);
-                  double protein = double.parse(_proteinController.text);
-                  double carbs = double.parse(_carbsController.text);
+                  double serving_size_g = double.parse(_servingController.text);
+                  double fat_total_g = double.parse(_fatTotalController.text);
+                  double fat_saturated_g = double.parse(_fatSatController.text);
+                  double protein_g = double.parse(_proteinController.text);
+                  int sodium_mg = int.parse(_sodiumController.text);
+                  int potassium_mg = int.parse(_potassiumController.text);
+                  int cholesteral_mg = int.parse(_cholesterolController.text);
+                  double carbohydrates_total_g = double.parse(_carbsController.text);
+                  double fiber_g = double.parse(_carbsController.text);
+                  double sugar_g = double.parse(_sugarController.text);
 
+                  final Food updatedFood = Food(title:name,id:Uuid().v4(),name:name,calories:calories,serving_size_g: serving_size_g,fat_total_g: fat_total_g,fat_saturated_g: fat_saturated_g,protein_g: protein_g,sodium_mg: sodium_mg,potassium_mg: potassium_mg,cholesterol_mg: cholesteral_mg,carbohydrates_total_g: carbohydrates_total_g,fiber_g: fiber_g,sugar_g: sugar_g);
                   // Do something with the data
 
 
@@ -160,6 +173,10 @@ class FoodFormState extends State<FoodForm>{
                   _carbsController.text = "";
                   _fiberController.text = "";
                   _sugarController.text = "";
+
+                  await widget.firestore.addCustomFoodForUser('Default User',updatedFood);
+
+
 
 
                 },
@@ -187,4 +204,6 @@ class FoodFormState extends State<FoodForm>{
     _sugarController.dispose();
     super.dispose();
   }
+
+
 }

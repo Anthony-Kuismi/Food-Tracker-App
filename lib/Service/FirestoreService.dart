@@ -32,12 +32,14 @@ class FirestoreService {
 
   Future<void> addCustomFoodForUser(String username, Food customFood) async{
     final foodEntries = FirebaseFirestore.instance.collection('Users/$username/Custom Foods');
+    print(customFood.id);
+    print(customFood.toJson());
     foodEntries.doc(customFood.id).set(customFood.toJson());
   }
 
   Future<List<Food>> getCustomFoodsFromUser(String username) async{
     List<Food> foodList = [];
-    final foodEntries = FirebaseFirestore.instance.collection('Users/$username/Food Entries');
+    final foodEntries = FirebaseFirestore.instance.collection('Users/$username/Custom Foods');
     final foodEntriesSnapshot = await foodEntries.get();
     final foodEntriesDocuments = foodEntriesSnapshot.docs;
     for(var foodEntry in foodEntriesDocuments){
