@@ -1,9 +1,26 @@
 import 'package:flutter/material.dart';
 import '../model/food.dart';
 
-class FoodView extends StatelessWidget{
-  FoodView({super.key});
+class FoodView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: FoodForm(),
+    );
+  }
+}
+
+class FoodForm extends StatefulWidget{
+  @override
+  FoodFormState createState() => FoodFormState();
+
+
+}
+
+
+class FoodFormState extends State<FoodForm>{
   Food? editingFood;
+
   @override
   Widget build(BuildContext context){
     editingFood = editingFood ?? Food.fromJson({});
@@ -62,5 +79,13 @@ class FoodView extends StatelessWidget{
         ),
       ),
     );
+  }
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _caloriesController.dispose();
+    _proteinController.dispose();
+    _carbsController.dispose();
+    super.dispose();
   }
 }
