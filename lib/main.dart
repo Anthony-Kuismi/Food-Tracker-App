@@ -6,6 +6,7 @@ import 'service/navigator.dart';
 import 'view/homepage_view.dart';
 import 'view/meal_list_view.dart';
 import 'view/search_view.dart';
+import 'customitem.dart';
 
 void main() {
   final NavigatorService navigatorService = NavigatorService();
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
                   ),
                   primarySwatch: Colors.blue,
                 ),
-                home: const LoginApp(title: 'Hot Dog Food Tracker Login'),
+                home: CustomFoodPage(),
                 navigatorKey: navigatorService.navigatorKey,
                 routes: {
                   'MyHomePage': (context) => const MyHomePage(title: 'Hot Dog', username: ''),
