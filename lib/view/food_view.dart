@@ -2,15 +2,23 @@ import 'package:flutter/material.dart';
 import '../model/food.dart';
 
 class FoodView extends StatelessWidget {
+  final Food? editingFood;
+  const FoodView({Key? key, this.editingFood}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final Food editingFood = this.editingFood ?? Food.fromJson({});
+
     return MaterialApp(
-      home: FoodForm(),
+      home: FoodForm(editingFood: editingFood),
     );
   }
 }
 
 class FoodForm extends StatefulWidget{
+
+  final Food editingFood;
+  FoodForm({Key? key, required this.editingFood});
   @override
   FoodFormState createState() => FoodFormState();
 
@@ -20,6 +28,12 @@ class FoodForm extends StatefulWidget{
 
 class FoodFormState extends State<FoodForm>{
   Food? editingFood;
+  late TextEditingController _nameController;
+
+  void initState() {
+    _nameController = TextEditingController(text: widget.editingFood.title);
+
+  }
 
   @override
   Widget build(BuildContext context){
