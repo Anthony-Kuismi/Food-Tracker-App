@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/view/food_view.dart';
 import 'login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'model/food.dart';
 import 'provider/app_provider.dart';
 import 'service/navigator.dart';
 import 'view/homepage_view.dart';
 import 'view/meal_list_view.dart';
 import 'view/search_view.dart';
+import 'customitem.dart';
 
 void main() {
   final NavigatorService navigatorService = NavigatorService();
@@ -37,7 +40,7 @@ class MyApp extends StatelessWidget {
                   ),
                   primarySwatch: Colors.blue,
                 ),
-                home: const LoginApp(title: 'Hot Dog Food Tracker Login'),
+                home: FoodView(),
                 navigatorKey: navigatorService.navigatorKey,
                 routes: {
                   'MyHomePage': (context) => const MyHomePage(title: 'Hot Dog', username: ''),

@@ -6,6 +6,7 @@ import '../../service/food_selection.dart';
 import '../../viewmodel/search_viewmodel.dart';
 import '../../viewmodel/meal_list_viewmodel.dart';
 import '../model/meal.dart';
+import 'food_view.dart';
 
 
 
@@ -84,19 +85,38 @@ class SearchResults extends StatelessWidget {
                   color: Theme.of(context).colorScheme.secondary,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: CheckboxListTile(
+                child: ListTile(
                   title: Text(
                     food.title,
                     style: const TextStyle(
                       color: Colors.black,
                     ),
                   ),
-                  checkColor: Colors.black,
-                  activeColor: Theme.of(context).colorScheme.secondary,
-                  value: isSelected,
-                  onChanged: (bool? isSelected) {
-                    searchViewModel.toggleSelection(isSelected, food);
-                  },
+                  // Use a Row to lay out the checkbox and edit icon
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min, // Minimize the row's size to fit its children
+                    children: [
+                      // Checkbox
+                      Checkbox(
+                        checkColor: Colors.black,
+                        activeColor: Theme.of(context).colorScheme.secondary,
+                        value: isSelected,
+                        onChanged: (bool? newValue) {
+                          searchViewModel.toggleSelection(newValue, food);
+                        },
+                      ),
+                      // Edit icon button
+                      IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          // Navigate to the CustomFoodPage when the icon is tapped
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => FoodView(editingFood: food),
+                          ));
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
