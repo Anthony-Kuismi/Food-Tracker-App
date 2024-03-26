@@ -7,16 +7,16 @@ class Food {
   String id;
   String name;
   double calories;
-  double serving_size_g; //serving_size_g
-  double fat_total_g; //fat_total_g
-  double fat_saturated_g; //fat_saturated_g
-  double protein_g; //protein_g
-  int sodium_mg; //sodium_mg
-  int potassium_mg; //potassium_mg
-  int cholesterol_mg; //cholesterol_mg
-  double carbohydrates_total_g; //carbohydrates_total_g
-  double fiber_g; //fiber_g
-  double sugar_g; //sugar_g
+  double serving_size_g;
+  double fat_total_g;
+  double fat_saturated_g;
+  double protein_g;
+  int sodium_mg;
+  int potassium_mg;
+  int cholesterol_mg;
+  double carbohydrates_total_g;
+  double fiber_g;
+  double sugar_g;
 
   Food({required this.title, required this.id, required this.name, required this.calories, required this.serving_size_g, required this.fat_total_g, required this.fat_saturated_g, required this.protein_g, required this.sodium_mg, required this.potassium_mg, required this.cholesterol_mg, required this.carbohydrates_total_g, required this.fiber_g, required this.sugar_g});
 

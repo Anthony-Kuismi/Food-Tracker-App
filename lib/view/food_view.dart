@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../model/food.dart';
 import '../service/FirestoreService.dart';
+import '../service/navigator.dart';
 
 class FoodView extends StatelessWidget {
   final Food? editingFood;
@@ -143,7 +145,7 @@ class FoodFormState extends State<FoodForm>{
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-                  // Handle saving the custom food item
+
                   String name = _nameController.text;
                   double calories = double.parse(_caloriesController.text);
                   double serving_size_g = double.parse(_servingController.text);
@@ -157,8 +159,8 @@ class FoodFormState extends State<FoodForm>{
                   double fiber_g = double.parse(_carbsController.text);
                   double sugar_g = double.parse(_sugarController.text);
 
-                  final Food updatedFood = Food(title:name,id:Uuid().v4(),name:name,calories:calories,serving_size_g: serving_size_g,fat_total_g: fat_total_g,fat_saturated_g: fat_saturated_g,protein_g: protein_g,sodium_mg: sodium_mg,potassium_mg: potassium_mg,cholesterol_mg: cholesteral_mg,carbohydrates_total_g: carbohydrates_total_g,fiber_g: fiber_g,sugar_g: sugar_g);
-                  // Do something with the data
+                  final Food updatedFood = Food(title:'$name [Custom]',id:Uuid().v4(),name:name,calories:calories,serving_size_g: serving_size_g,fat_total_g: fat_total_g,fat_saturated_g: fat_saturated_g,protein_g: protein_g,sodium_mg: sodium_mg,potassium_mg: potassium_mg,cholesterol_mg: cholesteral_mg,carbohydrates_total_g: carbohydrates_total_g,fiber_g: fiber_g,sugar_g: sugar_g);
+
 
                   showDialog(
                     context: context,
@@ -193,8 +195,7 @@ class FoodFormState extends State<FoodForm>{
 
                   await widget.firestore.addCustomFoodForUser('Default User',updatedFood);
 
-
-
+                  Provider.of<NavigatorService>(context, listen: false).pushReplace('SearchView');
 
                 },
                 child: Text('Save'),

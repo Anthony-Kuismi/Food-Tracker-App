@@ -21,7 +21,7 @@ class MealListViewModel extends ChangeNotifier{
 
   void addMeal(String title, DateTime timestamp){
     Meal newMeal = foodSelectionService.data;
-    // newMeal.rename(title);
+
     newMeal.entitle();
     newMeal.id = const Uuid().v4();
     newMeal.timestamp = timestamp;

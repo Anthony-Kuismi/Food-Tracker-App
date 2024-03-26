@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
                   ),
                   primarySwatch: Colors.blue,
                 ),
-                home: FoodView(),
+                home: const MyHomePage(title: 'Hot Dog Food Tracker',username: 'Default User'),
                 navigatorKey: navigatorService.navigatorKey,
                 routes: {
                   'MyHomePage': (context) => const MyHomePage(title: 'Hot Dog', username: ''),
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
               ),
             );
           }
-          Widget loading = MaterialApp();
+          Widget loading = const MaterialApp();
           return loading;
         });
   }

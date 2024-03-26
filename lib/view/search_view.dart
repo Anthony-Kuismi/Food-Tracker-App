@@ -92,11 +92,19 @@ class SearchResults extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                  // Use a Row to lay out the checkbox and edit icon
                   trailing: Row(
-                    mainAxisSize: MainAxisSize.min, // Minimize the row's size to fit its children
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Checkbox
+                      IconButton(
+                        icon: Icon(Icons.edit),
+                        color: Colors.black,
+                        onPressed: () {
+
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => FoodView(editingFood: food),
+                          ));
+                        },
+                      ),
                       Checkbox(
                         checkColor: Colors.black,
                         activeColor: Theme.of(context).colorScheme.secondary,
@@ -104,17 +112,14 @@ class SearchResults extends StatelessWidget {
                         onChanged: (bool? newValue) {
                           searchViewModel.toggleSelection(newValue, food);
                         },
+                        side: BorderSide(
+
+                          color: Colors.grey,
+
+                          width: 1.5,
+                        ),
                       ),
-                      // Edit icon button
-                      IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () {
-                          // Navigate to the CustomFoodPage when the icon is tapped
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => FoodView(editingFood: food),
-                          ));
-                        },
-                      ),
+
                     ],
                   ),
                 ),

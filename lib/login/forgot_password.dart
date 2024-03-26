@@ -12,11 +12,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController _usernameController = TextEditingController();
   String _passwordStatus = '';
 
-  // Mock users data
+
   final List<Map<String, String>> _users = [
     {'username': 'user1', 'password': 'pass1'},
     {'username': 'user2', 'password': 'pass2'},
-    // Add more mock users as needed
+
   ];
 
   void _retrievePassword() {
@@ -51,7 +51,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               const SizedBox(height: 20),
-              Image.asset('assets/images/team-hot-dog-logo.png', height: 100), // Logo image
+              Image.asset('assets/images/team-hot-dog-logo.png', height: 100),
               const SizedBox(height: 40),
               Text(
                 'Retrieve Your Password',
