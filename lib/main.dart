@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
                   ),
                   primarySwatch: Colors.blue,
                 ),
-                home: const MyHomePage(title: 'Hot Dog Food Tracker',username: 'Default User'),
+                home: const LoginApp(title: 'Hot Dog Food Tracker Login'),
                 navigatorKey: navigatorService.navigatorKey,
                 routes: {
                   'MyHomePage': (context) => const MyHomePage(title: 'Hot Dog', username: ''),
