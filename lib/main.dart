@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
               ),
             );
           }
-          Widget loading = MaterialApp();
+          Widget loading = const MaterialApp();
           return loading;
         });
   }

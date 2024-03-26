@@ -33,7 +33,7 @@ class MealListView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(meal.timestampString),
-                          // Text('Food Items: ${meal.description}'),
+
                         ],
                       ),
                       trailing: IconButton(

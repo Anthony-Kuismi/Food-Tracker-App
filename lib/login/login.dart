@@ -19,6 +19,7 @@ class LoginApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         primarySwatch: Colors.blue,
+        unselectedWidgetColor: Colors.red,
       ),
       home: const MyLoginPage(title: 'Login Page'),
     );
@@ -42,7 +43,7 @@ class _MyLoginPage extends State<MyLoginPage> {
 
   @override
   void dispose() {
-    // Dispose controllers and focus nodes
+
     _usernameController.dispose();
     _passwordController.dispose();
     _passwordFocusNode.dispose();
@@ -57,7 +58,7 @@ class _MyLoginPage extends State<MyLoginPage> {
   final List<Map<String, String>> _users = [
     {'username': 'user1', 'password': 'pass1'},
     {'username': 'user2', 'password': 'pass2'},
-    // Add more mock users as needed
+
   ];
 
   bool _validateUser(String username, String password) {

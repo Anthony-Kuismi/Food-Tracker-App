@@ -14,7 +14,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String _signUpStatus = '';
 
   void _addUser() {
-    // Placeholder for Firebase addUser implementation
+
   }
 
   void _signUp() {
@@ -33,7 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     _addUser();
-    Navigator.pop(context); // Navigate back to Login Page
+    Navigator.pop(context);
   }
 
 
@@ -58,7 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               const SizedBox(height: 20),
-              Image.asset('assets/images/team-hot-dog-logo.png', height: 200), // Logo image
+              Image.asset('assets/images/team-hot-dog-logo.png', height: 200),
               const SizedBox(height: 40),
               Text(
                 'Create Your Account',
@@ -112,7 +112,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 style: TextStyle(color: Colors.red, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
-              // ... Rest of the UI elements ...
+
             ],
           ),
         ),

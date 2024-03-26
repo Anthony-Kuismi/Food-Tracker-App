@@ -48,13 +48,13 @@ class _CustomFoodPageState extends State<CustomFoodPage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Handle saving the custom food item
+
                 String name = _nameController.text;
                 double calories = double.parse(_caloriesController.text);
                 double protein = double.parse(_proteinController.text);
                 double carbs = double.parse(_carbsController.text);
 
-                // Do something with the data4
+
 
 
                 _nameController.text = "";
