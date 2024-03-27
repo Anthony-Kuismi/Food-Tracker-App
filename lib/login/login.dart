@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 import '../service/navigator.dart';
 import '../view/homepage_view.dart';
-import 'main_page.dart';
 import 'signup.dart';
 import 'forgot_password.dart';
 
@@ -74,8 +74,11 @@ class _MyLoginPage extends State<MyLoginPage> {
     _login();
   }
 
-  void _login() {
+  void _login() async {
     if (_validateUser(_usernameController.text, _passwordController.text)) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
+      await prefs.setString('username', _usernameController.text);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MyHomePage(username: _usernameController.text, title: '',)),      );
@@ -85,6 +88,19 @@ class _MyLoginPage extends State<MyLoginPage> {
       });
     }
   }
+
+  void _logout(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('isLoggedIn');
+    await prefs.remove('username');
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginApp(title: 'Login Page')),
+          (Route<dynamic> route) => false,
+    );
+  }
+
 
 
   @override

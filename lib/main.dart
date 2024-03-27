@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:food_tracker_app/view/food_view.dart';
 import 'login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,15 +11,20 @@ import 'view/meal_list_view.dart';
 import 'view/search_view.dart';
 import 'customitem.dart';
 
-void main() {
+void main() async {
   final NavigatorService navigatorService = NavigatorService();
-  runApp(MyApp(navigatorService: navigatorService));
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+  runApp(MyApp(navigatorService: navigatorService, isLoggedIn: isLoggedIn));
 }
 
 class MyApp extends StatelessWidget {
   final NavigatorService navigatorService;
+  final bool isLoggedIn;
 
-  const MyApp({super.key, required this.navigatorService});
+  const MyApp({super.key, required this.navigatorService, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +32,8 @@ class MyApp extends StatelessWidget {
         future: Firebase.initializeApp(),
         builder: (context, snapshot){
           if(snapshot.hasError){
-            print("could not connect");
+            print("Could not connect to Firebase");
+            //return SomethingWentWrong(); // Please add this functionality
           }
           if(snapshot.connectionState== ConnectionState.done){
             return AppProvider(
@@ -40,7 +47,9 @@ class MyApp extends StatelessWidget {
                   ),
                   primarySwatch: Colors.blue,
                 ),
-                home: const LoginApp(title: 'Hot Dog Food Tracker Login'),
+                home: isLoggedIn
+                    ? const MyHomePage(title: 'Hot Dog', username: 'User') // Adjust according to your logic
+                    : const LoginApp(title: 'Login'),
                 navigatorKey: navigatorService.navigatorKey,
                 routes: {
                   'MyHomePage': (context) => const MyHomePage(title: 'Hot Dog', username: ''),
@@ -50,8 +59,7 @@ class MyApp extends StatelessWidget {
               ),
             );
           }
-          Widget loading = const MaterialApp();
-          return loading;
+          return const MaterialApp(home: CircularProgressIndicator()); // Loading indicator;
         });
   }
 }
