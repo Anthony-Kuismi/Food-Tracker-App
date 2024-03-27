@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/view/food_view.dart';
 import 'login/login.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'model/food.dart';
 import 'provider/app_provider.dart';
 import 'service/navigator.dart';
 import 'view/homepage_view.dart';
 import 'view/meal_list_view.dart';
 import 'view/search_view.dart';
-import '../service/navigator.dart';
+import 'customitem.dart';
 
 void main() {
   final NavigatorService navigatorService = NavigatorService();
@@ -19,25 +22,36 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppProvider(
-      navigatorService: navigatorService,
-      child: MaterialApp(
-        title: 'Food Tracker App',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurpleAccent,
-            brightness: Brightness.dark,
-          ),
-          primarySwatch: Colors.blue,
-        ),
-        home: const LoginApp(title: 'Hot Dog Food Tracker Login'),
-        navigatorKey: navigatorService.navigatorKey,
-        routes: {
-          'MyHomePage': (context) => const MyHomePage(title: 'Hot Dog', username: ''),
-          'MealListView': (context) => const MealListView(),
-          'SearchView': (context) => const SearchView(),
-        },
-      ),
-    );
+    return FutureBuilder(
+        future: Firebase.initializeApp(),
+        builder: (context, snapshot){
+          if(snapshot.hasError){
+            print("could not connect");
+          }
+          if(snapshot.connectionState== ConnectionState.done){
+            return AppProvider(
+              navigatorService: navigatorService,
+              child: MaterialApp(
+                title: 'Food Tracker App',
+                theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(
+                    seedColor: Colors.deepPurpleAccent,
+                    brightness: Brightness.dark,
+                  ),
+                  primarySwatch: Colors.blue,
+                ),
+                home: const LoginApp(title: 'Hot Dog Food Tracker Login'),
+                navigatorKey: navigatorService.navigatorKey,
+                routes: {
+                  'MyHomePage': (context) => const MyHomePage(title: 'Hot Dog', username: ''),
+                  'MealListView': (context) => const MealListView(),
+                  'SearchView': (context) => const SearchView(),
+                },
+              ),
+            );
+          }
+          Widget loading = const MaterialApp();
+          return loading;
+        });
   }
 }

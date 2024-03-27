@@ -38,9 +38,13 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  firebase_core: ^2.14.0
+  cloud_firestore: ^4.8.2
+  firebase_core_platform_interface: 4.8.0
 
   provider: any
   uuid: ^3.0.6
+  intl: any
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +64,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/TeamHotDogLogo.PNG
+    - assets/images/team-hot-dog-logo.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

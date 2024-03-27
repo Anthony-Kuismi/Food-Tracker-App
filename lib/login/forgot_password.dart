@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -11,11 +12,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController _usernameController = TextEditingController();
   String _passwordStatus = '';
 
-  // Mock users data
+
   final List<Map<String, String>> _users = [
     {'username': 'user1', 'password': 'pass1'},
     {'username': 'user2', 'password': 'pass2'},
-    // Add more mock users as needed
+
   ];
 
   void _retrievePassword() {
@@ -33,8 +34,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Forgot Password'),
+        iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Theme.of(context).colorScheme.primary,
+        title: const Text(
+          'Forgot Password',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -44,7 +51,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               const SizedBox(height: 20),
-              Image.asset('assets/images/TeamHotDogLogo.PNG', height: 100), // Logo image
+              Image.asset('assets/images/team-hot-dog-logo.png', height: 100),
               const SizedBox(height: 40),
               Text(
                 'Retrieve Your Password',
@@ -65,13 +72,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 onPressed: _retrievePassword,
                 child: const Text('Retrieve Password'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.secondary, // Updated
-                  foregroundColor: Colors.white, // Updated
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                  textStyle: const TextStyle(fontSize: 18),
+                  minimumSize: Size(double.infinity, 50),
                 ),
               ),
               const SizedBox(height: 20),

@@ -1,10 +1,29 @@
+import 'package:uuid/uuid.dart';
+
 import 'food.dart';
+import 'package:intl/intl.dart';
+
 
 class Meal {
-  String name;
+  String title;
   Map<String,Food> foods;
-  Meal({required this.name, required dynamic json})
-      : foods = { for (var item in json['items']) item['id']: Food.fromJson(item) };
+  String id;
+  DateTime timestamp;
+  static DateFormat dateFormat = DateFormat('HH:mm MM-dd-yyyy');
+  String get timestampString => dateFormat.format(timestamp);
+  int get timestampInt => timestamp.millisecondsSinceEpoch;
+  Meal({required dynamic json})
+      : title = json['title'],
+        id = json['id'],
+        timestamp = DateTime.fromMillisecondsSinceEpoch(json['timestamp']),
+        foods = { for (var item in json['items']) item['id']: Food.fromJson(item) };
+
+  Meal.fromFoodList(List<Food> foodList)
+      : title = 'New Meal',
+        id = Uuid().v4(),
+        timestamp = DateTime.now(),
+        foods = { for (var item in foodList) item.id: item };
+
 
   void add(Food food){
     if(!foods.containsKey(food.id)) {
@@ -30,16 +49,28 @@ class Meal {
   }
 
 
-  void rename(String name) {
-    this.name = name;
+  void rename(String title) {
+    this.title = title;
+  }
+
+  List<String> get foodTitles => foods.values.map((food) => food.title).toList();
+
+  void entitle(){
+    if (foods.isNotEmpty) {
+      title = foodTitles.join(', ');
+    } else {
+      title = 'New Meal';
+    }
   }
 
   Meal.clone(Meal other)
-      : name = other.name,
-        foods = Map<String, Food>.from(other.foods);
+      : title = other.title,
+        id = other.id,
+        foods = Map<String, Food>.from(other.foods),
+        timestamp = other.timestamp;
 
   Meal operator +(Meal other) {
-    var newMeal = Meal(name: name, json: {'items': []});
+    var newMeal = Meal(json: {'items': []});
     newMeal.foods.addAll(foods);
 
     for (var food in other.foods.values) {
@@ -49,7 +80,7 @@ class Meal {
   }
 
   Meal operator -(Meal other) {
-    var newMeal = Meal(name: name, json: {'items': []});
+    var newMeal = Meal(json: {'items': []});
     newMeal.foods.addAll(foods);
 
     for (var food in other.foods.values) {
@@ -74,8 +105,20 @@ class Meal {
   Map<String, dynamic> toJson() {
     List<Map<String, dynamic>> foodItemsJson = foods.values.map((food) => food.toJson()).toList();
     return {
-      'name': name,
+      'title': title,
+      'id' : id,
+      'timestamp' : timestampInt,
       'items': foodItemsJson,
     };
+  }
+
+  List<Food> getFoodsByQuery(String query){
+    List<Food> out = [];
+    for(var food in foods.values){
+      if(query.toLowerCase().contains(food.title.toLowerCase())){
+        out.add(food);
+      }
+    }
+    return out;
   }
 }

@@ -14,7 +14,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String _signUpStatus = '';
 
   void _addUser() {
-    // Placeholder for Firebase addUser implementation
+
   }
 
   void _signUp() {
@@ -33,7 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     _addUser();
-    Navigator.pop(context); // Navigate back to Login Page
+    Navigator.pop(context);
   }
 
 
@@ -41,8 +41,14 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor:Theme.of(context).colorScheme.primary,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: const Text(
+          'Create an Account',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -52,7 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               const SizedBox(height: 20),
-              Image.asset('assets/images/TeamHotDogLogo.PNG', height: 200), // Logo image
+              Image.asset('assets/images/team-hot-dog-logo.png', height: 200),
               const SizedBox(height: 40),
               Text(
                 'Create Your Account',
@@ -97,13 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: _signUp,
                 child: const Text('Sign Up'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                  textStyle: const TextStyle(fontSize: 18),
+                  minimumSize: Size(double.infinity, 50),
                 ),
               ),
               const SizedBox(height: 20),
@@ -112,7 +112,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 style: TextStyle(color: Colors.red, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
-              // ... Rest of the UI elements ...
+
             ],
           ),
         ),

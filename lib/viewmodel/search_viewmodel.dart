@@ -10,18 +10,29 @@ import 'package:http/http.dart' as http;
 import '../model/meal.dart';
 
 class SearchViewModel extends ChangeNotifier {
-  final Search _searchModel = Search();
+  final Search _searchModel;
   final NavigatorService navigatorService;
   final FoodSelectionService foodSelectionService;
   bool _disposed = false;
   Timer? searchTimer;
-  String name='foodbar'; //TODO: add meal naming functionality
+  String name='foodbar';
+  String get query => _searchModel.query;
+  DateTime timestamp = DateTime.now();
 
-  SearchViewModel(this.navigatorService, this.foodSelectionService);
+
+  SearchViewModel(this.navigatorService, this.foodSelectionService) : _searchModel = Search() {
+    _initializeSearchModel();
+  }
+
+  Future<void> _initializeSearchModel() async {
+    await _searchModel.initialize();
+    notifyListeners();
+  }
 
   Meal get searchResults{
     Meal out = Meal.clone(foodSelectionService.data);
     out.addUniqueTitles(_searchModel.data);
+    out.addUniqueTitles(Meal.fromFoodList(_searchModel.customData.getFoodsByQuery(_searchModel.query)));
     return out;
   }
 
@@ -44,7 +55,7 @@ class SearchViewModel extends ChangeNotifier {
 
   void reset(){
     _searchModel.query='';
-    _searchModel.data = Meal(name:'Food Search',json:{'items':[]});
+    _searchModel.data = Meal(json:{'title': 'Food Selection','id':'id', 'items':[],'timestamp': DateTime.now().millisecondsSinceEpoch});
   }
 
   String cleanQuerySegment(String querySegment) {
@@ -55,6 +66,7 @@ class SearchViewModel extends ChangeNotifier {
     cleanedSegment = cleanedSegment.replaceAll(RegExp('\\s+'), ' ').trim();
     return cleanedSegment;
   }
+
   List<String> segmentQuery(String query, dynamic data) {
     List<dynamic> items = data?['items'] ?? [];
     List foodItems = items
@@ -88,6 +100,7 @@ class SearchViewModel extends ChangeNotifier {
     if ((data?['items'].length ?? 0) == 1 && querySegments.isNotEmpty) {
       data['items'][0]['title'] = querySegments.first;
     }
+    data['title'] = query;
   }
 
   Future<dynamic> fetchData() async{
@@ -143,5 +156,6 @@ class SearchViewModel extends ChangeNotifier {
     for(var item in json['items']){
       item['id'] = uuid.v4();
     }
+    json['id'] = uuid.v4();
   }
 }

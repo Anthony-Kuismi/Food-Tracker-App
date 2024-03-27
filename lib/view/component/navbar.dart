@@ -11,18 +11,25 @@ class NavBar extends StatelessWidget {
     final NavigatorService navigatorService = Provider.of<NavigatorService>(context, listen: false);
 
     return Container(
-      height: 50,
+      height: 70,
       color: Theme.of(context).colorScheme.secondary,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
-            icon: const Icon(Icons.search, color: Colors.white),
+            icon: const Icon(Icons.menu_book, color: Colors.black),
             onPressed: (){navigatorService.pushReplace('MealListView');},
+            iconSize: 40,
           ),
           IconButton(
-            icon: const Icon(Icons.home, color: Colors.white),
+            icon: const Icon(Icons.home, color: Colors.black),
             onPressed:(){navigatorService.pushReplace('MyHomePage');},
+            iconSize: 40,
+          ),
+          IconButton(
+            icon: const Icon(Icons.bar_chart, color: Colors.black),
+            onPressed:(){navigatorService.pushReplace('MyHomePage');},
+            iconSize: 40,
           ),
         ],
       ),

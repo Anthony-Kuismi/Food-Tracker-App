@@ -5,7 +5,6 @@ import '../view/homepage_view.dart';
 import 'main_page.dart';
 import 'signup.dart';
 import 'forgot_password.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class LoginApp extends StatelessWidget {
   const LoginApp({super.key, required String title});
@@ -20,6 +19,7 @@ class LoginApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         primarySwatch: Colors.blue,
+        unselectedWidgetColor: Colors.red,
       ),
       home: const MyLoginPage(title: 'Login Page'),
     );
@@ -40,21 +40,13 @@ class _MyLoginPage extends State<MyLoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _passwordFocusNode = FocusNode();
   String _loginStatus = '';
-  final YoutubePlayerController _youtubePlayerController = YoutubePlayerController(
-    initialVideoId: 't6K5H1Mt2UI', // Example YouTube video ID
-    flags: YoutubePlayerFlags(
-      autoPlay: true,
-      mute: false,
-    ),
-  );
 
   @override
   void dispose() {
-    // Dispose controllers and focus nodes
+
     _usernameController.dispose();
     _passwordController.dispose();
     _passwordFocusNode.dispose();
-    _youtubePlayerController.dispose();
     super.dispose();
   }
 
@@ -66,7 +58,7 @@ class _MyLoginPage extends State<MyLoginPage> {
   final List<Map<String, String>> _users = [
     {'username': 'user1', 'password': 'pass1'},
     {'username': 'user2', 'password': 'pass2'},
-    // Add more mock users as needed
+
   ];
 
   bool _validateUser(String username, String password) {
@@ -84,7 +76,6 @@ class _MyLoginPage extends State<MyLoginPage> {
 
   void _login() {
     if (_validateUser(_usernameController.text, _passwordController.text)) {
-      _youtubePlayerController.pause();
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MyHomePage(username: _usernameController.text, title: '',)),      );
@@ -110,15 +101,13 @@ class _MyLoginPage extends State<MyLoginPage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-              //Image.asset('assets/images/TeamHotDogLogo.PNG', height: 140),
-              YoutubePlayer(
-                controller: _youtubePlayerController,
-                showVideoProgressIndicator: false,
+              ClipRRect(
+                child: Image.asset('assets/images/team-hot-dog-logo.png', height: 180),
               ),
               SizedBox(height: 30),
               TextFormField(

@@ -26,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       bottomNavigationBar: const NavBar(key: Key('navBar')),
       body: const Center(
-        //children:[],
+
       ),
     );
   }
