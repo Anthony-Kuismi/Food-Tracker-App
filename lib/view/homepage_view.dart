@@ -17,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<HomePageViewModel>(context, listen: false);
+    final viewModel = Provider.of<HomePageViewModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         backgroundColor:Theme.of(context).colorScheme.primary,
@@ -33,7 +33,6 @@ class _MyHomePageState extends State<MyHomePage> {
       body: FutureBuilder(
         future: viewModel.load(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
             return Padding(
               padding: const EdgeInsets.all(16),
               child: GridView.count(
@@ -45,9 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             );
-          } else {
-            return CircularProgressIndicator(); // Show loading indicator while waiting for future to complete
-          }
         },
       ),
     );
@@ -70,7 +66,11 @@ Container waterContainer(BuildContext context, viewModel) {
           lineWidth: 10.0,
           percent: viewModel.waterPercentage,
           center: Text('${(viewModel.waterPercentage * 100).toInt()}%'),
-          progressColor: Colors.orange,
+          progressColor: viewModel.waterPercentage < 0.5
+              ? Colors.red
+              : viewModel.waterPercentage < 1.0
+              ? Colors.orange
+              : Colors.green,
         ),
         Positioned(
           top: 10,
@@ -87,7 +87,7 @@ Container waterContainer(BuildContext context, viewModel) {
             child: FloatingActionButton(
               mini: true,
               onPressed: () {
-                viewModel.addWater();
+                viewModel.removeWater();
               },
               backgroundColor: Theme.of(context).colorScheme.secondary,
               child: const Icon(Icons.remove, size: 20, color: Colors.black),
@@ -101,7 +101,7 @@ Container waterContainer(BuildContext context, viewModel) {
             child: FloatingActionButton(
               mini: true,
               onPressed: () {
-                viewModel.removeWater();
+                viewModel.addWater();
               },
               backgroundColor: Theme.of(context).colorScheme.secondary,
               child: const Icon(Icons.add, size: 20, color: Colors.black),

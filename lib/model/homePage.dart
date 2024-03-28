@@ -1,7 +1,8 @@
 import '../Service/FirestoreService.dart';
 
-class homePage {
+class HomePage {
   FirestoreService firestore = FirestoreService();
   Future<void> fetch() async{
+    return Future.value(["Default data"]);
   }
 }

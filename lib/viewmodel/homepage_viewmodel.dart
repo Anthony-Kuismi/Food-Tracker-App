@@ -8,20 +8,25 @@ class HomePageViewModel extends ChangeNotifier {
   late final NavigatorService navigatorService;
   var firestore = FirestoreService();
 
-  double _waterPercentage = 0.5; // initial value
+  //needs to be changed to store data in firestore
+  double waterCups = 0.0;
+  double waterCupsGoal = 8.0;
+
+  double _waterPercentage = 0.0; // initial value
 
   double get waterPercentage => _waterPercentage;
 
-  final homePage _model = homePage();
+
+
+  final HomePage _model = HomePage();
 
 
   Future<void> load() async {
-    await _model.fetch();
+    var data = await _model.fetch();
+    // Do something with data
     notifyListeners();
   }
 
-  //needs to be changed to store data in firestore
-  int waterCups = 0;
   void addWater() {
     waterCups++;
     updateWaterPercentage();
@@ -33,10 +38,15 @@ class HomePageViewModel extends ChangeNotifier {
   }
 
   void updateWaterPercentage() {
-    _waterPercentage += 0.1;
-    if (_waterPercentage > 1) {
-      _waterPercentage = 1;
+
+    if (waterCups < 0) {
+      waterCups = 0;
+    } else if (waterCups > waterCupsGoal) {
+      waterCups = waterCupsGoal;
     }
+
+    _waterPercentage = waterCups / waterCupsGoal;
+
     notifyListeners();
   }
 
