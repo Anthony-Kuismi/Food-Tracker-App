@@ -54,9 +54,9 @@ Container waterContainer(BuildContext context) {
         CircularPercentIndicator(
           radius: 60.0,
           lineWidth: 10.0,
-          percent: 1.0,
-          center: Text("100%"),
-          progressColor: Colors.green,
+          percent: .5,
+          center: Text("50%"),
+          progressColor: Colors.orange,
         ),
         Positioned(
           top: 10,
