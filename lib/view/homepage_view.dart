@@ -25,9 +25,29 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       bottomNavigationBar: const NavBar(key: Key('navBar')),
-      body: const Center(
-
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: GridView.count(
+          crossAxisCount: 2,
+          childAspectRatio: MediaQuery.of(context).size.width /
+              (MediaQuery.of(context).size.height / 1.5),
+          children: <Widget>[
+            waterContainer(context),
+          ],
+        ),
       ),
     );
   }
+}
+
+Container waterContainer(BuildContext context) {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: Colors.black26,
+    ),
+    margin: const EdgeInsets.all(4),
+    child: Center(
+    ),
+  );
 }
