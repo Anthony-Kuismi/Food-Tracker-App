@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/service/navigator.dart';
+import 'package:provider/provider.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import '../viewmodel/homepage_viewmodel.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required String username});
@@ -42,6 +44,9 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 Container waterContainer(BuildContext context) {
+  final viewModel = Provider.of<HomePageViewModel>(context, listen: false);
+
+
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
@@ -73,7 +78,7 @@ Container waterContainer(BuildContext context) {
             child: FloatingActionButton(
               mini: true,
               onPressed: () {
-                // event here
+                viewModel.addWater();
               },
               backgroundColor: Theme.of(context).colorScheme.secondary,
               child: const Icon(Icons.remove, size: 20, color: Colors.black),
