@@ -14,8 +14,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<HomePageViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor:Theme.of(context).colorScheme.primary,
@@ -28,24 +30,31 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       bottomNavigationBar: const NavBar(key: Key('navBar')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: GridView.count(
-          crossAxisCount: 2,
-          childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height / 1.5),
-          children: <Widget>[
-            waterContainer(context),
-          ],
-        ),
+      body: FutureBuilder(
+        future: viewModel.load(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: GridView.count(
+                crossAxisCount: 2,
+                childAspectRatio: MediaQuery.of(context).size.width /
+                    (MediaQuery.of(context).size.height / 1.5),
+                children: <Widget>[
+                  waterContainer(context, viewModel),
+                ],
+              ),
+            );
+          } else {
+            return CircularProgressIndicator(); // Show loading indicator while waiting for future to complete
+          }
+        },
       ),
     );
   }
 }
 
-Container waterContainer(BuildContext context) {
-  final viewModel = Provider.of<HomePageViewModel>(context, listen: false);
-
+Container waterContainer(BuildContext context, viewModel) {
 
   return Container(
     decoration: BoxDecoration(
@@ -59,8 +68,8 @@ Container waterContainer(BuildContext context) {
         CircularPercentIndicator(
           radius: 60.0,
           lineWidth: 10.0,
-          percent: .5,
-          center: Text("50%"),
+          percent: viewModel.waterPercentage,
+          center: Text('${(viewModel.waterPercentage * 100).toInt()}%'),
           progressColor: Colors.orange,
         ),
         Positioned(
@@ -92,7 +101,7 @@ Container waterContainer(BuildContext context) {
             child: FloatingActionButton(
               mini: true,
               onPressed: () {
-                // event here
+                viewModel.removeWater();
               },
               backgroundColor: Theme.of(context).colorScheme.secondary,
               child: const Icon(Icons.add, size: 20, color: Colors.black),
