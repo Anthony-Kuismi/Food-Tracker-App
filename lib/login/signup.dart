@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -13,11 +15,33 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _confirmPasswordController = TextEditingController();
   String _signUpStatus = '';
 
-  void _addUser() {
-
+  Future<bool> doesUserExist(String username) async {
+    final userDoc = await FirebaseFirestore.instance.collection('Users').doc(username).get();
+    return userDoc.exists;
   }
 
-  void _signUp() {
+  void _addUser() async {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    // Firestore instance
+    final firestore = FirebaseFirestore.instance;
+
+    // Create new user document
+    await firestore.collection('Users').doc(username).set({
+      'Password': password,
+    });
+  }
+
+  void _signUp() async {
+
+    if (await doesUserExist(_usernameController.text)) {
+      setState(() {
+        _signUpStatus = 'User already exist';
+      });
+      return;
+    }
+
     if (_usernameController.text.isEmpty) {
       setState(() {
         _signUpStatus = 'Please enter a username';
