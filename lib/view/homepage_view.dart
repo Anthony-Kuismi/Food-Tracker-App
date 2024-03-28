@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/service/navigator.dart';
 import 'component/navbar.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required String username});
@@ -47,7 +48,61 @@ Container waterContainer(BuildContext context) {
       color: Colors.black26,
     ),
     margin: const EdgeInsets.all(4),
-    child: Center(
+    child: Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        CircularPercentIndicator(
+          radius: 60.0,
+          lineWidth: 10.0,
+          percent: 1.0,
+          center: Text("100%"),
+          progressColor: Colors.green,
+        ),
+        Positioned(
+          top: 10,
+          child: Text(
+            'Water Intake',
+            style: Theme.of(context).textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Positioned(
+          bottom: 10,
+          left: 10,
+          child: ClipOval(
+            child: FloatingActionButton(
+              mini: true,
+              onPressed: () {
+                // event here
+              },
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              child: const Icon(Icons.remove, size: 20, color: Colors.black),
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 10,
+          right: 10,
+          child: ClipOval(
+            child: FloatingActionButton(
+              mini: true,
+              onPressed: () {
+                // event here
+              },
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              child: const Icon(Icons.add, size: 20, color: Colors.black),
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 25,
+          child: Text(
+            'One Cup',
+            style: Theme.of(context).textTheme.titleSmall,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
     ),
   );
 }
