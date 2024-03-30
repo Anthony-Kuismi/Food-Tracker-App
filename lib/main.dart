@@ -8,7 +8,6 @@ import 'service/navigator.dart';
 import 'view/homepage_view.dart';
 import 'view/meal_list_view.dart';
 import 'view/search_view.dart';
-import 'customitem.dart';
 
 void main() {
   final NavigatorService navigatorService = NavigatorService();
@@ -46,6 +45,7 @@ class MyApp extends StatelessWidget {
                   'MyHomePage': (context) => const MyHomePage(title: 'Hot Dog', username: ''),
                   'MealListView': (context) => const MealListView(),
                   'SearchView': (context) => const SearchView(),
+                  'CustomFoodView' : (context) => const CustomFoodView(),
                 },
               ),
             );
