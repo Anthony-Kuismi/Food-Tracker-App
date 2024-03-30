@@ -5,9 +5,9 @@ import '../model/food.dart';
 import '../service/FirestoreService.dart';
 import '../service/navigator.dart';
 
-class FoodView extends StatelessWidget {
+class CustomFoodView extends StatelessWidget {
   final Food? editingFood;
-  const FoodView({Key? key, this.editingFood}) : super(key: key);
+  const CustomFoodView({Key? key, this.editingFood}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

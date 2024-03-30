@@ -6,7 +6,7 @@ import '../../service/food_selection.dart';
 import '../../viewmodel/search_viewmodel.dart';
 import '../../viewmodel/meal_list_viewmodel.dart';
 import '../model/meal.dart';
-import 'food_view.dart';
+import 'custom_food_view.dart';
 
 
 
@@ -101,7 +101,7 @@ class SearchResults extends StatelessWidget {
                         onPressed: () {
 
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => FoodView(editingFood: food),
+                            builder: (context) => CustomFoodView(editingFood: food),
                           ));
                         },
                       ),
