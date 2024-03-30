@@ -25,8 +25,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       bottomNavigationBar: const NavBar(key: Key('navBar')),
-      body: const Center(
-
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(onPressed: () {}, child: Text('Send Notification'))
+          ],
+        ),
       ),
     );
   }
