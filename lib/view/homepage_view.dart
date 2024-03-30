@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/service/local_notification_service.dart';
 import 'package:food_tracker_app/service/navigator.dart';
 import 'component/navbar.dart';
 
@@ -29,7 +30,9 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(onPressed: () {}, child: Text('Send Notification'))
+            ElevatedButton(onPressed: () {
+              NotificationService().showNotification(title: 'test title',body: 'get bodied');
+            }, child: Text('Send Notification'))
           ],
         ),
       ),
