@@ -39,6 +39,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.14.0
   cloud_firestore: ^4.8.2
+  pie_chart: ^5.4.0
   firebase_core_platform_interface: 4.8.0
 
   provider: any
