@@ -26,12 +26,12 @@ class MealListViewModel extends ChangeNotifier{
     newMeal.id = const Uuid().v4();
     newMeal.timestamp = timestamp;
     meals.add(newMeal);
-    firestore.addMealToUser('Default User', newMeal.toJson());
+    firestore.addMealToUser(newMeal.toJson());
     notifyListeners();
   }
 
   void removeMeal(Meal meal){
-    firestore.removeMealFromUser('Default User', meal.id);
+    firestore.removeMealFromUser(meal.id);
     meals.remove(meal);
     notifyListeners();
   }
@@ -40,7 +40,7 @@ class MealListViewModel extends ChangeNotifier{
     newMeal.entitle();
     final index = meals.indexOf(oldMeal);
     meals[index] = newMeal;
-    firestore.updateMealForUser('Default User', oldMeal.id, newMeal);
+    firestore.updateMealForUser(oldMeal.id, newMeal);
     notifyListeners();
   }
 

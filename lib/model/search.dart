@@ -15,7 +15,7 @@ class Search {
   }
 
   Future<void> fetchCustomData() async {
-    customData = Meal.fromFoodList(await firestore.getCustomFoodsFromUser('Default User'));
+    customData = Meal.fromFoodList(await firestore.getCustomFoodsFromUser());
   }
 
   List<String> get searchResults {
