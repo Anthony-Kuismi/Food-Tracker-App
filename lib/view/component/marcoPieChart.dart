@@ -10,16 +10,21 @@ class MacroPieChart extends PieChart{
             'Carbohydrates' : carbs*4,
             'Fats' : fats*9,
           },
-          chartRadius: 100,
+          chartType: ChartType.ring,
+          chartRadius: 200,
           centerText: '$cals Cals',
           chartValuesOptions: ChartValuesOptions(
-            showChartValues: false,
+            showChartValues: true,
+            showChartValueBackground: true,
+            showChartValuesInPercentage: true,
+            showChartValuesOutside: false,
+            decimalPlaces: 1,
           ),
-          centerTextStyle: TextStyle(
-            color: Colors.white,
-            backgroundColor: Color.fromARGB(0, 0, 0, 0),
+          legendOptions: LegendOptions(
+            legendPosition: LegendPosition.top,
+            legendShape: BoxShape.rectangle,
+            showLegendsInRow: true,
           ),
-
         )
   {
 
