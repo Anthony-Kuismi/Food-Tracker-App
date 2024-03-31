@@ -193,7 +193,7 @@ class FoodFormState extends State<FoodForm>{
                   _fiberController.text = "";
                   _sugarController.text = "";
 
-                  await widget.firestore.addCustomFoodForUser('Default User',updatedFood);
+                  await widget.firestore.addCustomFoodForUser(updatedFood);
 
                   Provider.of<NavigatorService>(context, listen: false).pushReplace('SearchView');
 
