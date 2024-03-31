@@ -44,6 +44,7 @@ dependencies:
   provider: any
   uuid: ^3.0.6
   intl: any
+  flutter_local_notifications: ^17.0.0
 
 dev_dependencies:
   flutter_test:

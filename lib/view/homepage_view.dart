@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_tracker_app/service/local_notification_service.dart';
 import 'package:food_tracker_app/service/navigator.dart';
 import 'component/navbar.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required String username});
