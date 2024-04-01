@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 import '../model/food.dart';
-import '../service/FirestoreService.dart';
-import '../service/navigator.dart';
 import './component/marcoPieChart.dart';
+import './custom_food_view.dart';
 
 class FoodView extends StatefulWidget{
   final Food currentFood;
@@ -62,6 +59,18 @@ class FoodViewState extends State<FoodView>{
                 Text('Serving Size: ${widget.currentFood.serving_size_g} g'),
                 Text('Sodium: ${widget.currentFood.sodium_mg} mg'),
                 Text('Sugar: ${widget.currentFood.fat_saturated_g} g'),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: ElevatedButton.icon(
+                    onPressed: (){
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => CustomFoodView(editingFood: widget.currentFood,),
+                      ));
+                    },
+                    icon:  const Icon(Icons.edit, size: 18),
+                    label: const Text('Edit Food'),
+                  )
+                ),
               ],
           ),
         )

@@ -66,9 +66,15 @@ class FoodFormState extends State<FoodForm>{
 
     editingFood = editingFood ?? Food.fromJson({});
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Custom Food'),
-      ),
+        appBar: AppBar(
+          backgroundColor:Theme.of(context).colorScheme.primary,
+          title: Text(
+            'Editing: ${widget.editingFood.name}',
+            style: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -138,10 +144,6 @@ class FoodFormState extends State<FoodForm>{
                 keyboardType: TextInputType.number,
               ),
 
-
-
-
-
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
@@ -159,8 +161,9 @@ class FoodFormState extends State<FoodForm>{
                   double fiber_g = double.parse(_carbsController.text);
                   double sugar_g = double.parse(_sugarController.text);
 
-                  final Food updatedFood = Food(title:'$name [Custom]',id:Uuid().v4(),name:name,calories:calories,serving_size_g: serving_size_g,fat_total_g: fat_total_g,fat_saturated_g: fat_saturated_g,protein_g: protein_g,sodium_mg: sodium_mg,potassium_mg: potassium_mg,cholesterol_mg: cholesteral_mg,carbohydrates_total_g: carbohydrates_total_g,fiber_g: fiber_g,sugar_g: sugar_g);
 
+                  final Food updatedFood = Food(title:'$name [Custom]',id:const Uuid().v4(),name:name,calories:calories,serving_size_g: serving_size_g,fat_total_g: fat_total_g,fat_saturated_g: fat_saturated_g,protein_g: protein_g,sodium_mg: sodium_mg,potassium_mg: potassium_mg,cholesterol_mg: cholesteral_mg,carbohydrates_total_g: carbohydrates_total_g,fiber_g: fiber_g,sugar_g: sugar_g);
+                  editingFood = updatedFood;
 
                   showDialog(
                     context: context,
@@ -179,24 +182,7 @@ class FoodFormState extends State<FoodForm>{
                       );
                     },
                   );
-
-                  _nameController.text = "";
-                  _caloriesController.text = "";
-                  _proteinController.text = "";
-                  _servingController.text = "";
-                  _fatTotalController.text = "";
-                  _fatSatController.text = "";
-                  _sodiumController.text = "";
-                  _potassiumController.text = "";
-                  _cholesterolController.text = "";
-                  _carbsController.text = "";
-                  _fiberController.text = "";
-                  _sugarController.text = "";
-
-                  await widget.firestore.addCustomFoodForUser(updatedFood);
-
-                  Provider.of<NavigatorService>(context, listen: false).pushReplace('SearchView');
-
+                  //Provider.of<NavigatorService>(context, listen: false).pushReplace('SearchView');
                 },
                 child: Text('Save'),
               ),

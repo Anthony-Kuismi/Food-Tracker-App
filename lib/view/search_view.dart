@@ -97,10 +97,9 @@ class SearchResults extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.info),
+                        icon: const Icon(Icons.info),
                         color: Colors.black,
                         onPressed: () {
-
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => FoodView(currentFood: food,),
                           ));
@@ -113,14 +112,11 @@ class SearchResults extends StatelessWidget {
                         onChanged: (bool? newValue) {
                           searchViewModel.toggleSelection(newValue, food);
                         },
-                        side: BorderSide(
-
+                        side: const BorderSide(
                           color: Colors.grey,
-
                           width: 1.5,
                         ),
                       ),
-
                     ],
                   ),
                 ),
