@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../view/homepage_view.dart';
 import 'signup.dart';
 import 'forgot_password.dart';
+import '../service/FirestoreService.dart';
 
 class LoginApp extends StatelessWidget {
   const LoginApp({super.key, required String title});
@@ -40,6 +41,7 @@ class _MyLoginPage extends State<MyLoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _passwordFocusNode = FocusNode();
   String _loginStatus = '';
+  FirestoreService firestoreService = FirestoreService();
 
   @override
   void initState() {
@@ -48,20 +50,10 @@ class _MyLoginPage extends State<MyLoginPage> {
   }
 
   Future<void> fetchUsers() async {
-    FirebaseFirestore.instance.collection('Users').get().then((querySnapshot) {
-      List<Map<String, String>> userList = [];
-
-      for (var doc in querySnapshot.docs) {
-        userList.add({
-          'username': doc.id, // Document ID as username
-          'password': doc.data()['Password'] as String, // Fetch password field
-        });
-      }
-
+      final users = await firestoreService.getUsersFromFirestore();
       setState(() {
-        _users = userList;
+        _users = users;
       });
-    });
   }
 
 

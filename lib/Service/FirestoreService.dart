@@ -60,4 +60,15 @@ class FirestoreService {
     }
     return foodList;
   }
+  Future<List<Map<String,String>>> getUsersFromFirestore() async{
+    List<Map<String,String>> users = [];
+    final firestoreUsers = FirebaseFirestore.instance.collection('Users');
+    final usersSnapshot = await firestoreUsers.get();
+    final usersDocuments = usersSnapshot.docs;
+    for(var user in usersDocuments){
+      users.add({'username':user.id, 'password': user.get('Password')});
+    }
+    return users;
+  }
 }
+
