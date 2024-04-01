@@ -17,8 +17,9 @@ class Food {
   double carbohydrates_total_g;
   double fiber_g;
   double sugar_g;
+  bool custom;
 
-  Food({required this.title, required this.id, required this.name, required this.calories, required this.serving_size_g, required this.fat_total_g, required this.fat_saturated_g, required this.protein_g, required this.sodium_mg, required this.potassium_mg, required this.cholesterol_mg, required this.carbohydrates_total_g, required this.fiber_g, required this.sugar_g});
+  Food({required this.title, required this.id, required this.name, required this.calories, required this.serving_size_g, required this.fat_total_g, required this.fat_saturated_g, required this.protein_g, required this.sodium_mg, required this.potassium_mg, required this.cholesterol_mg, required this.carbohydrates_total_g, required this.fiber_g, required this.sugar_g,required this.custom});
 
   factory Food.fromJson(Map<String, dynamic> json) {
     return Food(
@@ -36,6 +37,7 @@ class Food {
       carbohydrates_total_g: json['carbohydrates_total_g']?.toDouble() ?? 0.0,
       fiber_g: json['fiber_g']?.toDouble() ?? 0.0,
       sugar_g: json['sugar_g']?.toDouble() ?? 0.0,
+      custom: json['custom']?? false,
     );
   }
 
@@ -55,6 +57,7 @@ class Food {
       'carbohydrates_total_g': carbohydrates_total_g,
       'fiber_g': fiber_g,
       'sugar_g': sugar_g,
+      'custom' : custom,
     };
   }
 

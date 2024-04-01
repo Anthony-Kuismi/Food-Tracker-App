@@ -13,9 +13,7 @@ class CustomFoodView extends StatelessWidget {
   Widget build(BuildContext context) {
     final Food editingFood = this.editingFood ?? Food.fromJson({});
 
-    return MaterialApp(
-      home: FoodForm(editingFood: editingFood),
-    );
+    return FoodForm(editingFood: editingFood);
   }
 }
 
@@ -63,133 +61,112 @@ class FoodFormState extends State<FoodForm>{
 
   @override
   Widget build(BuildContext context){
-
+    final navigatorService =  Provider.of<NavigatorService>(context, listen: false);
     editingFood = editingFood ?? Food.fromJson({});
     return Scaffold(
         appBar: AppBar(
-          backgroundColor:Theme.of(context).colorScheme.primary,
-          title: Text(
-            'Editing: ${widget.editingFood.name}',
-            style: const TextStyle(
-              color: Colors.black,
+          title: Text('Add Custom Food'),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  controller: _nameController,
+                  decoration: InputDecoration(labelText: 'Name of Food'),
+                ),
+                SizedBox(height: 10),
+                TextField(
+                  controller: _caloriesController,
+                  decoration: InputDecoration(labelText: 'Calories'),
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(height: 10),
+                TextField(
+                  controller: _proteinController,
+                  decoration: InputDecoration(labelText: 'Protein (Grams)'),
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(height: 10),
+                TextField(
+                  controller: _carbsController,
+                  decoration: InputDecoration(labelText: 'Carbs (Grams)'),
+                  keyboardType: TextInputType.number,
+                ),
+                TextField(
+                  controller: _servingController,
+                  decoration: InputDecoration(labelText: 'Serivngs'),
+                  keyboardType: TextInputType.number,
+                ),
+                TextField(
+                  controller: _fatTotalController,
+                  decoration: InputDecoration(labelText: 'Total Fat (Grams)'),
+                  keyboardType: TextInputType.number,
+                ),
+                TextField(
+                  controller: _fatSatController,
+                  decoration: InputDecoration(labelText: 'Saturated Fat (Grams)'),
+                  keyboardType: TextInputType.number,
+                ),
+                TextField(
+                  controller: _sodiumController,
+                  decoration: InputDecoration(labelText: 'Sodium (Grams)'),
+                  keyboardType: TextInputType.number,
+                ),
+                TextField(
+                  controller: _cholesterolController,
+                  decoration: InputDecoration(labelText: 'Cholesterol (Grams)'),
+                  keyboardType: TextInputType.number,
+                ),
+                TextField(
+                  controller: _potassiumController,
+                  decoration: InputDecoration(labelText: 'Potassium (Grams)'),
+                  keyboardType: TextInputType.number,
+                ),
+                TextField(
+                  controller: _fiberController,
+                  decoration: InputDecoration(labelText: 'Fiber (Grams)'),
+                  keyboardType: TextInputType.number,
+                ),
+                TextField(
+                  controller: _sugarController,
+                  decoration: InputDecoration(labelText: 'Suger (Grams)'),
+                  keyboardType: TextInputType.number,
+                ),
+
+
+
+
+
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    String name = _nameController.text;
+                    double calories = double.parse(_caloriesController.text);
+                    double serving_size_g = double.parse(_servingController.text);
+                    double fat_total_g = double.parse(_fatTotalController.text);
+                    double fat_saturated_g = double.parse(_fatSatController.text);
+                    double protein_g = double.parse(_proteinController.text);
+                    int sodium_mg = int.parse(_sodiumController.text);
+                    int potassium_mg = int.parse(_potassiumController.text);
+                    int cholesteral_mg = int.parse(_cholesterolController.text);
+                    double carbohydrates_total_g = double.parse(_carbsController.text);
+                    double fiber_g = double.parse(_carbsController.text);
+                    double sugar_g = double.parse(_sugarController.text);
+
+                    final Food updatedFood = Food(title:name,id:Uuid().v4(),name:name,calories:calories,serving_size_g: serving_size_g,fat_total_g: fat_total_g,fat_saturated_g: fat_saturated_g,protein_g: protein_g,sodium_mg: sodium_mg,potassium_mg: potassium_mg,cholesterol_mg: cholesteral_mg,carbohydrates_total_g: carbohydrates_total_g,fiber_g: fiber_g,sugar_g: sugar_g,custom:true);
+
+                    await widget.firestore.addCustomFoodForUser(updatedFood);
+                    navigatorService.pop();
+                  },
+                  child: Text('Save'),
+                ),
+              ],
             ),
           ),
-        ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextField(
-                controller: _nameController,
-                decoration: InputDecoration(labelText: 'Name of Food'),
-              ),
-              SizedBox(height: 10),
-              TextField(
-                controller: _caloriesController,
-                decoration: InputDecoration(labelText: 'Calories'),
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(height: 10),
-              TextField(
-                controller: _proteinController,
-                decoration: InputDecoration(labelText: 'Protein (Grams)'),
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(height: 10),
-              TextField(
-                controller: _carbsController,
-                decoration: InputDecoration(labelText: 'Carbs (Grams)'),
-                keyboardType: TextInputType.number,
-              ),
-              TextField(
-                controller: _servingController,
-                decoration: InputDecoration(labelText: 'Serivngs'),
-                keyboardType: TextInputType.number,
-              ),
-              TextField(
-                controller: _fatTotalController,
-                decoration: InputDecoration(labelText: 'Total Fat (Grams)'),
-                keyboardType: TextInputType.number,
-              ),
-              TextField(
-                controller: _fatSatController,
-                decoration: InputDecoration(labelText: 'Saturated Fat (Grams)'),
-                keyboardType: TextInputType.number,
-              ),
-              TextField(
-                controller: _sodiumController,
-                decoration: InputDecoration(labelText: 'Sodium (Grams)'),
-                keyboardType: TextInputType.number,
-              ),
-              TextField(
-                controller: _cholesterolController,
-                decoration: InputDecoration(labelText: 'Cholesterol (Grams)'),
-                keyboardType: TextInputType.number,
-              ),
-              TextField(
-                controller: _potassiumController,
-                decoration: InputDecoration(labelText: 'Potassium (Grams)'),
-                keyboardType: TextInputType.number,
-              ),
-              TextField(
-                controller: _fiberController,
-                decoration: InputDecoration(labelText: 'Fiber (Grams)'),
-                keyboardType: TextInputType.number,
-              ),
-              TextField(
-                controller: _sugarController,
-                decoration: InputDecoration(labelText: 'Suger (Grams)'),
-                keyboardType: TextInputType.number,
-              ),
-
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-
-                  String name = _nameController.text;
-                  double calories = double.parse(_caloriesController.text);
-                  double serving_size_g = double.parse(_servingController.text);
-                  double fat_total_g = double.parse(_fatTotalController.text);
-                  double fat_saturated_g = double.parse(_fatSatController.text);
-                  double protein_g = double.parse(_proteinController.text);
-                  int sodium_mg = int.parse(_sodiumController.text);
-                  int potassium_mg = int.parse(_potassiumController.text);
-                  int cholesteral_mg = int.parse(_cholesterolController.text);
-                  double carbohydrates_total_g = double.parse(_carbsController.text);
-                  double fiber_g = double.parse(_carbsController.text);
-                  double sugar_g = double.parse(_sugarController.text);
-
-
-                  final Food updatedFood = Food(title:'$name [Custom]',id:const Uuid().v4(),name:name,calories:calories,serving_size_g: serving_size_g,fat_total_g: fat_total_g,fat_saturated_g: fat_saturated_g,protein_g: protein_g,sodium_mg: sodium_mg,potassium_mg: potassium_mg,cholesterol_mg: cholesteral_mg,carbohydrates_total_g: carbohydrates_total_g,fiber_g: fiber_g,sugar_g: sugar_g);
-                  editingFood = updatedFood;
-
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Food Saved'),
-                        content: Text('The $name has been saved!'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('OK'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                  //Provider.of<NavigatorService>(context, listen: false).pushReplace('SearchView');
-                },
-                child: Text('Save'),
-              ),
-            ],
-          ),
-        ),
-      )
+        )
     );
   }
   @override

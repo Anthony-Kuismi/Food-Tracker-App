@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:food_tracker_app/view/custom_food_view.dart';
 import 'login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'provider/app_provider.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
                   'MyHomePage': (context) => const MyHomePage(title: 'Hot Dog', username: ''),
                   'MealListView': (context) => const MealListView(),
                   'SearchView': (context) => const SearchView(),
+                  'CustomFoodView' : (context) => const CustomFoodView(),
                 },
               ),
             );

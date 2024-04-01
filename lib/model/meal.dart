@@ -70,7 +70,8 @@ class Meal {
         timestamp = other.timestamp;
 
   Meal operator +(Meal other) {
-    var newMeal = Meal(json: {'items': []});
+    var newMeal = Meal.clone(this);
+    // var newMeal = Meal(json: {'items': []});
     newMeal.foods.addAll(foods);
 
     for (var food in other.foods.values) {
@@ -96,7 +97,7 @@ class Meal {
     Set<String> titles = this.titles.toSet();
     Iterable<Food> foods = b.foods.values;
     for (var food in foods){
-      if(!titles.contains(food.title)){
+      if(!titles.contains(food.title)|food.custom == true){
         add(food);
       }
     }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../model/food.dart';
 import './component/marcoPieChart.dart';
-import './custom_food_view.dart';
 
 class FoodView extends StatefulWidget{
   final Food currentFood;
@@ -27,21 +26,48 @@ class FoodViewState extends State<FoodView>{
       ),
 
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
               children: [
                 const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text(
-                        style: TextStyle(
-                          fontSize: 24,
-                        ),
-                        'Macronutrients'
-                    ),
+                  padding: EdgeInsets.all(12.0),
+                  child: Text(
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                      'Macronutrients'
+                  ),
                 ),
-                Text('Protein: ${widget.currentFood.protein_g} g'),
-                Text('Carbohydrates: ${widget.currentFood.carbohydrates_total_g} g'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Protein: ${widget.currentFood.protein_g} g'),
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(0,0,0,0),
+                        child: IconButton(
+                          onPressed: (){
+                          },
+                          icon:  const Icon(Icons.edit, size: 18),
+                        )
+                    ),
+                  ]
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Carbohydrates: ${widget.currentFood.carbohydrates_total_g} g'),
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(6,0,0,0),
+                          child: IconButton(
+                            onPressed: (){
+                            },
+                            icon:  const Icon(Icons.edit, size: 18),
+                          )
+                      ),
+                    ]
+                ),
+
                 Text('Fats: ${widget.currentFood.fat_total_g} g'),
                 MacroPieChart(widget.currentFood.calories, widget.currentFood.protein_g, widget.currentFood.carbohydrates_total_g, widget.currentFood.fat_total_g),
                 const Padding(
@@ -59,21 +85,9 @@ class FoodViewState extends State<FoodView>{
                 Text('Serving Size: ${widget.currentFood.serving_size_g} g'),
                 Text('Sodium: ${widget.currentFood.sodium_mg} mg'),
                 Text('Sugar: ${widget.currentFood.fat_saturated_g} g'),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: ElevatedButton.icon(
-                    onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => CustomFoodView(editingFood: widget.currentFood,),
-                      ));
-                    },
-                    icon:  const Icon(Icons.edit, size: 18),
-                    label: const Text('Edit Food'),
-                  )
-                ),
               ],
-          ),
-        )
+            ),
+          )
       ),
     );
   }

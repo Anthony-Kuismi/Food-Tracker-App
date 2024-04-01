@@ -32,12 +32,13 @@ class SearchViewModel extends ChangeNotifier {
   Meal get searchResults{
     Meal out = Meal.clone(foodSelectionService.data);
     out.addUniqueTitles(_searchModel.data);
-    out.addUniqueTitles(Meal.fromFoodList(_searchModel.customData.getFoodsByQuery(_searchModel.query)));
+    out += Meal.fromFoodList(_searchModel.customData.getFoodsByQuery(_searchModel.query));
     return out;
   }
 
   List<String> get searchResultTitles  {
-    return (foodSelectionService.data + _searchModel.data).titles;
+    return searchResults.titles;
+    // return (foodSelectionService.data + _searchModel.data).titles;
   }
 
 
