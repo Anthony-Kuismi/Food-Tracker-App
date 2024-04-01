@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
-import '../service/navigator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../view/homepage_view.dart';
-import 'main_page.dart';
 import 'signup.dart';
 import 'forgot_password.dart';
 
@@ -36,14 +35,38 @@ class MyLoginPage extends StatefulWidget {
 }
 
 class _MyLoginPage extends State<MyLoginPage> {
+  List<Map<String, String>> _users = [];
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _passwordFocusNode = FocusNode();
   String _loginStatus = '';
 
   @override
-  void dispose() {
+  void initState() {
+    super.initState();
+    fetchUsers();
+  }
 
+  Future<void> fetchUsers() async {
+    FirebaseFirestore.instance.collection('Users').get().then((querySnapshot) {
+      List<Map<String, String>> userList = [];
+
+      for (var doc in querySnapshot.docs) {
+        userList.add({
+          'username': doc.id, // Document ID as username
+          'password': doc.data()['Password'] as String, // Fetch password field
+        });
+      }
+
+      setState(() {
+        _users = userList;
+      });
+    });
+  }
+
+
+  @override
+  void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
     _passwordFocusNode.dispose();
@@ -54,12 +77,6 @@ class _MyLoginPage extends State<MyLoginPage> {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
   }
-
-  final List<Map<String, String>> _users = [
-    {'username': 'user1', 'password': 'pass1'},
-    {'username': 'user2', 'password': 'pass2'},
-
-  ];
 
   bool _validateUser(String username, String password) {
     for (var user in _users) {
@@ -74,8 +91,11 @@ class _MyLoginPage extends State<MyLoginPage> {
     _login();
   }
 
-  void _login() {
+  void _login() async {
     if (_validateUser(_usernameController.text, _passwordController.text)) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
+      await prefs.setString('username', _usernameController.text);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MyHomePage(username: _usernameController.text, title: '',)),      );
@@ -85,6 +105,19 @@ class _MyLoginPage extends State<MyLoginPage> {
       });
     }
   }
+
+  void _logout(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('isLoggedIn');
+    await prefs.remove('username');
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginApp(title: 'Login Page')),
+          (Route<dynamic> route) => false,
+    );
+  }
+
 
 
   @override

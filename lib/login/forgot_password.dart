@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -12,22 +13,28 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController _usernameController = TextEditingController();
   String _passwordStatus = '';
 
+  void _retrievePassword() async {
+    final String username = _usernameController.text;
 
-  final List<Map<String, String>> _users = [
-    {'username': 'user1', 'password': 'pass1'},
-    {'username': 'user2', 'password': 'pass2'},
+    if (username.isEmpty) {
+      setState(() {
+        _passwordStatus = 'Please enter a username';
+      });
+      return;
+    }
 
-  ];
+    final DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('Users').doc(username).get();
 
-  void _retrievePassword() {
-    String password = _users.firstWhere(
-          (user) => user['username'] == _usernameController.text,
-      orElse: () => {'password': 'User does not exist'},
-    )['password']!;
+    if (userDoc.exists) {
+      setState(() {
+        _passwordStatus = 'Password: ${userDoc['Password']}'; // Displaying passwords like this is not secure
+      });
+    } else {
+      setState(() {
+        _passwordStatus = 'User does not exist';
+      });
+    }
 
-    setState(() {
-      _passwordStatus = password;
-    });
   }
 
   @override

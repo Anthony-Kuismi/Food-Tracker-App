@@ -5,6 +5,6 @@ class MealList {
   FirestoreService firestore = FirestoreService();
   List<Meal> meals = [];
   Future<void> fetch() async{
-    meals = await firestore.getMealsFromUser('Default User');
+    meals = await firestore.getMealsFromUser();
   }
 }
