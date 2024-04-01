@@ -61,16 +61,27 @@ Container waterContainer(BuildContext context, viewModel) {
     child: Stack(
       alignment: Alignment.center,
       children: <Widget>[
-        CircularPercentIndicator(
-          radius: 60.0,
-          lineWidth: 10.0,
-          percent: viewModel.waterPercentage,
-          center: Text('${(viewModel.waterPercentage * 100).toInt()}%'),
-          progressColor: viewModel.waterPercentage < 0.5
-              ? Colors.red
-              : viewModel.waterPercentage < 1.0
-              ? Colors.orange
-              : Colors.green,
+        AnimatedBuilder(
+          animation: viewModel,
+          builder: (context, _) {
+            return CircularPercentIndicator(
+              radius: 60.0,
+              lineWidth: 10.0,
+              percent: viewModel.waterPercentage,
+              center: Text(
+                  '${viewModel.waterCups}',
+                  style: Theme.of(context).textTheme.titleLarge
+              ),
+              progressColor: viewModel.waterPercentage < 0.5
+                  ? Colors.red
+                  : viewModel.waterPercentage < 1.0
+                  ? Colors.orange
+                  : Theme.of(context).colorScheme.primaryContainer,
+              animation: true,
+              animateFromLastPercent: true,
+              animationDuration: 750, // Set your desired animation duration
+            );
+          },
         ),
         Positioned(
           top: 10,
@@ -89,8 +100,8 @@ Container waterContainer(BuildContext context, viewModel) {
               onPressed: () {
                 viewModel.removeWater();
               },
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              child: const Icon(Icons.remove, size: 20, color: Colors.black),
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              child: const Icon(Icons.remove, size: 20, color: Colors.white),
             ),
           ),
         ),
@@ -103,8 +114,8 @@ Container waterContainer(BuildContext context, viewModel) {
               onPressed: () {
                 viewModel.addWater();
               },
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              child: const Icon(Icons.add, size: 20, color: Colors.black),
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              child: const Icon(Icons.add, size: 20, color: Colors.white),
             ),
           ),
         ),
@@ -116,6 +127,21 @@ Container waterContainer(BuildContext context, viewModel) {
             textAlign: TextAlign.center,
           ),
         ),
+        Positioned(
+          top: 35,
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+              decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              'Goal: ${viewModel.waterCupsGoal} Cups',
+              style: Theme.of(context).textTheme.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        )
       ],
     ),
   );

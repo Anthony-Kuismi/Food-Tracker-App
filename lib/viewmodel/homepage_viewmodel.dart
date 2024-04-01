@@ -28,6 +28,7 @@ class HomePageViewModel extends ChangeNotifier {
     date = DateFormat('yyyy-MM-dd').format(DateTime.now());
     await _model.fetchWaterEntry(date);
     waterCups = _model.water.amount;
+    updateWaterPercentage();
     notifyListeners();
   }
 
@@ -46,14 +47,14 @@ class HomePageViewModel extends ChangeNotifier {
     if (waterCups < 0) {
       waterCups = 0;
     } else if (waterCups > waterCupsGoal) {
-      waterCups = waterCupsGoal;
+      _waterPercentage = 1.0;
+    } else {
+      _waterPercentage = waterCups / waterCupsGoal;
     }
 
     firestore.updateWaterEntryFromUser(
         Water(date: date, amount: waterCups)
     );
-
-    _waterPercentage = waterCups / waterCupsGoal;
 
     notifyListeners();
   }
