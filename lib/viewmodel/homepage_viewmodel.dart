@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:food_tracker_app/model/water.dart';
+import 'package:intl/intl.dart';
 
 import '../Service/FirestoreService.dart';
 import '../Service/navigator.dart';
@@ -9,21 +11,23 @@ class HomePageViewModel extends ChangeNotifier {
   var firestore = FirestoreService();
 
   //needs to be changed to store data in firestore
-  double waterCups = 0.0;
-  double waterCupsGoal = 8.0;
+  int waterCups = 0;
+  int waterCupsGoal = 8;
 
   double _waterPercentage = 0.0; // initial value
 
   double get waterPercentage => _waterPercentage;
 
+  String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
 
   final HomePage _model = HomePage();
 
 
   Future<void> load() async {
-    var data = await _model.fetch();
-    // Do something with data
+    date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    await _model.fetchWaterEntry(date);
+    waterCups = _model.water.amount;
     notifyListeners();
   }
 
@@ -44,6 +48,10 @@ class HomePageViewModel extends ChangeNotifier {
     } else if (waterCups > waterCupsGoal) {
       waterCups = waterCupsGoal;
     }
+
+    firestore.updateWaterEntryFromUser(
+        Water(date: date, amount: waterCups)
+    );
 
     _waterPercentage = waterCups / waterCupsGoal;
 

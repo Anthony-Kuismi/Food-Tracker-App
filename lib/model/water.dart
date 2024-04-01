@@ -1,14 +1,15 @@
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 class Water {
-  var date;
+  String date;
   int amount;
 
   Water({required this.date, required this.amount});
 
 factory Water.fromJson(Map<String, dynamic> json) {
     return Water(
-      date: json['date'] ?? DateTime.now(),
+      date: json['date'] ?? DateFormat('yyyy-MM-dd').format(DateTime.now()),
       amount: json['amount'] ?? 0,
     );
   }

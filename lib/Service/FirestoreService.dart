@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/food.dart';
 import '../model/meal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:intl/intl.dart';
 import '../model/water.dart';
 
 class FirestoreService {
@@ -77,13 +77,16 @@ class FirestoreService {
     waterEntries.doc(water.date.toString()).set(water.toJson());
   }
 
-  Future<Water> getWaterEntryForUser(DateTime date) async{
+  Future<Water> getWaterEntryForUser(String date) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
     final waterEntries = FirebaseFirestore.instance.collection('Users/$username/Water Entries');
     final waterEntry = await waterEntries.doc(date.toString()).get();
 
     if (!waterEntry.exists) {
+      addWaterEntryForUser(
+          Water(date: date, amount: 0)
+      );
       return Water(date: date, amount: 0);
     } else {
       return Water.fromJson(waterEntry.data() ?? {});
