@@ -7,6 +7,7 @@ import './component/marcoPieChart.dart';
 import './component/nutritionRow.dart';
 
 class FoodView extends StatefulWidget{
+  final Meal currentMeal
   final Food currentFood;
   final Meal currentMeal;
   const FoodView({super.key, required this.currentFood, required this.currentMeal});

@@ -26,9 +26,7 @@ class Meal {
 
 
   void add(Food food){
-    if(!foods.containsKey(food.id)) {
       foods[food.id] = food;
-    }
   }
 
   void remove(Food food){
@@ -39,6 +37,9 @@ class Meal {
     foods = { for (var item in json['items']) item['id']: Food.fromJson(item) };
   }
 
+  void updateFood(Food newFood){
+    foods[newFood.id] = newFood;
+  }
 
   String get description{
     return foods.values.map((food)=>food.title).join(', ');
