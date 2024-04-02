@@ -20,41 +20,42 @@ class MealListView extends StatelessWidget {
       body: FutureBuilder(
         future: viewModel.load(),
         builder: (context, snapshot) {
-            return Consumer<MealListViewModel>(
-              builder: (context, viewModel, child) {
-                return ListView.builder(
-                  itemCount: viewModel.meals.length,
-                  itemBuilder: (context, index) {
-                    final meal = viewModel.meals[index];
-                    return ListTile(
-                      title: Text(meal.title),
-                      subtitle: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(meal.timestampString),
-
-                        ],
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () => viewModel.removeMeal(meal),
-                      ),
-                      onTap: () {
-                        viewModel.editMeal(meal);
-                        Provider.of<NavigatorService>(context, listen: false).push('SearchView');
-                      },
-                    );
-                  },
-                );
-              },
-            );
+          return Consumer<MealListViewModel>(
+            builder: (context, viewModel, child) {
+              return ListView.builder(
+                itemCount: viewModel.meals.length,
+                itemBuilder: (context, index) {
+                  final meal = viewModel.meals[index];
+                  return ListTile(
+                    title: Text(meal.title),
+                    subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(meal.timestampString),
+                      ],
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () => viewModel.removeMeal(meal),
+                    ),
+                    onTap: () {
+                      viewModel.editMeal(meal);
+                      Provider.of<NavigatorService>(context, listen: false)
+                          .push('SearchView');
+                    },
+                  );
+                },
+              );
+            },
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.primary,
         onPressed: () {
-          Provider.of<NavigatorService>(context, listen: false).push('SearchView');
+          Provider.of<NavigatorService>(context, listen: false)
+              .push('SearchView');
         },
         child: const Icon(Icons.add),
       ),

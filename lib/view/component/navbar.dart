@@ -8,7 +8,8 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NavigatorService navigatorService = Provider.of<NavigatorService>(context, listen: false);
+    final NavigatorService navigatorService =
+        Provider.of<NavigatorService>(context, listen: false);
 
     return Container(
       height: 70,
@@ -18,17 +19,23 @@ class NavBar extends StatelessWidget {
         children: [
           IconButton(
             icon: const Icon(Icons.menu_book, color: Colors.black),
-            onPressed: (){navigatorService.pushReplace('MealListView');},
+            onPressed: () {
+              navigatorService.pushReplace('MealListView');
+            },
             iconSize: 40,
           ),
           IconButton(
             icon: const Icon(Icons.home, color: Colors.black),
-            onPressed:(){navigatorService.pushReplace('MyHomePage');},
+            onPressed: () {
+              navigatorService.pushReplace('MyHomePage');
+            },
             iconSize: 40,
           ),
           IconButton(
             icon: const Icon(Icons.bar_chart, color: Colors.black),
-            onPressed:(){navigatorService.pushReplace('MyHomePage');},
+            onPressed: () {
+              navigatorService.pushReplace('MyHomePage');
+            },
             iconSize: 40,
           ),
         ],

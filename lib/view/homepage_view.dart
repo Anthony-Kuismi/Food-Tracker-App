@@ -4,6 +4,7 @@ import 'component/navbar.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required String username});
+
   final String title;
 
   @override
@@ -15,19 +16,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         automaticallyImplyLeading: false,
         title: const Text(
-          'Food Tracking: Hotdog Version',
+          'Food Tracking: Hot dog Version',
           style: TextStyle(
             color: Colors.black,
           ),
         ),
       ),
       bottomNavigationBar: const NavBar(key: Key('navBar')),
-      body: const Center(
-
-      ),
+      body: const Center(),
     );
   }
 }

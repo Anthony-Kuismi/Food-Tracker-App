@@ -6,11 +6,14 @@ import '../service/navigator.dart';
 import '../service/food_selection.dart';
 import '../service/FirestoreService.dart';
 
-class MealListViewModel extends ChangeNotifier{
+class MealListViewModel extends ChangeNotifier {
   final NavigatorService navigatorService;
   final FoodSelectionService foodSelectionService;
-  MealListViewModel(this.navigatorService,this.foodSelectionService);
+
+  MealListViewModel(this.navigatorService, this.foodSelectionService);
+
   final MealList _model = MealList();
+
   List<Meal> get meals => _model.meals;
   var firestore = FirestoreService();
 
@@ -19,7 +22,7 @@ class MealListViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  void addMeal(String title, DateTime timestamp){
+  void addMeal(String title, DateTime timestamp) {
     Meal newMeal = foodSelectionService.data;
 
     newMeal.entitle();
@@ -30,7 +33,7 @@ class MealListViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  void removeMeal(Meal meal){
+  void removeMeal(Meal meal) {
     firestore.removeMealFromUser(meal.id);
     meals.remove(meal);
     notifyListeners();

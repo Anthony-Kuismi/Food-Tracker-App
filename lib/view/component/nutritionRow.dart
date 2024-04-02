@@ -1,39 +1,41 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:food_tracker_app/model/meal.dart';
-import '../../model/food.dart';
-import '../food_view.dart';
 import '../../service/FirestoreService.dart';
 
-class NutritionRow extends StatefulWidget{
+class NutritionRow extends StatefulWidget {
   final String label;
-  var value;
+  dynamic value;
   final String measurement;
   final Meal currentMeal;
   Function setter;
-  NutritionRow(this.label, this.value, this.measurement,{Key? key, required this.setter, required this.currentMeal}):super(key: key);
+
+  NutritionRow(this.label, this.value, this.measurement,
+      {Key? key, required this.setter, required this.currentMeal})
+      : super(key: key);
 
   @override
   NutritionRowState createState() => NutritionRowState();
 }
 
-class NutritionRowState extends State<NutritionRow>{
+class NutritionRowState extends State<NutritionRow> {
   FirestoreService firestoreService = FirestoreService();
-  void updateValue(newValue){
+
+  void updateValue(newValue) {
     widget.setter(newValue);
-    firestoreService.updateMealForUser(widget.currentMeal.id, widget.currentMeal);
+    firestoreService.updateMealForUser(
+        widget.currentMeal.id, widget.currentMeal);
     setState(() {
       widget.value = newValue;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         showDialog(
-            context: context, 
-            builder: (BuildContext context){
+            context: context,
+            builder: (BuildContext context) {
               TextEditingController controller = TextEditingController();
               return AlertDialog(
                 title: Text('Editing ${widget.label}'),
@@ -57,21 +59,15 @@ class NutritionRowState extends State<NutritionRow>{
                   ),
                 ],
               );
-            }
-        );
+            });
       },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('${widget.label}${widget.value}${widget.measurement}'),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(6,4,0,0),
-            child: Icon(
-              Icons.edit
-            ),
-          ),
-        ]
-      ),
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text('${widget.label}${widget.value}${widget.measurement}'),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(6, 4, 0, 0),
+          child: Icon(Icons.edit),
+        ),
+      ]),
     );
   }
 }
