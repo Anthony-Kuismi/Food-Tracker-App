@@ -92,4 +92,19 @@ class FirestoreService {
       return Water.fromJson(waterEntry.data() ?? {});
     }
   }
+
+  Future<void> setWaterGoalForUser(int goal) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final waterGoal = FirebaseFirestore.instance.collection('Users');
+    waterGoal.doc('$username').set({'Water Goal': goal});
+  }
+
+  Future<int> getWaterGoalForUser() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final waterGoal = FirebaseFirestore.instance.collection('Users');
+    final waterGoalDoc = await waterGoal.doc('$username').get();
+    return waterGoalDoc.data()!['Water Goal'];
+  }
 }

@@ -12,7 +12,7 @@ class HomePageViewModel extends ChangeNotifier {
 
   //needs to be changed to store data in firestore
   int waterCups = 0;
-  int waterCupsGoal = 8;
+  int waterCupsGoal = 10;
 
   double _waterPercentage = 0.0; // initial value
 
@@ -27,9 +27,10 @@ class HomePageViewModel extends ChangeNotifier {
   Future<void> load() async {
     date = DateFormat('yyyy-MM-dd').format(DateTime.now());
     await _model.fetchWaterEntry(date);
-    waterCups = _model.water.amount;
-    updateWaterPercentage();
     notifyListeners();
+    waterCups = _model.water.amount;
+    waterCupsGoal = firestore.getWaterGoalForUser() as int;
+    updateWaterPercentage();
   }
 
   void addWater() {
@@ -57,6 +58,12 @@ class HomePageViewModel extends ChangeNotifier {
     );
 
     notifyListeners();
+  }
+
+  void setWaterGoal(int goal) {
+    waterCupsGoal = goal;
+    firestore.setWaterGoalForUser(goal);
+    updateWaterPercentage();
   }
 
 }

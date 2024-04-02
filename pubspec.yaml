@@ -47,6 +47,7 @@ dependencies:
   uuid: ^3.0.6
   intl: any
   percent_indicator: ^4.2.3
+  numberpicker: ^2.1.2
 
 dev_dependencies:
   flutter_test:
