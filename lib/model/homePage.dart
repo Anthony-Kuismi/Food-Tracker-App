@@ -7,8 +7,10 @@ class HomePage {
   FirestoreService firestore = FirestoreService();
 
   Water water = Water(date: DateFormat('yyyy-MM-dd').format(DateTime.now()), amount: 0);
+  int goal = 10;
 
   Future<void> fetchWaterEntry(String date) async{
     water = await FirestoreService().getWaterEntryForUser(date);
+    goal = await FirestoreService().getWaterGoalForUser();
   }
 }

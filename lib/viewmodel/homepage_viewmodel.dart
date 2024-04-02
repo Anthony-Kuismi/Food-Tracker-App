@@ -29,7 +29,7 @@ class HomePageViewModel extends ChangeNotifier {
     await _model.fetchWaterEntry(date);
     notifyListeners();
     waterCups = _model.water.amount;
-    waterCupsGoal = firestore.getWaterGoalForUser() as int;
+    waterCupsGoal = _model.goal;
     updateWaterPercentage();
   }
 

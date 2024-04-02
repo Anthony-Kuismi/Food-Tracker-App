@@ -97,7 +97,7 @@ class FirestoreService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
     final waterGoal = FirebaseFirestore.instance.collection('Users');
-    waterGoal.doc('$username').set({'Water Goal': goal});
+    waterGoal.doc('$username').update({'Water Goal': goal});
   }
 
   Future<int> getWaterGoalForUser() async{
