@@ -41,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     (MediaQuery.of(context).size.height / 1.5),
                 children: <Widget>[
                   waterContainer(context, viewModel),
+                  dailySummary(context, viewModel),
                 ],
               ),
             );
@@ -175,6 +176,60 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
           ),
         ],
       ),
+    ),
+  );
+}
+
+Widget dailySummary(BuildContext context, HomePageViewModel viewModel) {
+  // Calculate total values for all meals and custom food eaten that day
+  double totalCalories = 0.0;
+  double totalProtein = 0.0;
+  double totalCarbs = 0.0;
+  double totalFat = 0.0;
+
+  // You need to replace this with your actual data retrieval logic
+  // This is just a placeholder
+  List<Food> mealsAndCustomFood = viewModel.getMealsAndCustomFood();
+
+  for (Food food in mealsAndCustomFood) {
+    totalCalories += food.calories;
+    totalProtein += food.protein;
+    totalCarbs += food.carbohydratesTotal;
+    totalFat += food.fatTotal;
+  }
+
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: Colors.black26,
+    ),
+    margin: const EdgeInsets.all(4),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          'Daily Summary',
+          style: Theme.of(context).textTheme.titleMedium,
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 10),
+        Text(
+          'Total Calories: $totalCalories',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        Text(
+          'Total Protein: $totalProtein',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        Text(
+          'Total Carbs: $totalCarbs',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        Text(
+          'Total Fat: $totalFat',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ],
     ),
   );
 }

@@ -11,6 +11,7 @@ class HomePageViewModel extends ChangeNotifier {
   var firestore = FirestoreService();
 
   //needs to be changed to store data in firestore
+  //Water Goal
   int waterCups = 0;
   int waterCupsGoal = 10;
 
@@ -19,6 +20,12 @@ class HomePageViewModel extends ChangeNotifier {
   double get waterPercentage => _waterPercentage;
 
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+  //Daily Summary
+  int totalCalories = 0;
+  double _totalProtien = 0.0;
+  double get totalProtien => _totalProtien;
+
 
 
   final HomePage _model = HomePage();
@@ -66,4 +73,7 @@ class HomePageViewModel extends ChangeNotifier {
     updateWaterPercentage();
   }
 
+  void calculateDailySummary() {
+
+  }
 }
