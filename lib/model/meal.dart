@@ -39,6 +39,9 @@ class Meal {
     foods = { for (var item in json['items']) item['id']: Food.fromJson(item) };
   }
 
+  void updateFood(Food newFood){
+    foods[newFood.id] = newFood;
+  }
 
   String get description{
     return foods.values.map((food)=>food.title).join(', ');
