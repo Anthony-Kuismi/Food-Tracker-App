@@ -33,7 +33,7 @@ class SearchView extends StatelessWidget {
       body: Column(
         children: [
           SearchBar(viewmodel: searchViewModel),
-          SearchResults(searchViewModel: searchViewModel, foodSelectionService: foodSelectionService, navigatorService: navigatorService),
+          SearchResults(searchViewModel: searchViewModel, foodSelectionService: foodSelectionService, navigatorService: navigatorService,),
           AddMealButton(searchViewModel: searchViewModel, mealListViewModel: mealListViewModel, foodSelectionService: foodSelectionService, navigatorService: navigatorService),
         ],
       ),
@@ -67,7 +67,6 @@ class SearchBar extends StatelessWidget {
 class SearchResults extends StatelessWidget {
   final SearchViewModel searchViewModel;
   final FoodSelectionService foodSelectionService;
-
   final NavigatorService navigatorService;
   const SearchResults({super.key, required this.searchViewModel, required this.foodSelectionService, required this.navigatorService});
   @override
@@ -107,7 +106,7 @@ class SearchResults extends StatelessWidget {
                         color: Colors.black,
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => FoodView(currentFood: food,),
+                            builder: (context) => FoodView(currentFood: food, currentMeal: foodSelectionService.editingMeal!),
                           ));
                         },
                       ),

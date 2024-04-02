@@ -48,5 +48,6 @@ class MealListViewModel extends ChangeNotifier{
     foodSelectionService.mode = FoodSelectionMode.edit;
     foodSelectionService.editingMeal = meal;
     foodSelectionService.update(meal);
+    notifyListeners();
   }
 }

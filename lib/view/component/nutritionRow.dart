@@ -1,22 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:food_tracker_app/model/meal.dart';
 import '../../model/food.dart';
 import '../food_view.dart';
+import '../../service/FirestoreService.dart';
 
 class NutritionRow extends StatefulWidget{
   final String label;
   var value;
   final String measurement;
-
-  NutritionRow(this.label, this.value, this.measurement, {super.key});
+  final Meal currentMeal;
+  Function setter;
+  NutritionRow(this.label, this.value, this.measurement,{Key? key, required this.setter, required this.currentMeal}):super(key: key);
 
   @override
   NutritionRowState createState() => NutritionRowState();
 }
 
 class NutritionRowState extends State<NutritionRow>{
+  FirestoreService firestoreService = FirestoreService();
   void updateValue(newValue){
+    widget.setter(newValue);
+    firestoreService.updateMealForUser(widget.currentMeal.id, widget.currentMeal);
     setState(() {
       widget.value = newValue;
     });

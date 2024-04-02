@@ -72,57 +72,57 @@ class Food {
   }
 
   set setCalories(newValue){
-    calories = double.parse(newValue);
+    calories = newValue;
     custom = true;
   }
 
   set setServingSizeG(newValue){
-    serving_size_g = double.parse(newValue);
+    serving_size_g = newValue;
     custom = true;
   }
 
   set setFatTotalG(newValue){
-    fat_total_g = double.parse(newValue);
+    fat_total_g = newValue;
     custom = true;
   }
 
   set setFatSaturatedG(newValue){
-    fat_saturated_g = double.parse(newValue);
+    fat_saturated_g = newValue;
     custom = true;
   }
 
   set setProteinG(newValue){
-    protein_g = double.parse(newValue);
+    protein_g = newValue;
     custom = true;
   }
 
   set setSodiumMg(newValue){
-    sodium_mg = int.parse(newValue);
+    sodium_mg = newValue;
     custom = true;
   }
 
   set setPotassiumMg(newValue){
-    potassium_mg = int.parse(newValue);
+    potassium_mg = newValue;
     custom = true;
   }
 
   set setCholesterolMg(newValue){
-    cholesterol_mg = int.parse(newValue);
+    cholesterol_mg = newValue;
     custom = true;
   }
 
   set setCarbohydratesTotalG(newValue){
-    carbohydrates_total_g = double.parse(newValue);
+    carbohydrates_total_g = newValue;
     custom = true;
   }
 
   set setFiberG(newValue){
-    fiber_g = double.parse(newValue);
+    fiber_g = newValue;
     custom = true;
   }
 
   set setSugarG(newValue){
-    sugar_g = double.parse(newValue);
+    sugar_g = newValue;
     custom = true;
   }
 }
