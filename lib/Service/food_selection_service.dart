@@ -2,14 +2,16 @@ import 'package:flutter/cupertino.dart';
 import '../model/food.dart';
 import '../model/meal.dart';
 
-enum FoodSelectionMode {
-  add,
-  edit
-}
+enum FoodSelectionMode { add, edit }
 
 class FoodSelectionService extends ChangeNotifier {
   FoodSelectionMode mode = FoodSelectionMode.add;
-  Meal data = Meal(json:{'title': 'Food Selection','id': 'id','items':[],'timestamp': DateTime.now().millisecondsSinceEpoch});
+  Meal data = Meal(json: {
+    'title': 'Food Selection',
+    'id': 'id',
+    'items': [],
+    'timestamp': DateTime.now().millisecondsSinceEpoch
+  });
   Meal? editingMeal;
 
   List<String> get selections {
@@ -24,17 +26,22 @@ class FoodSelectionService extends ChangeNotifier {
     data.remove(food);
   }
 
-  bool isSelected(Food food){
+  bool isSelected(Food food) {
     return data.foods.containsKey(food.id);
   }
 
-  void update(Meal meal){
+  void update(Meal meal) {
     data = meal;
   }
 
-  void reset(){
+  void reset() {
     mode = FoodSelectionMode.add;
     editingMeal = null;
-    data = Meal(json:{'title': 'Food Selection', 'id':'id', 'items':[],'timestamp': DateTime.now().millisecondsSinceEpoch});
+    data = Meal(json: {
+      'title': 'Food Selection',
+      'id': 'id',
+      'items': [],
+      'timestamp': DateTime.now().millisecondsSinceEpoch
+    });
   }
 }

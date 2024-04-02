@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:convert';
 import 'package:food_tracker_app/model/search.dart';
-import 'package:food_tracker_app/service/food_selection.dart';
-import 'package:food_tracker_app/service/navigator.dart';
+import 'package:food_tracker_app/service/food_selection_service.dart';
+import 'package:food_tracker_app/service/navigator_service.dart';
 import 'package:http/http.dart' as http;
 import '../model/meal.dart';
 
@@ -15,12 +15,13 @@ class SearchViewModel extends ChangeNotifier {
   final FoodSelectionService foodSelectionService;
   bool _disposed = false;
   Timer? searchTimer;
-  String name='foodbar';
+  String name = 'foobar';
+
   String get query => _searchModel.query;
   DateTime timestamp = DateTime.now();
 
-
-  SearchViewModel(this.navigatorService, this.foodSelectionService) : _searchModel = Search() {
+  SearchViewModel(this.navigatorService, this.foodSelectionService)
+      : _searchModel = Search() {
     _initializeSearchModel();
   }
 
@@ -29,21 +30,22 @@ class SearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Meal get searchResults{
+  Meal get searchResults {
     Meal out = Meal.clone(foodSelectionService.data);
     out.addUniqueTitles(_searchModel.data);
-    out.addUniqueTitles(Meal.fromFoodList(_searchModel.customData.getFoodsByQuery(_searchModel.query)));
+    out += Meal.fromFoodList(
+        _searchModel.customData.getFoodsByQuery(_searchModel.query));
     return out;
   }
 
-  List<String> get searchResultTitles  {
-    return (foodSelectionService.data + _searchModel.data).titles;
+  List<String> get searchResultTitles {
+    return searchResults.titles;
+    // return (foodSelectionService.data + _searchModel.data).titles;
   }
-
 
   get data => _searchModel.data;
 
-  void updateQuery(String newQuery){
+  void updateQuery(String newQuery) {
     _searchModel.query = newQuery;
     if (searchTimer?.isActive ?? false) {
       searchTimer?.cancel();
@@ -53,16 +55,22 @@ class SearchViewModel extends ChangeNotifier {
     });
   }
 
-  void reset(){
-    _searchModel.query='';
-    _searchModel.data = Meal(json:{'title': 'Food Selection','id':'id', 'items':[],'timestamp': DateTime.now().millisecondsSinceEpoch});
+  void reset() {
+    _searchModel.query = '';
+    _searchModel.data = Meal(json: {
+      'title': 'Food Selection',
+      'id': 'id',
+      'items': [],
+      'timestamp': DateTime.now().millisecondsSinceEpoch
+    });
   }
 
   String cleanQuerySegment(String querySegment) {
     List<String> wordsToRemove = ['and', 'also', 'plus', 'another'];
     String pattern = '\\b(${wordsToRemove.join('|')})\\b';
     pattern += '|,';
-    String cleanedSegment = querySegment.replaceAll(RegExp(pattern, caseSensitive: false), '');
+    String cleanedSegment =
+        querySegment.replaceAll(RegExp(pattern, caseSensitive: false), '');
     cleanedSegment = cleanedSegment.replaceAll(RegExp('\\s+'), ' ').trim();
     return cleanedSegment;
   }
@@ -70,7 +78,8 @@ class SearchViewModel extends ChangeNotifier {
   List<String> segmentQuery(String query, dynamic data) {
     List<dynamic> items = data?['items'] ?? [];
     List foodItems = items
-        .where((item) => query.toLowerCase().contains(item['name'].toLowerCase()))
+        .where(
+            (item) => query.toLowerCase().contains(item['name'].toLowerCase()))
         .map((item) => item['name'].toLowerCase())
         .toList();
     List<String> out = [];
@@ -83,7 +92,8 @@ class SearchViewModel extends ChangeNotifier {
     for (var foodItem in foodItems) {
       int itemIndex = query.toLowerCase().indexOf(foodItem, segmentPointer!);
       if (itemIndex >= 0) {
-        String segment = '${query.substring(segmentPointer, itemIndex).trim()} ${query.substring(itemIndex, (itemIndex + foodItem.length) as int?)}';
+        String segment =
+            '${query.substring(segmentPointer, itemIndex).trim()} ${query.substring(itemIndex, (itemIndex + foodItem.length) as int?)}';
         out.add(cleanQuerySegment(segment));
         segmentPointer = (itemIndex + foodItem.length) as int?;
       }
@@ -103,9 +113,9 @@ class SearchViewModel extends ChangeNotifier {
     data['title'] = query;
   }
 
-  Future<dynamic> fetchData() async{
+  Future<dynamic> fetchData() async {
     String apiKey = 'B/1b9kr1FV1w0HGz8Faffg==Duj02SZx1cDKhUk0';
-    if(_searchModel.query.isNotEmpty) {
+    if (_searchModel.query.isNotEmpty) {
       var response = await http.get(
         Uri.parse(
             'https://api.calorieninjas.com/v1/nutrition?query=${_searchModel.query}'),
@@ -120,27 +130,27 @@ class SearchViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> updateSearchResults() async{
-    if(_searchModel.query.isNotEmpty){
-      return fetchData().then((dynamic json){
+  Future<void> updateSearchResults() async {
+    if (_searchModel.query.isNotEmpty) {
+      return fetchData().then((dynamic json) {
         entitleData(_searchModel.query, json);
         identifyData(json);
         json.addAll(foodSelectionService.data.foods);
         _searchModel.data.update(json);
-        if(!_disposed){
+        if (!_disposed) {
           notifyListeners();
         }
       });
     }
   }
 
-  void toggleSelection(bool? isSelected, foodId){
+  void toggleSelection(bool? isSelected, foodId) {
     if (isSelected ?? false) {
       foodSelectionService.addSelectedFood(foodId);
     } else {
       foodSelectionService.removeSelectedFood(foodId);
     }
-    if(!_disposed){
+    if (!_disposed) {
       notifyListeners();
     }
   }
@@ -153,7 +163,7 @@ class SearchViewModel extends ChangeNotifier {
 
   void identifyData(json) {
     Uuid uuid = const Uuid();
-    for(var item in json['items']){
+    for (var item in json['items']) {
       item['id'] = uuid.v4();
     }
     json['id'] = uuid.v4();

@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:food_tracker_app/model/water.dart';
 import 'package:intl/intl.dart';
 
-import '../Service/FirestoreService.dart';
-import '../Service/navigator.dart';
-import '../model/homePage.dart';
+import '../Service/firestore_service.dart';
+import '../Service/navigator_service.dart';
+import '../model/home_page.dart';
 
 class HomePageViewModel extends ChangeNotifier {
   late final NavigatorService navigatorService;
@@ -20,9 +20,7 @@ class HomePageViewModel extends ChangeNotifier {
 
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-
   final HomePage _model = HomePage();
-
 
   Future<void> load() async {
     date = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -44,7 +42,6 @@ class HomePageViewModel extends ChangeNotifier {
   }
 
   void updateWaterPercentage() {
-
     if (waterCups < 0) {
       waterCups = 0;
     } else if (waterCups > waterCupsGoal) {
@@ -53,9 +50,7 @@ class HomePageViewModel extends ChangeNotifier {
       _waterPercentage = waterCups / waterCupsGoal;
     }
 
-    firestore.updateWaterEntryFromUser(
-        Water(date: date, amount: waterCups)
-    );
+    firestore.updateWaterEntryFromUser(Water(date: date, amount: waterCups));
 
     notifyListeners();
   }
@@ -65,5 +60,4 @@ class HomePageViewModel extends ChangeNotifier {
     firestore.setWaterGoalForUser(goal);
     updateWaterPercentage();
   }
-
 }
