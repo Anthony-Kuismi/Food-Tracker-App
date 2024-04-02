@@ -61,4 +61,68 @@ class Food {
     };
   }
 
+  set setTitle(newValue){
+    title = newValue.toString();
+    custom = true;
+  }
+
+  set setName(newValue){
+    name = newValue;
+    custom = true;
+  }
+
+  set setCalories(newValue){
+    calories = double.parse(newValue);
+    custom = true;
+  }
+
+  set setServingSizeG(newValue){
+    serving_size_g = double.parse(newValue);
+    custom = true;
+  }
+
+  set setFatTotalG(newValue){
+    fat_total_g = double.parse(newValue);
+    custom = true;
+  }
+
+  set setFatSaturatedG(newValue){
+    fat_saturated_g = double.parse(newValue);
+    custom = true;
+  }
+
+  set setProteinG(newValue){
+    protein_g = double.parse(newValue);
+    custom = true;
+  }
+
+  set setSodiumMg(newValue){
+    sodium_mg = int.parse(newValue);
+    custom = true;
+  }
+
+  set setPotassiumMg(newValue){
+    potassium_mg = int.parse(newValue);
+    custom = true;
+  }
+
+  set setCholesterolMg(newValue){
+    cholesterol_mg = int.parse(newValue);
+    custom = true;
+  }
+
+  set setCarbohydratesTotalG(newValue){
+    carbohydrates_total_g = double.parse(newValue);
+    custom = true;
+  }
+
+  set setFiberG(newValue){
+    fiber_g = double.parse(newValue);
+    custom = true;
+  }
+
+  set setSugarG(newValue){
+    sugar_g = double.parse(newValue);
+    custom = true;
+  }
 }
