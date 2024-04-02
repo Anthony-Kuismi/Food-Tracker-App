@@ -26,9 +26,7 @@ class Meal {
 
 
   void add(Food food){
-    if(!foods.containsKey(food.id)) {
       foods[food.id] = food;
-    }
   }
 
   void remove(Food food){
