@@ -16,6 +16,11 @@ class NutritionRow extends StatefulWidget{
 }
 
 class NutritionRowState extends State<NutritionRow>{
+  void updateValue(newValue){
+    setState(() {
+      widget.value = newValue;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -38,7 +43,7 @@ class NutritionRowState extends State<NutritionRow>{
                     onPressed: () {
                       double? newValue = double.tryParse(controller.text);
                       if (newValue != null) {
-                        widget.value = newValue;
+                        updateValue(newValue);
                       }
                       Navigator.of(context).pop();
                     },

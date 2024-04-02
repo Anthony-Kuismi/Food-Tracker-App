@@ -12,14 +12,14 @@ class FoodView extends StatefulWidget{
 }
 
 class FoodViewState extends State<FoodView>{
-
   @override
   Widget build(BuildContext context) {
+    final currentFood = widget.currentFood;
     return Scaffold(
       appBar: AppBar(
         backgroundColor:Theme.of(context).colorScheme.primary,
         title: Text(
-          widget.currentFood.name,
+          currentFood.name,
           style: const TextStyle(
             color: Colors.black,
           ),
@@ -40,10 +40,10 @@ class FoodViewState extends State<FoodView>{
                       'Macronutrients'
                   ),
                 ),
-                NutritionRow('Protein: ', widget.currentFood.protein_g,'g'),
-                NutritionRow('Carbohydrates: ', widget.currentFood.carbohydrates_total_g, 'g'),
-                NutritionRow('Fats: ', widget.currentFood.fat_total_g, 'g'),
-                MacroPieChart(widget.currentFood.calories, widget.currentFood.protein_g, widget.currentFood.carbohydrates_total_g, widget.currentFood.fat_total_g),
+                NutritionRow('Protein: ', currentFood.protein_g,'g'),
+                NutritionRow('Carbohydrates: ', currentFood.carbohydrates_total_g, 'g'),
+                NutritionRow('Fats: ', currentFood.fat_total_g, 'g'),
+                MacroPieChart(currentFood.calories, currentFood.protein_g, currentFood.carbohydrates_total_g, currentFood.fat_total_g),
                 const Padding(
                   padding: EdgeInsets.all(12.0),
                   child: Text(
@@ -53,12 +53,12 @@ class FoodViewState extends State<FoodView>{
                       'Other Nutrition'
                   ),
                 ),
-                NutritionRow('Saturated Fat:', widget.currentFood.fat_saturated_g, 'g'),
-                NutritionRow('Fiber: ', widget.currentFood.fiber_g, 'g'),
-                NutritionRow('Potassium: ', widget.currentFood.potassium_mg, 'mg'),
-                NutritionRow('Serving Size: ', widget.currentFood.serving_size_g, 'g'),
-                NutritionRow('Sodium: ',widget.currentFood.sodium_mg, 'mg'),
-                NutritionRow('Sugar: ',widget.currentFood.fat_saturated_g, 'g'),
+                NutritionRow('Saturated Fat:', currentFood.fat_saturated_g, 'g'),
+                NutritionRow('Fiber: ', currentFood.fiber_g, 'g'),
+                NutritionRow('Potassium: ', currentFood.potassium_mg, 'mg'),
+                NutritionRow('Serving Size: ', currentFood.serving_size_g, 'g'),
+                NutritionRow('Sodium: ',currentFood.sodium_mg, 'mg'),
+                NutritionRow('Sugar: ',currentFood.fat_saturated_g, 'g'),
               ],
             ),
           )
