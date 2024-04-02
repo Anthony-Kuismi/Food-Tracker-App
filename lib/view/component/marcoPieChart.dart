@@ -13,14 +13,14 @@ class MacroPieChart extends PieChart{
           chartType: ChartType.ring,
           chartRadius: 200,
           centerText: '$cals Cals',
-          chartValuesOptions: ChartValuesOptions(
+          chartValuesOptions: const ChartValuesOptions(
             showChartValues: true,
             showChartValueBackground: true,
             showChartValuesInPercentage: true,
             showChartValuesOutside: false,
             decimalPlaces: 1,
           ),
-          legendOptions: LegendOptions(
+          legendOptions: const LegendOptions(
             legendPosition: LegendPosition.top,
             legendShape: BoxShape.rectangle,
             showLegendsInRow: true,

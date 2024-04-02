@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../model/food.dart';
 import './component/marcoPieChart.dart';
+import './component/nutritionRow.dart';
 
 class FoodView extends StatefulWidget{
   final Food currentFood;
@@ -39,36 +40,9 @@ class FoodViewState extends State<FoodView>{
                       'Macronutrients'
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Protein: ${widget.currentFood.protein_g} g'),
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(0,0,0,0),
-                        child: IconButton(
-                          onPressed: (){
-                          },
-                          icon:  const Icon(Icons.edit, size: 18),
-                        )
-                    ),
-                  ]
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Carbohydrates: ${widget.currentFood.carbohydrates_total_g} g'),
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(6,0,0,0),
-                          child: IconButton(
-                            onPressed: (){
-                            },
-                            icon:  const Icon(Icons.edit, size: 18),
-                          )
-                      ),
-                    ]
-                ),
-
-                Text('Fats: ${widget.currentFood.fat_total_g} g'),
+                NutritionRow('Protein: ', widget.currentFood.protein_g,'g'),
+                NutritionRow('Carbohydrates: ', widget.currentFood.carbohydrates_total_g, 'g'),
+                NutritionRow('Fats: ', widget.currentFood.fat_total_g, 'g'),
                 MacroPieChart(widget.currentFood.calories, widget.currentFood.protein_g, widget.currentFood.carbohydrates_total_g, widget.currentFood.fat_total_g),
                 const Padding(
                   padding: EdgeInsets.all(12.0),
@@ -79,12 +53,12 @@ class FoodViewState extends State<FoodView>{
                       'Other Nutrition'
                   ),
                 ),
-                Text('Saturated Fat: ${widget.currentFood.fat_saturated_g} g'),
-                Text('Fiber: ${widget.currentFood.fiber_g} g'),
-                Text('Potassium: ${widget.currentFood.potassium_mg} mg'),
-                Text('Serving Size: ${widget.currentFood.serving_size_g} g'),
-                Text('Sodium: ${widget.currentFood.sodium_mg} mg'),
-                Text('Sugar: ${widget.currentFood.fat_saturated_g} g'),
+                NutritionRow('Saturated Fat:', widget.currentFood.fat_saturated_g, 'g'),
+                NutritionRow('Fiber: ', widget.currentFood.fiber_g, 'g'),
+                NutritionRow('Potassium: ', widget.currentFood.potassium_mg, 'mg'),
+                NutritionRow('Serving Size: ', widget.currentFood.serving_size_g, 'g'),
+                NutritionRow('Sodium: ',widget.currentFood.sodium_mg, 'mg'),
+                NutritionRow('Sugar: ',widget.currentFood.fat_saturated_g, 'g'),
               ],
             ),
           )
