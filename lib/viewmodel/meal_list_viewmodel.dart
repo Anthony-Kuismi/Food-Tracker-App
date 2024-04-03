@@ -33,6 +33,12 @@ class MealListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void addMealFromMeal(Meal newMeal) {
+    meals.add(newMeal);
+    firestore.addMealToUser(newMeal.toJson());
+    notifyListeners();
+  }
+
   void removeMeal(Meal meal) {
     firestore.removeMealFromUser(meal.id);
     meals.remove(meal);

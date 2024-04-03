@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
+import '../model/meal.dart';
 import '../service/navigator_service.dart';
 import '../viewmodel/meal_list_viewmodel.dart';
 import 'component/navbar.dart';
@@ -54,8 +56,41 @@ class MealListView extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.primary,
         onPressed: () {
-          Provider.of<NavigatorService>(context, listen: false)
-              .push('SearchView');
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                TextEditingController controller = TextEditingController();
+                return AlertDialog(
+                  title: const Text('Adding New Meal'),
+                  content: TextField(
+                    controller: controller,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      hintText: 'Meal Name',
+                    ),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        String mealName = controller.text;
+                        if(mealName == ''){
+                          mealName = 'Empty Name';
+                        }
+                        dynamic json = {
+                          'title': mealName,
+                          'id': const Uuid().v4(),
+                          'timestamp': DateTime.now().millisecondsSinceEpoch,
+                          'items': [],
+                        };
+                        Meal newMeal = Meal(json: json);
+                        viewModel.addMealFromMeal(newMeal);
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+              });
         },
         child: const Icon(Icons.add),
       ),
