@@ -35,7 +35,7 @@ class FoodViewState extends State<FoodView> {
         child: Column(
           children: [
             const Padding(
-              padding: EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(13.0),
               child: Text(
                   style: TextStyle(
                     fontSize: 24,

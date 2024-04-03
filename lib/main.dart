@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/view/food_view.dart';
+import 'package:food_tracker_app/view/meal_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:food_tracker_app/view/custom_food_view.dart';
 import 'login/login.dart';
@@ -57,6 +59,7 @@ class MyApp extends StatelessWidget {
                   'MealListView': (context) => const MealListView(),
                   'SearchView': (context) => const SearchView(),
                   'CustomFoodView': (context) => const CustomFoodView(),
+                  'MealView': (context) => const MealView(),
                 },
               ),
             );

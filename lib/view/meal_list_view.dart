@@ -44,7 +44,7 @@ class MealListView extends StatelessWidget {
                     onTap: () {
                       viewModel.editMeal(meal);
                       Provider.of<NavigatorService>(context, listen: false)
-                          .push('SearchView');
+                          .push('MealView');
                     },
                   );
                 },
