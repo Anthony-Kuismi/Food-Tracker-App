@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class NotificationService {
+class NotificationService extends ChangeNotifier{
   static final NotificationService _notificationService = NotificationService._internal();
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -42,4 +43,18 @@ class NotificationService {
       platformChannelSpecifics,
     );
   }
+
+
+
+
 }
+
+
+//notification sends after a certain time
+//1) user adds water
+//2) time stamp is attached to that action
+//3) time stamp is checked every interval
+//4) if time stamp shows its been to long a notification to drink more water is sent
+//4) repeat
+
+//timer wrapping if added notification

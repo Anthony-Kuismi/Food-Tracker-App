@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:food_tracker_app/service/local_notification_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,15 +15,17 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+  final NotificationService notificationService = NotificationService();
 
-  runApp(MyApp(navigatorService: navigatorService, isLoggedIn: isLoggedIn));
+  runApp(MyApp(navigatorService: navigatorService, isLoggedIn: isLoggedIn, notificationService: notificationService,));
 }
 
 class MyApp extends StatelessWidget {
   final NavigatorService navigatorService;
   final bool isLoggedIn;
+  final NotificationService notificationService;
 
-  const MyApp({super.key, required this.navigatorService, required this.isLoggedIn});
+  const MyApp({super.key, required this.navigatorService, required this.isLoggedIn, required this.notificationService});
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +39,7 @@ class MyApp extends StatelessWidget {
           if(snapshot.connectionState== ConnectionState.done){
             return AppProvider(
               navigatorService: navigatorService,
+              notificationService: notificationService,
               child: MaterialApp(
                 title: 'Food Tracker App',
                 theme: ThemeData(
@@ -59,4 +64,16 @@ class MyApp extends StatelessWidget {
           return const MaterialApp(home: CircularProgressIndicator()); // Loading indicator;
         });
   }
+
+  // void updateQuery(String newQuery){
+  //   _searchModel.query = newQuery;
+  //   if (searchTimer?.isActive ?? false) {
+  //     searchTimer?.cancel();
+  //   }
+  //   searchTimer = Timer(const Duration(milliseconds: 500), () {
+  //     updateSearchResults();
+  //   });
+  // }
+
+
 }

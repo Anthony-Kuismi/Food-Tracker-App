@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/service/local_notification_service.dart';
-import 'package:food_tracker_app/service/navigator.dart';
 import 'package:provider/provider.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../viewmodel/homepage_viewmodel.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required String username});
@@ -66,7 +64,7 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
         builder: (BuildContext context) {
           TextEditingController controller = TextEditingController();
           return AlertDialog(
-            title: Text('Select Goal'),
+            title: const Text('Select Goal'),
             content: TextField(
               controller: controller,
               keyboardType: TextInputType.number,

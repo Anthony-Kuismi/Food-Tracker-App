@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../service/food_selection.dart';
+import '../service/local_notification_service.dart';
 import '../service/navigator.dart';
 import '../viewmodel/homepage_viewmodel.dart';
 import '../viewmodel/meal_list_viewmodel.dart';
@@ -9,8 +10,9 @@ import '../viewmodel/search_viewmodel.dart';
 class AppProvider extends StatelessWidget {
   final Widget child;
   final NavigatorService navigatorService;
+  final NotificationService notificationService;
 
-  const AppProvider({super.key, required this.child, required this.navigatorService});
+  const AppProvider({super.key, required this.child, required this.navigatorService, required this.notificationService});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class AppProvider extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => HomePageViewModel(),
         ),
+        ChangeNotifierProvider(create: (context)=> notificationService),
       ],
       child: child,
     );
