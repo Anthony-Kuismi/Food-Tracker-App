@@ -5,6 +5,7 @@ import '../model/meal.dart';
 import '../service/navigator_service.dart';
 import '../viewmodel/meal_list_viewmodel.dart';
 import 'component/navbar.dart';
+import 'meal_view.dart';
 
 class MealListView extends StatelessWidget {
   const MealListView({super.key});
@@ -43,8 +44,9 @@ class MealListView extends StatelessWidget {
                     ),
                     onTap: () {
                       viewModel.editMeal(meal);
-                      Provider.of<NavigatorService>(context, listen: false)
-                          .push('MealView');
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => MealView(currentMeal: meal,),
+                      ));
                     },
                   );
                 },
