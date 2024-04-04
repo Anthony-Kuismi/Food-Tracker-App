@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../Service/auth_service.dart';
 import '../service/food_selection_service.dart';
 import '../service/navigator_service.dart';
 import '../viewmodel/homepage_viewmodel.dart';
@@ -38,6 +39,8 @@ class AppProvider extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => HomePageViewModel(),
         ),
+        Provider<AuthService>(create: (_) => AuthService()),
+
       ],
       child: child,
     );
