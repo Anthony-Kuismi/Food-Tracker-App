@@ -48,7 +48,7 @@ class NotificationService extends ChangeNotifier{
   }
 
   void startWaterTimer(){
-     waterTimer = Timer.periodic(const Duration(seconds: 10), () {
+     waterTimer = Timer.periodic(const Duration(seconds: 10), (Timer timer) {
        //debugPrint('test');
        //   if (time since water added is to long) {
             NotificationService().showNotification(
