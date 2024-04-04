@@ -66,7 +66,7 @@ class MealListView extends StatelessWidget {
                   title: const Text('Adding New Meal'),
                   content: TextField(
                     controller: controller,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.name,
                     decoration: const InputDecoration(
                       hintText: 'Meal Name',
                     ),

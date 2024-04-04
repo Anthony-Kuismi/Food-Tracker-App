@@ -37,10 +37,10 @@ class MealViewState extends State<MealView> {
                   ),
                   'Macronutrient Totals'),
             ),
-            Text('Total Protein: 10g'),
-            Text('Total Carbohydrates: 10g'),
-            Text('Total Fats: 10g'),
-            MacroPieChart(10, 10, 10, 10),
+            Text('Total Protein: ${widget.currentMeal.proteinG}g'),
+            Text('Total Carbohydrates: ${widget.currentMeal.carbohydratesTotalG}g'),
+            Text('Total Fats: ${widget.currentMeal.fatTotalG}g'),
+            MacroPieChart(widget.currentMeal.calories,widget.currentMeal.proteinG,widget.currentMeal.carbohydratesTotalG,widget.currentMeal.proteinG),
             const Padding(
               padding: EdgeInsets.all(12.0),
               child: Text(
@@ -49,11 +49,11 @@ class MealViewState extends State<MealView> {
                   ),
                   'Other Nutrition'),
             ),
-            Text('Total Saturated Fats: 10g'),
-            Text('Total Fiber: 10g'),
-            Text('Total Potassium: 10g'),
-            Text('Total Sodium: 10g'),
-            Text('Total Sugar: 10g'),
+            Text('Total Saturated Fats: ${widget.currentMeal.fatSaturatedG}g'),
+            Text('Total Fiber: ${widget.currentMeal.fiberG}g'),
+            Text('Total Potassium: ${widget.currentMeal.potassiumMG}mg'),
+            Text('Total Sodium: ${widget.currentMeal.sodiumMG}mg'),
+            Text('Total Sugar: ${widget.currentMeal.sugarG}g'),
             ElevatedButton.icon(
                 onPressed: (){
                   Navigator.of(context).push(MaterialPageRoute(
