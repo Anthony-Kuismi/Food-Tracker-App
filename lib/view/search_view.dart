@@ -6,6 +6,7 @@ import '../../viewmodel/search_viewmodel.dart';
 import '../../viewmodel/meal_list_viewmodel.dart';
 import '../model/meal.dart';
 import 'food_view.dart';
+import 'meal_view.dart';
 
 class SearchView extends StatelessWidget {
   const SearchView({super.key});
@@ -171,6 +172,9 @@ class AddMealButton extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       child: ElevatedButton.icon(
         onPressed: () {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => MealView(currentMeal: foodSelectionService.editingMeal!,),
+          ));
           if (foodSelectionService.mode == FoodSelectionMode.edit) {
             Meal oldMeal = foodSelectionService.editingMeal as Meal;
             mealListViewModel.updateMeal(oldMeal, foodSelectionService.data);
@@ -180,7 +184,6 @@ class AddMealButton extends StatelessWidget {
           }
           searchViewModel.reset();
           foodSelectionService.reset();
-          navigatorService.pushReplace('MealListView');
         },
         icon: const Icon(Icons.add, size: 18),
         label: const Text('Add Selected Foods'),

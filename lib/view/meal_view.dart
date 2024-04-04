@@ -5,6 +5,7 @@ import './component/macro_pie_chart.dart';
 
 class MealView extends StatefulWidget {
   final Meal currentMeal;
+
   const MealView({super.key, required this.currentMeal});
 
   @override
@@ -38,9 +39,14 @@ class MealViewState extends State<MealView> {
                   'Macronutrient Totals'),
             ),
             Text('Total Protein: ${widget.currentMeal.proteinG}g'),
-            Text('Total Carbohydrates: ${widget.currentMeal.carbohydratesTotalG}g'),
+            Text(
+                'Total Carbohydrates: ${widget.currentMeal.carbohydratesTotalG}g'),
             Text('Total Fats: ${widget.currentMeal.fatTotalG}g'),
-            MacroPieChart(widget.currentMeal.calories,widget.currentMeal.proteinG,widget.currentMeal.carbohydratesTotalG,widget.currentMeal.proteinG),
+            MacroPieChart(
+                widget.currentMeal.calories,
+                widget.currentMeal.proteinG,
+                widget.currentMeal.carbohydratesTotalG,
+                widget.currentMeal.fatTotalG),
             const Padding(
               padding: EdgeInsets.all(12.0),
               child: Text(
@@ -55,13 +61,13 @@ class MealViewState extends State<MealView> {
             Text('Total Sodium: ${widget.currentMeal.sodiumMG}mg'),
             Text('Total Sugar: ${widget.currentMeal.sugarG}g'),
             ElevatedButton.icon(
-                onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => SearchView(),
-                  ));
-                },
-                icon: Icon(Icons.add),
-                label: Text('Add/Edit Foods'),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SearchView(),
+                ));
+              },
+              icon: Icon(Icons.add),
+              label: Text('Add/Edit Foods'),
             )
           ],
         ),
