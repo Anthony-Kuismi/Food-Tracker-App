@@ -10,6 +10,11 @@ class MacroPieChart extends PieChart {
             'Carbohydrates': carbs * 4,
             'Fats': fats * 9,
           },
+          colorList: [
+            const Color.fromARGB(255, 241, 116, 120),
+            const Color.fromARGB(255, 117, 188, 248),
+            const Color.fromARGB(255, 254, 242, 125),
+          ],
           chartType: ChartType.ring,
           chartRadius: 200,
           centerText: '$cals Cals',
