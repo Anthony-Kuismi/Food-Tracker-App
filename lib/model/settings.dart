@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 import '../Service/firestore_service.dart';
 
 class HomePage {
@@ -13,7 +11,11 @@ class HomePage {
   String gender = '';
 
   Future<void> fetchWaterEntry(String date) async {
-    water = await FirestoreService().getWaterEntryForUser(date);
-    goal = await FirestoreService().getWaterGoalForUser();
+    firstName = await firestore.getUserFirstName();
+    lastName = await firestore.getUserLastName();
+    heightInInches = await firestore.getUserHeightInInches();
+    weightInPounds = await firestore.getUserWeightInPounds();
+    birthDate = await firestore.getUserBirthdate();
+    gender = await firestore.getUserGender();
   }
 }

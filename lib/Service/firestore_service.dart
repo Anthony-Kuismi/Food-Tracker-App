@@ -170,4 +170,5 @@ class FirestoreService {
     final user = FirebaseFirestore.instance.collection('Users');
     final userDoc = await user.doc('$username').get();
     return userDoc.data()!['Gender'];
+  }
 }
