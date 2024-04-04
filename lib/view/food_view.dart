@@ -37,8 +37,9 @@ class FoodViewState extends State<FoodView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
-          currentFood.name,
+          currentFood.title,
           style: const TextStyle(
             color: Colors.black,
           ),

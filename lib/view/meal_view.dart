@@ -18,6 +18,7 @@ class MealViewState extends State<MealView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
           widget.currentMeal.title,
           style: const TextStyle(
