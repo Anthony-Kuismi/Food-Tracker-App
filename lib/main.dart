@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
                   'MyHomePage': (context) => const MyHomePage(title: 'Hot Dog', username: ''),
                   'MealListView': (context) => const MealListView(),
                   'SearchView': (context) => const SearchView(),
+                  'SettingsView': (context) => const SettingsView(),
                 },
               ),
             );

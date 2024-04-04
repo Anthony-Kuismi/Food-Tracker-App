@@ -27,8 +27,8 @@ class NavBar extends StatelessWidget {
             iconSize: 40,
           ),
           IconButton(
-            icon: const Icon(Icons.bar_chart, color: Colors.black),
-            onPressed:(){navigatorService.pushReplace('MyHomePage');},
+            icon: const Icon(Icons.settings, color: Colors.black),
+            onPressed:(){navigatorService.pushReplace('SettingsView');},
             iconSize: 40,
           ),
         ],
