@@ -1,24 +1,24 @@
-import 'package:food_tracker_app/model/meal_list.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import '../../service/navigator.dart';
-import '../../service/food_selection.dart';
+import '../../service/navigator_service.dart';
+import '../../service/food_selection_service.dart';
 import '../../viewmodel/search_viewmodel.dart';
 import '../../viewmodel/meal_list_viewmodel.dart';
 import '../model/meal.dart';
-import 'custom_food_view.dart';
 import 'food_view.dart';
-
-
 
 class SearchView extends StatelessWidget {
   const SearchView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final searchViewModel = Provider.of<SearchViewModel>(context, listen: true);
-    final mealListViewModel = Provider.of<MealListViewModel>(context, listen: true);
-    final foodSelectionService = Provider.of<FoodSelectionService>(context, listen: true);
-    final navigatorService = Provider.of<NavigatorService>(context, listen: false);
+    final mealListViewModel =
+        Provider.of<MealListViewModel>(context, listen: true);
+    final foodSelectionService =
+        Provider.of<FoodSelectionService>(context, listen: true);
+    final navigatorService =
+        Provider.of<NavigatorService>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -33,8 +33,16 @@ class SearchView extends StatelessWidget {
       body: Column(
         children: [
           SearchBar(viewmodel: searchViewModel),
-          SearchResults(searchViewModel: searchViewModel, foodSelectionService: foodSelectionService),
-          AddMealButton(searchViewModel: searchViewModel, mealListViewModel: mealListViewModel, foodSelectionService: foodSelectionService, navigatorService: navigatorService),
+          SearchResults(
+            searchViewModel: searchViewModel,
+            foodSelectionService: foodSelectionService,
+            navigatorService: navigatorService,
+          ),
+          AddMealButton(
+              searchViewModel: searchViewModel,
+              mealListViewModel: mealListViewModel,
+              foodSelectionService: foodSelectionService,
+              navigatorService: navigatorService),
         ],
       ),
     );
@@ -43,6 +51,7 @@ class SearchView extends StatelessWidget {
 
 class SearchBar extends StatelessWidget {
   final SearchViewModel viewmodel;
+
   const SearchBar({super.key, required this.viewmodel});
 
   @override
@@ -58,7 +67,6 @@ class SearchBar extends StatelessWidget {
           prefixIcon: Icon(Icons.search),
           hintText: 'Add Foods',
         ),
-
       ),
     );
   }
@@ -67,7 +75,14 @@ class SearchBar extends StatelessWidget {
 class SearchResults extends StatelessWidget {
   final SearchViewModel searchViewModel;
   final FoodSelectionService foodSelectionService;
-  const SearchResults({super.key, required this.searchViewModel, required this.foodSelectionService});
+  final NavigatorService navigatorService;
+
+  const SearchResults(
+      {super.key,
+      required this.searchViewModel,
+      required this.foodSelectionService,
+      required this.navigatorService});
+
   @override
   Widget build(BuildContext context) {
     final foods = searchViewModel.searchResults.foods.values.toList();
@@ -93,6 +108,12 @@ class SearchResults extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
+                  subtitle: food.custom == true
+                      ? const Text(
+                          '[Custom]',
+                          style: TextStyle(color: Colors.grey),
+                        )
+                      : null,
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -101,7 +122,9 @@ class SearchResults extends StatelessWidget {
                         color: Colors.black,
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => FoodView(currentFood: food,),
+                            builder: (context) => FoodView(
+                                currentFood: food,
+                                currentMeal: foodSelectionService.editingMeal!),
                           ));
                         },
                       ),
@@ -134,25 +157,33 @@ class AddMealButton extends StatelessWidget {
   final MealListViewModel mealListViewModel;
   final FoodSelectionService foodSelectionService;
   final NavigatorService navigatorService;
-  const AddMealButton({super.key, required this.searchViewModel, required this.mealListViewModel, required this.foodSelectionService, required this.navigatorService});
+
+  const AddMealButton(
+      {super.key,
+      required this.searchViewModel,
+      required this.mealListViewModel,
+      required this.foodSelectionService,
+      required this.navigatorService});
+
   @override
   Widget build(BuildContext context) {
-    return Container (
+    return Container(
       margin: const EdgeInsets.all(16),
       child: ElevatedButton.icon(
-      onPressed: () {
-        if(foodSelectionService.mode == FoodSelectionMode.edit){
-          Meal oldMeal = foodSelectionService.editingMeal as Meal;
-          mealListViewModel.updateMeal(oldMeal,foodSelectionService.data);
-        }else {
-          mealListViewModel.addMeal(searchViewModel.query, searchViewModel.timestamp);
-        }
-        searchViewModel.reset();
-        foodSelectionService.reset();
-        navigatorService.pushReplace('MealListView');
-      },
-      icon: const Icon(Icons.add, size: 18),
-      label: const Text('Add Selected Foods'),
+        onPressed: () {
+          if (foodSelectionService.mode == FoodSelectionMode.edit) {
+            Meal oldMeal = foodSelectionService.editingMeal as Meal;
+            mealListViewModel.updateMeal(oldMeal, foodSelectionService.data);
+          } else {
+            mealListViewModel.addMeal(
+                searchViewModel.query, searchViewModel.timestamp);
+          }
+          searchViewModel.reset();
+          foodSelectionService.reset();
+          navigatorService.pushReplace('MealListView');
+        },
+        icon: const Icon(Icons.add, size: 18),
+        label: const Text('Add Selected Foods'),
       ),
     );
   }

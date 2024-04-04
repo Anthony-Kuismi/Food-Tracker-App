@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_tracker_app/service/navigator.dart';
 import 'package:provider/provider.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -7,6 +6,7 @@ import '../viewmodel/homepage_viewmodel.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title, required String username});
+
   final String title;
 
   @override
@@ -14,16 +14,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<HomePageViewModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         automaticallyImplyLeading: false,
         title: const Text(
-          'Food Tracking: Hotdog Version',
+          'Food Tracking: Hot dog Version',
           style: TextStyle(
             color: Colors.black,
           ),
@@ -33,17 +32,17 @@ class _MyHomePageState extends State<MyHomePage> {
       body: FutureBuilder(
         future: viewModel.load(),
         builder: (context, snapshot) {
-            return Padding(
-              padding: const EdgeInsets.all(16),
-              child: GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.5),
-                children: <Widget>[
-                  waterContainer(context, viewModel),
-                ],
-              ),
-            );
+          return Padding(
+            padding: const EdgeInsets.all(16),
+            child: GridView.count(
+              crossAxisCount: 2,
+              childAspectRatio: MediaQuery.of(context).size.width /
+                  (MediaQuery.of(context).size.height / 1.5),
+              children: <Widget>[
+                waterContainer(context, viewModel),
+              ],
+            ),
+          );
         },
       ),
     );
@@ -58,7 +57,7 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
         builder: (BuildContext context) {
           TextEditingController controller = TextEditingController();
           return AlertDialog(
-            title: Text('Select Goal'),
+            title: const Text('Select Goal'),
             content: TextField(
               controller: controller,
               keyboardType: TextInputType.number,
@@ -106,8 +105,8 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
                 progressColor: viewModel.waterPercentage < 0.5
                     ? Colors.red
                     : viewModel.waterPercentage < 1.0
-                    ? Colors.orange
-                    : Theme.of(context).colorScheme.primaryContainer,
+                        ? Colors.orange
+                        : Theme.of(context).colorScheme.primaryContainer,
                 animation: true,
                 animateFromLastPercent: true,
                 animationDuration: 750, // Set your desired animation duration
@@ -178,4 +177,3 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
     ),
   );
 }
-
