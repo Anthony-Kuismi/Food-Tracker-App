@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService extends ChangeNotifier{
   static final NotificationService _notificationService = NotificationService._internal();
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  Timer? waterTimer;
 
   factory NotificationService() {
     return _notificationService;
@@ -44,7 +47,20 @@ class NotificationService extends ChangeNotifier{
     );
   }
 
-
+  void startWaterTimer(){
+     waterTimer = Timer.periodic(const Duration(seconds: 10), () {
+       //debugPrint('test');
+       //   if (time since water added is to long) {
+            NotificationService().showNotification(
+                                  title: 'WATER NOW', body: 'Chug some wata');
+       //   }else{
+       //   NotificationService().showNotification(
+       //     //                           title: 'Nice job staying hydrated', body: 'drink wata accomplished!');
+       //   }
+       //
+       // }
+     });
+  }
 
 
 }
@@ -56,5 +72,3 @@ class NotificationService extends ChangeNotifier{
 //3) time stamp is checked every interval
 //4) if time stamp shows its been to long a notification to drink more water is sent
 //4) repeat
-
-//timer wrapping if added notification

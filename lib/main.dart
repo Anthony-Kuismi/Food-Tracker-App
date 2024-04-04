@@ -9,6 +9,8 @@ import 'service/navigator.dart';
 import 'view/homepage_view.dart';
 import 'view/meal_list_view.dart';
 import 'view/search_view.dart';
+import 'dart:developer';
+
 
 void main() async {
   final NavigatorService navigatorService = NavigatorService();
@@ -25,10 +27,13 @@ class MyApp extends StatelessWidget {
   final bool isLoggedIn;
   final NotificationService notificationService;
 
+
   const MyApp({super.key, required this.navigatorService, required this.isLoggedIn, required this.notificationService});
 
   @override
   Widget build(BuildContext context) {
+  log("test123");
+    notificationService.startWaterTimer();
     return FutureBuilder(
         future: Firebase.initializeApp(),
         builder: (context, snapshot){
@@ -65,15 +70,6 @@ class MyApp extends StatelessWidget {
         });
   }
 
-  // void updateQuery(String newQuery){
-  //   _searchModel.query = newQuery;
-  //   if (searchTimer?.isActive ?? false) {
-  //     searchTimer?.cancel();
-  //   }
-  //   searchTimer = Timer(const Duration(milliseconds: 500), () {
-  //     updateSearchResults();
-  //   });
-  // }
 
 
 }
