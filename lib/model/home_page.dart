@@ -14,4 +14,24 @@ class HomePage {
     water = await FirestoreService().getWaterEntryForUser(date);
     goal = await FirestoreService().getWaterGoalForUser();
   }
+
+  void addWater() {
+    water.amount++;
+  }
+
+  void removeWater() {
+    water.amount--;
+  }
+
+  void setWaterGoal(int goal) {
+    this.goal = goal;
+  }
+
+  int getWaterGoal() {
+    return goal;
+  }
+
+  int getWaterAmount() {
+    return water.amount;
+  }
 }

@@ -1,6 +1,6 @@
 import '../Service/firestore_service.dart';
 
-class HomePage {
+class Settings {
   FirestoreService firestore = FirestoreService();
 
   String firstName = '';
@@ -10,7 +10,7 @@ class HomePage {
   String birthDate = '';
   String gender = '';
 
-  Future<void> fetchWaterEntry(String date) async {
+  Future<void> fetchSettings() async {
     firstName = await firestore.getUserFirstName();
     lastName = await firestore.getUserLastName();
     heightInInches = await firestore.getUserHeightInInches();

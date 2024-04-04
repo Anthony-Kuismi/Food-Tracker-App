@@ -10,13 +10,11 @@ class HomePageViewModel extends ChangeNotifier {
   late final NavigatorService navigatorService;
   var firestore = FirestoreService();
 
-  //needs to be changed to store data in firestore
-  int waterCups = 0;
-  int waterCupsGoal = 10;
-
   double _waterPercentage = 0.0; // initial value
 
   double get waterPercentage => _waterPercentage;
+  int get waterCups => _model.getWaterAmount();
+  int get waterCupsGoal => _model.getWaterGoal();
 
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
@@ -26,37 +24,35 @@ class HomePageViewModel extends ChangeNotifier {
     date = DateFormat('yyyy-MM-dd').format(DateTime.now());
     await _model.fetchWaterEntry(date);
     notifyListeners();
-    waterCups = _model.water.amount;
-    waterCupsGoal = _model.goal;
     updateWaterPercentage();
   }
 
   void addWater() {
-    waterCups++;
+    _model.addWater();
     updateWaterPercentage();
   }
 
   void removeWater() {
-    waterCups--;
+    _model.removeWater();
     updateWaterPercentage();
   }
 
   void updateWaterPercentage() {
-    if (waterCups < 0) {
-      waterCups = 0;
-    } else if (waterCups > waterCupsGoal) {
+    if (_model.getWaterAmount() < 0) {
+      _model.setWaterGoal(0);
+    } else if (_model.getWaterAmount() > _model.getWaterGoal()) {
       _waterPercentage = 1.0;
     } else {
-      _waterPercentage = waterCups / waterCupsGoal;
+      _waterPercentage = _model.getWaterAmount() / _model.getWaterGoal();
     }
 
-    firestore.updateWaterEntryFromUser(Water(date: date, amount: waterCups));
+    firestore.updateWaterEntryFromUser(Water(date: date, amount: _model.getWaterAmount()));
 
     notifyListeners();
   }
 
   void setWaterGoal(int goal) {
-    waterCupsGoal = goal;
+    _model.setWaterGoal(goal);
     firestore.setWaterGoalForUser(goal);
     updateWaterPercentage();
   }

@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Service/auth_service.dart';
+import '../viewmodel/settings_viewmodel.dart';
 import 'component/navbar.dart';
 
-class SettingsView extends StatelessWidget {
-  const SettingsView({super.key});
+class SettingsView extends StatefulWidget {
+  const SettingsView({super.key, required String username});
+
+  @override
+  State<SettingsView> createState() => _SettingsView();
+}
+
+class _SettingsView extends State<SettingsView> {
+
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<SettingsViewModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -19,9 +28,12 @@ class SettingsView extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
+      body: FutureBuilder(
+        future: viewModel.load(),
+        builder: (context, snapshot) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -35,7 +47,7 @@ class SettingsView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        'User Name',
+                        '${viewModel.firstName} ${viewModel.lastName}',
                         style: TextStyle(
                           fontSize: Theme.of(context).textTheme.titleLarge?.fontSize,
                           color: Theme.of(context).colorScheme.primary,
@@ -55,7 +67,7 @@ class SettingsView extends StatelessWidget {
                               color: Theme.of(context).colorScheme.primaryContainer,
                             ),
                             child: Text(
-                              'Weight: 160lbs',
+                              'Weight: ${viewModel.weightInPounds}lbs',
                               style: TextStyle(
                                 fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
                                 color: Colors.white,
@@ -69,7 +81,7 @@ class SettingsView extends StatelessWidget {
                               color: Theme.of(context).colorScheme.primaryContainer,
                             ),
                             child: Text(
-                              'Height: 5\"9\'', // Replace with actual height
+                              'Height: ${viewModel.heightInInches} in', // Replace with actual height
                               style: TextStyle(
                                 fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
                                 color: Colors.white,
@@ -83,7 +95,7 @@ class SettingsView extends StatelessWidget {
                               color: Theme.of(context).colorScheme.primaryContainer,
                             ),
                             child: Text(
-                              'Gender: Male', // Replace with actual gender
+                              'Gender: ${viewModel.gender}', // Replace with actual gender
                               style: TextStyle(
                                 fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
                                 color: Colors.white,
@@ -106,7 +118,7 @@ class SettingsView extends StatelessWidget {
                 ),
                 child: ListTile(
                   title: const Text('Birthdate'),
-                  subtitle: const Text('March 1st 2023'), // Add your description
+                  subtitle: Text(viewModel.birthDate), // Add your description
                   leading: const Icon(Icons.cake),
                   onTap: () {
                   },
@@ -131,7 +143,9 @@ class SettingsView extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      );
+     },
+    ),
       bottomNavigationBar: const NavBar(key: Key('customNavBar')),
     );
   }

@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
                       const MyHomePage(title: 'Hot Dog', username: ''),
                   'MealListView': (context) => const MealListView(),
                   'SearchView': (context) => const SearchView(),
-                  'SettingsView': (context) => const SettingsView(),
+                  'SettingsView': (context) => const SettingsView(username: ''),
                   'CustomFoodView': (context) => const CustomFoodView(),
                 },
               ),

@@ -6,6 +6,7 @@ import '../service/navigator_service.dart';
 import '../viewmodel/homepage_viewmodel.dart';
 import '../viewmodel/meal_list_viewmodel.dart';
 import '../viewmodel/search_viewmodel.dart';
+import '../viewmodel/settings_viewmodel.dart';
 
 class AppProvider extends StatelessWidget {
   final Widget child;
@@ -40,7 +41,9 @@ class AppProvider extends StatelessWidget {
           create: (context) => HomePageViewModel(),
         ),
         Provider<AuthService>(create: (_) => AuthService()),
-
+        ChangeNotifierProvider(
+          create: (context) => SettingsViewModel(),
+        ),
       ],
       child: child,
     );
