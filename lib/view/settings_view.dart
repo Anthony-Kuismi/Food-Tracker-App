@@ -105,6 +105,22 @@ class SettingsView extends StatelessWidget {
                   color: Colors.black26,
                 ),
                 child: ListTile(
+                  title: const Text('Birthdate'),
+                  subtitle: const Text('March 1st 2023'), // Add your description
+                  leading: const Icon(Icons.cake),
+                  onTap: () {
+                  },
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.black26,
+                ),
+                child: ListTile(
                   title: const Text('Logout'),
                   leading: const Icon(Icons.logout),
                   onTap: () {
