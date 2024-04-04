@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/view/search_view.dart';
 import '../model/meal.dart';
-import './component/marco_pie_chart.dart';
+import './component/macro_pie_chart.dart';
 
 class MealView extends StatefulWidget {
   final Meal currentMeal;
