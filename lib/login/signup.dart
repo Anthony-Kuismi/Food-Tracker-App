@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
@@ -12,11 +11,15 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   String _signUpStatus = '';
 
   Future<bool> doesUserExist(String username) async {
-    final userDoc = await FirebaseFirestore.instance.collection('Users').doc(username).get();
+    final userDoc = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(username)
+        .get();
     return userDoc.exists;
   }
 
@@ -34,7 +37,6 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _signUp() async {
-
     if (await doesUserExist(_usernameController.text)) {
       setState(() {
         _signUpStatus = 'User already exist';
@@ -60,13 +62,12 @@ class _SignUpPageState extends State<SignUpPage> {
     Navigator.pop(context);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:Theme.of(context).colorScheme.primary,
-        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
           'Create an Account',
           style: TextStyle(
@@ -84,7 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 20),
               Image.asset('assets/images/team-hot-dog-logo.png', height: 200),
               const SizedBox(height: 40),
-              Text(
+              const Text(
                 'Create Your Account',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
@@ -92,7 +93,7 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 40),
               TextFormField(
                 controller: _usernameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Username',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.person_outline),
@@ -102,7 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 20),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.lock_outline),
@@ -113,7 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 20),
               TextFormField(
                 controller: _confirmPasswordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Confirm Password',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.lock_outline),
@@ -125,18 +126,17 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 30),
               ElevatedButton(
                 onPressed: _signUp,
-                child: const Text('Sign Up'),
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                 ),
+                child: const Text('Sign Up'),
               ),
               const SizedBox(height: 20),
               Text(
                 _signUpStatus,
-                style: TextStyle(color: Colors.red, fontSize: 16),
+                style: const TextStyle(color: Colors.red, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
-
             ],
           ),
         ),

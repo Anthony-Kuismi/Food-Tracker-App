@@ -23,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         automaticallyImplyLeading: false,
         title: const Text(
-          'Food Tracking: Hotdog Version',
+          'Food Tracking: Hot dog Version',
           style: TextStyle(
             color: Colors.black,
           ),
@@ -77,7 +77,6 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
                 onPressed: () {
                   int? newValue = int.tryParse(controller.text);
                   if (newValue != null) {
-                    viewModel.waterCupsGoal = newValue;
                     viewModel.setWaterGoal(newValue);
                   }
                   Navigator.of(context).pop();
