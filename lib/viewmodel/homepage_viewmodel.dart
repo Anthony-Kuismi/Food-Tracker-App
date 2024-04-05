@@ -29,15 +29,18 @@ class HomePageViewModel extends ChangeNotifier {
 
   void addWater() {
     _model.addWater();
+    firestore.updateWaterEntryFromUser(Water(date: date, amount: _model.getWaterAmount()));
     updateWaterPercentage();
   }
 
   void removeWater() {
     _model.removeWater();
+    firestore.updateWaterEntryFromUser(Water(date: date, amount: _model.getWaterAmount()));
     updateWaterPercentage();
   }
 
   void updateWaterPercentage() {
+
     if (_model.getWaterAmount() < 0) {
       _model.setWaterGoal(0);
     } else if (_model.getWaterAmount() > _model.getWaterGoal()) {
@@ -45,8 +48,6 @@ class HomePageViewModel extends ChangeNotifier {
     } else {
       _waterPercentage = _model.getWaterAmount() / _model.getWaterGoal();
     }
-
-    firestore.updateWaterEntryFromUser(Water(date: date, amount: _model.getWaterAmount()));
 
     notifyListeners();
   }

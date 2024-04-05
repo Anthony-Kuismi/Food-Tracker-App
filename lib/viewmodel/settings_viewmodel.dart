@@ -29,6 +29,30 @@ class SettingsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  String getFirstName() {
+    return _model.firstName;
+  }
+
+  String getLastName() {
+    return _model.lastName;
+  }
+
+  int getHeightInInches() {
+    return _model.heightInInches;
+  }
+
+  double getWeightInPounds() {
+    return _model.weightInPounds;
+  }
+
+  String getBirthDate() {
+    return _model.birthDate;
+  }
+
+  String getGender() {
+    return _model.gender;
+  }
+
 
 
 }

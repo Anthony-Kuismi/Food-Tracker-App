@@ -161,7 +161,7 @@ class FirestoreService {
     final username = prefs.getString('username');
     final user = FirebaseFirestore.instance.collection('Users');
     final userDoc = await user.doc('$username').get();
-    return userDoc.data()!['Weight'];
+    return (userDoc.data()!['Weight'] as num).toDouble();
   }
 
   Future<String> getUserGender() async {

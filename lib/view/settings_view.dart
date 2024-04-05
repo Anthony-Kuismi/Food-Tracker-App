@@ -13,7 +13,6 @@ class SettingsView extends StatefulWidget {
 
 class _SettingsView extends State<SettingsView> {
 
-
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<SettingsViewModel>(context, listen: true);
@@ -36,7 +35,7 @@ class _SettingsView extends State<SettingsView> {
           child: ListView(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
