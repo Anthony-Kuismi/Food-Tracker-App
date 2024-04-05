@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:food_tracker_app/Service/firestore_service.dart';
 
 class NotificationService extends ChangeNotifier{
   static final NotificationService _notificationService = NotificationService._internal();
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   Timer? waterTimer;
+  var firestore = FirestoreService();
 
   factory NotificationService() {
     return _notificationService;
@@ -47,12 +49,17 @@ class NotificationService extends ChangeNotifier{
     );
   }
 
-  void startWaterTimer(){
-     waterTimer = Timer.periodic(const Duration(seconds: 10), (Timer timer) {
+  void startWaterTimer() {
+     waterTimer = Timer.periodic(const Duration(seconds: 10), (Timer timer) async {
+       DateTime lastWater = await firestore.getMostRecentWaterForUser();
+       if(DateTime.now().difference(lastWater) > Duration(seconds:10)){
+         //push notification
+         NotificationService().showNotification(
+             title: 'WATER NOW', body: 'Chug some wata');
+       }
        //debugPrint('test');
        //   if (time since water added is to long) {
-            NotificationService().showNotification(
-                                  title: 'WATER NOW', body: 'Chug some wata');
+
        //   }else{
        //   NotificationService().showNotification(
        //     //                           title: 'Nice job staying hydrated', body: 'drink wata accomplished!');

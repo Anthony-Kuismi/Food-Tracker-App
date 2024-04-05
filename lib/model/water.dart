@@ -11,7 +11,7 @@ class Water {
     return Water(
       date: json['date'] ?? DateFormat('yyyy-MM-dd').format(DateTime.now()),
       amount: json['amount'] ?? 0,
-      timestamps: json['timestamps'] ?? [],
+      timestamps: json['timestamps'] ?? List<int>,
     );
   }
 
