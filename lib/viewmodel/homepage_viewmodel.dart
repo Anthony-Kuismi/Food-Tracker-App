@@ -29,13 +29,13 @@ class HomePageViewModel extends ChangeNotifier {
 
   void addWater() {
     _model.addWater();
-    firestore.updateWaterEntryFromUser(Water(date: date, amount: _model.getWaterAmount()));
+    firestore.updateWaterEntryFromUser(Water(date: date, amount: _model.getWaterAmount(), timestamps:_model.getTimestamps()));
     updateWaterPercentage();
   }
 
   void removeWater() {
     _model.removeWater();
-    firestore.updateWaterEntryFromUser(Water(date: date, amount: _model.getWaterAmount()));
+    firestore.updateWaterEntryFromUser(Water(date: date, amount: _model.getWaterAmount(), timestamps:_model.getTimestamps()));
     updateWaterPercentage();
   }
 

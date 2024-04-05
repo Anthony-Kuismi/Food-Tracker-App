@@ -91,8 +91,8 @@ class FirestoreService {
     final waterEntry = await waterEntries.doc(date.toString()).get();
 
     if (!waterEntry.exists) {
-      addWaterEntryForUser(Water(date: date, amount: 0));
-      return Water(date: date, amount: 0);
+      addWaterEntryForUser(Water(date: date, amount: 0, timestamps: []));
+      return Water(date: date, amount: 0, timestamps: []);
     } else {
       return Water.fromJson(waterEntry.data() ?? {});
     }

@@ -7,7 +7,7 @@ class HomePage {
   FirestoreService firestore = FirestoreService();
 
   Water water =
-      Water(date: DateFormat('yyyy-MM-dd').format(DateTime.now()), amount: 0);
+      Water(date: DateFormat('yyyy-MM-dd').format(DateTime.now()), amount: 0, timestamps: []);
   int goal = 10;
 
   Future<void> fetchWaterEntry(String date) async {
@@ -17,10 +17,12 @@ class HomePage {
 
   void addWater() {
     water.amount++;
+    water.timestamps.add(DateTime.now().millisecondsSinceEpoch);
   }
 
   void removeWater() {
     water.amount--;
+    water.timestamps.removeLast();
   }
 
   void setWaterGoal(int goal) {
@@ -33,5 +35,9 @@ class HomePage {
 
   int getWaterAmount() {
     return water.amount;
+  }
+
+  List<int> getTimestamps() {
+    return water.timestamps;
   }
 }
