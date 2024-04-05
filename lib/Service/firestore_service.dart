@@ -179,7 +179,7 @@ class FirestoreService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
     final waterEntries =
-    FirebaseFirestore.instance.collection('Users/$username/Water Entries').orderBy('Date',descending: true).limit(1);
+    FirebaseFirestore.instance.collection('Users/$username/Water Entries').orderBy('date',descending: true).limit(1);
     final waterEntriesSnapshot = await waterEntries.get();
     final waterEntry = waterEntriesSnapshot.docs.first;
 

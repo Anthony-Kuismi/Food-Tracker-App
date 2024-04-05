@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -50,22 +51,14 @@ class NotificationService extends ChangeNotifier{
   }
 
   void startWaterTimer() {
-     waterTimer = Timer.periodic(const Duration(seconds: 10), (Timer timer) async {
+     waterTimer = Timer.periodic(const Duration(hours: 2), (Timer timer) async {
        DateTime? lastWater = await firestore.getMostRecentWaterForUser();
-       if(DateTime.now().difference(lastWater??DateTime.now()) > Duration(seconds:10)){
-         //push notification
+       log(DateTime.now().difference(lastWater??DateTime.now()).toString());
+       if(DateTime.now().difference(lastWater??DateTime.now()) > Duration(hours:2)){
+         print("Notification should fire here");
          NotificationService().showNotification(
              title: 'WATER NOW', body: 'Chug some wata');
        }
-       //debugPrint('test');
-       //   if (time since water added is to long) {
-
-       //   }else{
-       //   NotificationService().showNotification(
-       //     //                           title: 'Nice job staying hydrated', body: 'drink wata accomplished!');
-       //   }
-       //
-       // }
      });
   }
 
