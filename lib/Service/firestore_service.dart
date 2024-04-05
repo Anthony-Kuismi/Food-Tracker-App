@@ -175,13 +175,14 @@ class FirestoreService {
 
 
 
-  Future<int> getMostRecentWaterForUser() async {
-    String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  Future<DateTime?> getMostRecentWaterForUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
     final waterEntries =
-    FirebaseFirestore.instance.collection('Users/$username/Water Entries').orderBy('Date',descending: true);
-    final waterEntry = await waterEntries.doc(date.toString()).get();
+    FirebaseFirestore.instance.collection('Users/$username/Water Entries').orderBy('Date',descending: true).limit(1);
+    final waterEntriesSnapshot = await waterEntries.get();
+    final waterEntry = waterEntriesSnapshot.docs.first;
+
     if (waterEntry.exists) {
       return DateTime.fromMillisecondsSinceEpoch(Water.fromJson(waterEntry.data() ?? {}).timestamps.last);
     }else{
