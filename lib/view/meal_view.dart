@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/view/search_view.dart';
+import 'package:provider/provider.dart';
 import '../model/meal.dart';
+import '../viewmodel/meal_list_viewmodel.dart';
 import './component/macro_pie_chart.dart';
 
 class MealView extends StatefulWidget {
@@ -15,6 +17,7 @@ class MealView extends StatefulWidget {
 class MealViewState extends State<MealView> {
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<MealListViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -63,7 +66,8 @@ class MealViewState extends State<MealView> {
             Text('Total Sugar: ${widget.currentMeal.sugarG}g'),
             ElevatedButton.icon(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
+                viewModel.editMeal(widget.currentMeal);
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => SearchView(),
                 ));
               },

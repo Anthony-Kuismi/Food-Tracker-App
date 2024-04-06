@@ -183,7 +183,6 @@ class AddMealButton extends StatelessWidget {
                 searchViewModel.query, searchViewModel.timestamp);
           }
           searchViewModel.reset();
-          foodSelectionService.reset();
         },
         icon: const Icon(Icons.add, size: 18),
         label: const Text('Add Selected Foods'),

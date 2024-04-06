@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../model/meal.dart';
-import '../service/navigator_service.dart';
 import '../viewmodel/meal_list_viewmodel.dart';
 import 'component/navbar.dart';
 import 'meal_view.dart';
