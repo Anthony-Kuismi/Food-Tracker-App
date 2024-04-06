@@ -123,4 +123,52 @@ class FirestoreService {
     }
     return users;
   }
+
+  Future<int> getUserHeightInInches() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    final userDoc = await user.doc('$username').get();
+    return userDoc.data()!['Height'];
+  }
+
+  Future<String> getUserBirthdate() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    final userDoc = await user.doc('$username').get();
+    return userDoc.data()!['Birthdate'];
+  }
+
+  Future<String> getUserFirstName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    final userDoc = await user.doc('$username').get();
+    return userDoc.data()!['First Name'];
+  }
+
+  Future<String> getUserLastName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    final userDoc = await user.doc('$username').get();
+    return userDoc.data()!['Last Name'];
+  }
+
+  Future<double> getUserWeightInPounds() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    final userDoc = await user.doc('$username').get();
+    return (userDoc.data()!['Weight'] as num).toDouble();
+  }
+
+  Future<String> getUserGender() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    final userDoc = await user.doc('$username').get();
+    return userDoc.data()!['Gender'];
+  }
 }

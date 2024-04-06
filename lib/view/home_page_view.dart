@@ -70,7 +70,6 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
                 onPressed: () {
                   int? newValue = int.tryParse(controller.text);
                   if (newValue != null) {
-                    viewModel.waterCupsGoal = newValue;
                     viewModel.setWaterGoal(newValue);
                   }
                   Navigator.of(context).pop();
