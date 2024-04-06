@@ -107,4 +107,9 @@ class FirestoreService {
     final waterGoalDoc = await waterGoal.doc('$username').get();
     return waterGoalDoc.data()!['Water Goal'];
   }
+
+  Future<List<Meal>> getMealsFromUserByDay(DateTime day) async {
+    list<Meal> out = await getMealsFromUser()
+    return
+  }
 }
