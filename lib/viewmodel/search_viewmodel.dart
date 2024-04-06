@@ -33,8 +33,6 @@ class SearchViewModel extends ChangeNotifier {
   Meal get searchResults {
     Meal out = Meal.clone(foodSelectionService.data);
     out += _searchModel.data;
-    out += Meal.fromFoodList(
-        _searchModel.customData.getFoodsByQuery(_searchModel.query));
     return out;
   }
 
@@ -131,12 +129,18 @@ class SearchViewModel extends ChangeNotifier {
   }
 
   Future<void> updateSearchResults() async {
+    await _searchModel.fetchCustomData();
     if (_searchModel.query.isNotEmpty) {
       return fetchData().then((dynamic json) {
         entitleData(_searchModel.query, json);
         identifyData(json);
         json.addAll(foodSelectionService.data.foods);
         _searchModel.data.update(json);
+        _searchModel.customData.foods.values.forEach((food){
+            if(food.title.contains(_searchModel.query)){
+              _searchModel.data.add(food.clone());
+            }
+        });
         if (!_disposed) {
           notifyListeners();
         }

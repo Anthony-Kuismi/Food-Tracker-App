@@ -3,14 +3,14 @@ import 'package:food_tracker_app/model/meal.dart';
 import '../model/food.dart';
 import './component/macro_pie_chart.dart';
 import './component/nutrition_row.dart';
+import '../service/firestore_service.dart';
 
 class FoodView extends StatefulWidget {
   final Food currentFood;
   final Meal currentMeal;
-
-  const FoodView(
+  FirestoreService firestoreService = FirestoreService();
+  FoodView(
       {super.key, required this.currentFood, required this.currentMeal});
-
   @override
   FoodViewState createState() => FoodViewState();
 }
@@ -59,18 +59,21 @@ class FoodViewState extends State<FoodView> {
                   'Macronutrients'),
             ),
             NutritionRow('Protein: ', currentFood.proteinG, 'g',
-                setter: (newValue) {
+                setter: (newValue) async {
                     currentFood.setProteinG = newValue;
                     updateMacroPieChart(macroPieChart);
+                    await widget.firestoreService.addCustomFoodForUser(currentFood);
                 },
                 currentMeal: widget.currentMeal),
             NutritionRow(
               'Carbohydrates: ',
               currentFood.carbohydratesTotalG,
               'g',
-              setter: (newValue) {
+              setter: (newValue) async {
                 currentFood.setCarbohydratesTotalG = newValue;
                 updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
+
               },
               currentMeal: widget.currentMeal,
             ),
@@ -78,9 +81,11 @@ class FoodViewState extends State<FoodView> {
               'Fats: ',
               currentFood.fatTotalG,
               'g',
-              setter: (newValue) {
+              setter: (newValue) async {
                 currentFood.setFatTotalG = newValue;
                 updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
+
               },
               currentMeal: widget.currentMeal,
             ),
@@ -97,9 +102,10 @@ class FoodViewState extends State<FoodView> {
               'Saturated Fat:',
               currentFood.fatSaturatedG,
               'g',
-              setter: (newValue) {
+              setter: (newValue) async {
                 currentFood.setFatSaturatedG = newValue;
                 updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
               },
               currentMeal: widget.currentMeal,
             ),
@@ -107,9 +113,10 @@ class FoodViewState extends State<FoodView> {
               'Fiber: ',
               currentFood.fiberG,
               'g',
-              setter: (newValue) {
+              setter: (newValue) async {
                 currentFood.fiberG = newValue;
                 updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
               },
               currentMeal: widget.currentMeal,
             ),
@@ -117,9 +124,10 @@ class FoodViewState extends State<FoodView> {
               'Potassium: ',
               currentFood.potassiumMG,
               'mg',
-              setter: (newValue) {
+              setter: (newValue) async {
                 currentFood.potassiumMG = newValue;
                 updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
               },
               currentMeal: widget.currentMeal,
             ),
@@ -127,9 +135,10 @@ class FoodViewState extends State<FoodView> {
               'Serving Size: ',
               currentFood.servingSizeG,
               'g',
-              setter: (newValue) {
+              setter: (newValue) async {
                 currentFood.servingSizeG = newValue;
                 updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
               },
               currentMeal: widget.currentMeal,
             ),
@@ -137,9 +146,10 @@ class FoodViewState extends State<FoodView> {
               'Sodium: ',
               currentFood.sodiumMG,
               'mg',
-              setter: (newValue) {
+              setter: (newValue) async {
                 currentFood.sodiumMG = newValue;
                 updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
               },
               currentMeal: widget.currentMeal,
             ),
@@ -147,9 +157,10 @@ class FoodViewState extends State<FoodView> {
               'Sugar: ',
               currentFood.sugarG,
               'g',
-              setter: (newValue) {
+              setter: (newValue) async {
                   currentFood.setSugarG = newValue;
                   updateMacroPieChart(macroPieChart);
+                  await widget.firestoreService.addCustomFoodForUser(currentFood);
               },
               currentMeal: widget.currentMeal,
             ),
