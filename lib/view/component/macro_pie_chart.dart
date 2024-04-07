@@ -15,6 +15,7 @@ class MacroPieChart extends PieChart {
         String? centerText,
         ChartValuesOptions? chartValuesOptions,
         LegendOptions? legendOptions,
+        double? ringStrokeWidth,
       }) : super(
     dataMap: dataMap ?? {
       'Protein': protein * 4,
@@ -28,6 +29,7 @@ class MacroPieChart extends PieChart {
     ],
     chartType: chartType ?? ChartType.ring,
     chartRadius: chartRadius ?? 200,
+    ringStrokeWidth: ringStrokeWidth ?? 32,
     centerText: centerText ?? '$cals Cals',
     chartValuesOptions: chartValuesOptions ?? const ChartValuesOptions(
       showChartValues: true,
@@ -41,5 +43,6 @@ class MacroPieChart extends PieChart {
       legendShape: BoxShape.rectangle,
       showLegendsInRow: true,
     ),
+
   );
 }

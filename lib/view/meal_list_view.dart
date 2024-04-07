@@ -35,20 +35,22 @@ class MealListView extends StatelessWidget {
                     title: Row( 
                       children: [
                         SizedBox( 
-                          width: 100, 
-                          height: 100, 
+                          width: 50,
+                          height: 50,
                           child: MacroPieChart(
                             meal.calories,
                             meal.proteinG,
                             meal.carbohydratesTotalG,
                             meal.fatTotalG,
-                            chartRadius: 69,
+                            chartRadius: 50,
                             chartValuesOptions: const ChartValuesOptions(
                               showChartValues: false,
                             ),
                             legendOptions: const LegendOptions(
                               showLegends: false,
                             ),
+                            centerText: '',
+                            ringStrokeWidth: 8
                           ),
                         ),
                         Padding( 
