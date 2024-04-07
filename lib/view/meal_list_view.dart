@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/view/search_view.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../model/meal.dart';
@@ -85,7 +86,8 @@ class MealListView extends StatelessWidget {
                         };
                         Meal newMeal = Meal(json: json);
                         viewModel.addMealFromMeal(newMeal);
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MealView(currentMeal: newMeal,)));
+                        viewModel.editMeal(newMeal);
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> SearchView()));
                       },
                       child: const Text('OK'),
                     ),
