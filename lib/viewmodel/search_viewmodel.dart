@@ -38,7 +38,7 @@ class SearchViewModel extends ChangeNotifier {
 
   List<String> get searchResultTitles {
     return searchResults.titles;
-    // return (foodSelectionService.data + _searchModel.data).titles;
+    
   }
 
   get data => _searchModel.data;

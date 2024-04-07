@@ -80,7 +80,7 @@ class _SettingsView extends State<SettingsView> {
                               color: Theme.of(context).colorScheme.primaryContainer,
                             ),
                             child: Text(
-                              'Height: ${viewModel.heightInInches} in', // Replace with actual height
+                              'Height: ${viewModel.heightInInches} in', 
                               style: TextStyle(
                                 fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
                                 color: Colors.white,
@@ -94,7 +94,7 @@ class _SettingsView extends State<SettingsView> {
                               color: Theme.of(context).colorScheme.primaryContainer,
                             ),
                             child: Text(
-                              'Gender: ${viewModel.gender}', // Replace with actual gender
+                              'Gender: ${viewModel.gender}', 
                               style: TextStyle(
                                 fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
                                 color: Colors.white,
@@ -117,7 +117,7 @@ class _SettingsView extends State<SettingsView> {
                 ),
                 child: ListTile(
                   title: const Text('Birthdate'),
-                  subtitle: Text(viewModel.birthDate), // Add your description
+                  subtitle: Text(viewModel.birthDate), 
                   leading: const Icon(Icons.cake),
                   onTap: () {
                   },

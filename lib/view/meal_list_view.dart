@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/view/component/macro_pie_chart.dart';
 import 'package:food_tracker_app/view/search_view.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../model/meal.dart';
@@ -30,12 +32,38 @@ class MealListView extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final meal = viewModel.meals[index];
                   return ListTile(
-                    title: Text(meal.title),
-                    subtitle: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    title: Row( 
                       children: [
-                        Text(meal.timestampString),
+                        SizedBox( 
+                          width: 100, 
+                          height: 100, 
+                          child: MacroPieChart(
+                            meal.calories,
+                            meal.proteinG,
+                            meal.carbohydratesTotalG,
+                            meal.fatTotalG,
+                            chartRadius: 69,
+                            chartValuesOptions: const ChartValuesOptions(
+                              showChartValues: false,
+                            ),
+                            legendOptions: const LegendOptions(
+                              showLegends: false,
+                            ),
+                          ),
+                        ),
+                        Padding( 
+                          padding: const EdgeInsets.only(left: 8.0), 
+                          child: Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(meal.title),
+                                Text(meal.timestampString),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     trailing: IconButton(

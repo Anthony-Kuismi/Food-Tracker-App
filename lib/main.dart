@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         future: Firebase.initializeApp(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            //return SomethingWentWrong(); // Please add this functionality
+            
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return AppProvider(
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
                 home: isLoggedIn
                     ? const MyHomePage(
                         title: 'Hot Dog',
-                        username: 'User') // Adjust according to your logic
+                        username: 'User') 
                     : const LoginApp(title: 'Login'),
                 navigatorKey: navigatorService.navigatorKey,
                 routes: {
@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
             );
           }
           return const MaterialApp(
-              home: CircularProgressIndicator()); // Loading indicator;
+              home: CircularProgressIndicator()); 
         });
   }
 }

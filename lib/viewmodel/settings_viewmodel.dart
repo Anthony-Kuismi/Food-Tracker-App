@@ -10,7 +10,7 @@ class SettingsViewModel extends ChangeNotifier {
 
   var firestore = FirestoreService();
 
-  //needs to be changed to store data in firestore
+  
 
 
   final Settings _model = Settings();
@@ -21,7 +21,7 @@ class SettingsViewModel extends ChangeNotifier {
   String get birthDate => _model.birthDate;
   String get gender => _model.gender;
 
-  //List<Meal> get meals => _model.meals;
+  
 
 
   Future<void> load() async {

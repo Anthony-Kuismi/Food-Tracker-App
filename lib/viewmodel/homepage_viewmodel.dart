@@ -10,7 +10,7 @@ class HomePageViewModel extends ChangeNotifier {
   late final NavigatorService navigatorService;
   var firestore = FirestoreService();
 
-  double _waterPercentage = 0.0; // initial value
+  double _waterPercentage = 0.0; 
 
   double get waterPercentage => _waterPercentage;
   int get waterCups => _model.getWaterAmount();

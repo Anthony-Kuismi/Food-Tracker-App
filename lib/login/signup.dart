@@ -27,10 +27,10 @@ class _SignUpPageState extends State<SignUpPage> {
     final username = _usernameController.text;
     final password = _passwordController.text;
 
-    // Firestore instance
+    
     final firestore = FirebaseFirestore.instance;
 
-    // Create new user document
+    
     await firestore.collection('Users').doc(username).set({
       'Password': password,
     });

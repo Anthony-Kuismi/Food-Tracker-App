@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/view/search_view.dart';
+import 'package:food_tracker_app/viewmodel/search_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../model/meal.dart';
 import '../viewmodel/meal_list_viewmodel.dart';
@@ -18,10 +19,15 @@ class MealViewState extends State<MealView> {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<MealListViewModel>(context, listen: false);
+    final searchViewModel = Provider.of<SearchViewModel>(context, listen: false);
+    final foodSelectionService = searchViewModel.foodSelectionService;
     return PopScope(
-      // onPopInvoked: (bool didPop) async{
-      //   if (didPop) await viewModel.update();
-      // },
+      onPopInvoked: (bool didPop) {
+        if (didPop) {
+          searchViewModel.reset();
+          foodSelectionService.reset();
+        }
+      },
       child:Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.primary,

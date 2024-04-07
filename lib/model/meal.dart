@@ -75,7 +75,7 @@ class Meal {
 
   Meal operator +(Meal other) {
     var newMeal = Meal.clone(this);
-    // var newMeal = Meal(json: {'items': []});
+    
     newMeal.foods.addAll(foods);
 
     for (var food in other.foods.values) {

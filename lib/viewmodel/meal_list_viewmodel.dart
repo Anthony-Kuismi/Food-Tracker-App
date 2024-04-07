@@ -37,7 +37,7 @@ class MealListViewModel extends ChangeNotifier {
   void addMealFromMeal(Meal newMeal) async {
     meals.insert(0,newMeal);
     await firestore.addMealToUser(newMeal.toJson());
-    // await load();
+    
     notifyListeners();
   }
 
@@ -48,7 +48,7 @@ class MealListViewModel extends ChangeNotifier {
   }
 
   void updateMeal(Meal oldMeal, Meal newMeal) {
-    //newMeal.entitle();
+    
     final index = meals.indexOf(oldMeal);
     meals[index] = newMeal;
     firestore.updateMealForUser(oldMeal.id, newMeal);

@@ -109,7 +109,7 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
                     : Theme.of(context).colorScheme.primaryContainer,
                 animation: true,
                 animateFromLastPercent: true,
-                animationDuration: 750, // Set your desired animation duration
+                animationDuration: 750, 
               );
             },
           ),
