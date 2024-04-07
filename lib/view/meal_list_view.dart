@@ -44,7 +44,7 @@ class MealListView extends StatelessWidget {
                     onTap: () {
                       viewModel.editMeal(meal);
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MealView(currentMeal: meal,),
+                        builder: (context) => MealView(currentMeal: meal),
                       ));
                     },
                   );
@@ -85,7 +85,7 @@ class MealListView extends StatelessWidget {
                         };
                         Meal newMeal = Meal(json: json);
                         viewModel.addMealFromMeal(newMeal);
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MealView(currentMeal: newMeal,)));
                       },
                       child: const Text('OK'),
                     ),

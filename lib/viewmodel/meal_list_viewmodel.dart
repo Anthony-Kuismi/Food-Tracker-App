@@ -22,20 +22,22 @@ class MealListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addMeal(String title, DateTime timestamp) {
+  void addMeal(String title, DateTime timestamp) async {
     Meal newMeal = foodSelectionService.data;
 
     newMeal.entitle();
     newMeal.id = const Uuid().v4();
     newMeal.timestamp = timestamp;
-    meals.add(newMeal);
-    firestore.addMealToUser(newMeal.toJson());
+    _model.meals.add(newMeal);
+    await firestore.addMealToUser(newMeal.toJson());
+    await load();
     notifyListeners();
   }
 
-  void addMealFromMeal(Meal newMeal) {
-    meals.add(newMeal);
-    firestore.addMealToUser(newMeal.toJson());
+  void addMealFromMeal(Meal newMeal) async {
+    meals.insert(0,newMeal);
+    await firestore.addMealToUser(newMeal.toJson());
+    // await load();
     notifyListeners();
   }
 
@@ -58,5 +60,9 @@ class MealListViewModel extends ChangeNotifier {
     foodSelectionService.editingMeal = meal;
     foodSelectionService.update(meal);
     notifyListeners();
+  }
+
+  update() {
+    _model.fetch();
   }
 }

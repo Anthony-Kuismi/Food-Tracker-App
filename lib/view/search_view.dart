@@ -21,9 +21,12 @@ class SearchView extends StatelessWidget {
     return PopScope(
       onPopInvoked: (bool didPop) {
         if(didPop) searchViewModel.reset();
+        foodSelectionService.update(foodSelectionService.editingMeal!);
       },
+      // canPop: false,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Theme.of(context).colorScheme.primary,
           iconTheme: const IconThemeData(color: Colors.black),
           title: const Text(
