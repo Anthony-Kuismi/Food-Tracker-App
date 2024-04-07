@@ -67,7 +67,7 @@ class MealViewState extends State<MealView> {
             ElevatedButton.icon(
               onPressed: () {
                 viewModel.editMeal(widget.currentMeal);
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => SearchView(),
                 ));
               },
