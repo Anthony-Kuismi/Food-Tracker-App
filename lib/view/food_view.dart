@@ -1,80 +1,172 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/model/meal.dart';
 import '../model/food.dart';
-import './component/marcoPieChart.dart';
-import './custom_food_view.dart';
+import './component/macro_pie_chart.dart';
+import './component/nutrition_row.dart';
+import '../service/firestore_service.dart';
 
-class FoodView extends StatefulWidget{
+class FoodView extends StatefulWidget {
   final Food currentFood;
-  const FoodView({super.key, required this.currentFood});
-
+  final Meal currentMeal;
+  FirestoreService firestoreService = FirestoreService();
+  FoodView(
+      {super.key, required this.currentFood, required this.currentMeal});
   @override
   FoodViewState createState() => FoodViewState();
 }
 
-class FoodViewState extends State<FoodView>{
+class FoodViewState extends State<FoodView> {
+  void updateMacroPieChart(MacroPieChart macroPieChart) {
+    setState(() {
+      macroPieChart = MacroPieChart(
+          widget.currentFood.calories,
+          widget.currentFood.proteinG,
+          widget.currentFood.carbohydratesTotalG,
+          widget.currentFood.fatTotalG);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final currentFood = widget.currentFood;
+    MacroPieChart macroPieChart = MacroPieChart(
+        currentFood.calories,
+        currentFood.proteinG,
+        currentFood.carbohydratesTotalG,
+        currentFood.fatTotalG);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
-          widget.currentFood.name,
+          currentFood.title,
           style: const TextStyle(
             color: Colors.black,
           ),
         ),
       ),
-
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-              children: [
-                const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text(
-                        style: TextStyle(
-                          fontSize: 24,
-                        ),
-                        'Macronutrients'
-                    ),
-                ),
-                Text('Protein: ${widget.currentFood.protein_g} g'),
-                Text('Carbohydrates: ${widget.currentFood.carbohydrates_total_g} g'),
-                Text('Fats: ${widget.currentFood.fat_total_g} g'),
-                MacroPieChart(widget.currentFood.calories, widget.currentFood.protein_g, widget.currentFood.carbohydrates_total_g, widget.currentFood.fat_total_g),
-                const Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Text(
-                      style: TextStyle(
-                        fontSize: 24,
-                      ),
-                      'Other Nutrition'
+          child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(13.0),
+              child: Text(
+                  style: TextStyle(
+                    fontSize: 24,
                   ),
-                ),
-                Text('Saturated Fat: ${widget.currentFood.fat_saturated_g} g'),
-                Text('Fiber: ${widget.currentFood.fiber_g} g'),
-                Text('Potassium: ${widget.currentFood.potassium_mg} mg'),
-                Text('Serving Size: ${widget.currentFood.serving_size_g} g'),
-                Text('Sodium: ${widget.currentFood.sodium_mg} mg'),
-                Text('Sugar: ${widget.currentFood.fat_saturated_g} g'),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: ElevatedButton.icon(
-                    onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => CustomFoodView(editingFood: widget.currentFood,),
-                      ));
-                    },
-                    icon:  const Icon(Icons.edit, size: 18),
-                    label: const Text('Edit Food'),
-                  )
-                ),
-              ],
-          ),
-        )
-      ),
+                  'Macronutrients'),
+            ),
+            NutritionRow('Protein: ', currentFood.proteinG, 'g',
+                setter: (newValue) async {
+                    currentFood.setProteinG = newValue;
+                    updateMacroPieChart(macroPieChart);
+                    await widget.firestoreService.addCustomFoodForUser(currentFood);
+                },
+                currentMeal: widget.currentMeal),
+            NutritionRow(
+              'Carbohydrates: ',
+              currentFood.carbohydratesTotalG,
+              'g',
+              setter: (newValue) async {
+                currentFood.setCarbohydratesTotalG = newValue;
+                updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
+
+              },
+              currentMeal: widget.currentMeal,
+            ),
+            NutritionRow(
+              'Fats: ',
+              currentFood.fatTotalG,
+              'g',
+              setter: (newValue) async {
+                currentFood.setFatTotalG = newValue;
+                updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
+
+              },
+              currentMeal: widget.currentMeal,
+            ),
+            macroPieChart,
+            const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Text(
+                  style: TextStyle(
+                    fontSize: 24,
+                  ),
+                  'Other Nutrition'),
+            ),
+            NutritionRow(
+              'Saturated Fat:',
+              currentFood.fatSaturatedG,
+              'g',
+              setter: (newValue) async {
+                currentFood.setFatSaturatedG = newValue;
+                updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
+              },
+              currentMeal: widget.currentMeal,
+            ),
+            NutritionRow(
+              'Fiber: ',
+              currentFood.fiberG,
+              'g',
+              setter: (newValue) async {
+                currentFood.fiberG = newValue;
+                updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
+              },
+              currentMeal: widget.currentMeal,
+            ),
+            NutritionRow(
+              'Potassium: ',
+              currentFood.potassiumMG,
+              'mg',
+              setter: (newValue) async {
+                currentFood.potassiumMG = newValue;
+                updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
+              },
+              currentMeal: widget.currentMeal,
+            ),
+            NutritionRow(
+              'Serving Size: ',
+              currentFood.servingSizeG,
+              'g',
+              setter: (newValue) async {
+                currentFood.servingSizeG = newValue;
+                updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
+              },
+              currentMeal: widget.currentMeal,
+            ),
+            NutritionRow(
+              'Sodium: ',
+              currentFood.sodiumMG,
+              'mg',
+              setter: (newValue) async {
+                currentFood.sodiumMG = newValue;
+                updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
+              },
+              currentMeal: widget.currentMeal,
+            ),
+            NutritionRow(
+              'Sugar: ',
+              currentFood.sugarG,
+              'g',
+              setter: (newValue) async {
+                  currentFood.setSugarG = newValue;
+                  updateMacroPieChart(macroPieChart);
+                  await widget.firestoreService.addCustomFoodForUser(currentFood);
+              },
+              currentMeal: widget.currentMeal,
+            ),
+          ],
+        ),
+      )),
     );
   }
 }

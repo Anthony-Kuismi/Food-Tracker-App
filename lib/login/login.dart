@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../view/homepage_view.dart';
+import '../view/home_page_view.dart';
 import 'signup.dart';
 import 'forgot_password.dart';
+import '../service/firestore_service.dart';
 
 class LoginApp extends StatelessWidget {
   const LoginApp({super.key, required String title});
@@ -40,6 +40,7 @@ class _MyLoginPage extends State<MyLoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _passwordFocusNode = FocusNode();
   String _loginStatus = '';
+  FirestoreService firestoreService = FirestoreService();
 
   @override
   void initState() {
@@ -48,22 +49,11 @@ class _MyLoginPage extends State<MyLoginPage> {
   }
 
   Future<void> fetchUsers() async {
-    FirebaseFirestore.instance.collection('Users').get().then((querySnapshot) {
-      List<Map<String, String>> userList = [];
-
-      for (var doc in querySnapshot.docs) {
-        userList.add({
-          'username': doc.id, // Document ID as username
-          'password': doc.data()['Password'] as String, // Fetch password field
-        });
-      }
-
-      setState(() {
-        _users = userList;
-      });
+    final users = await firestoreService.getUsersFromFirestore();
+    setState(() {
+      _users = users;
     });
   }
-
 
   @override
   void dispose() {
@@ -73,7 +63,8 @@ class _MyLoginPage extends State<MyLoginPage> {
     super.dispose();
   }
 
-  void _fieldFocusChange(BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+  void _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
   }
@@ -98,7 +89,12 @@ class _MyLoginPage extends State<MyLoginPage> {
       await prefs.setString('username', _usernameController.text);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MyHomePage(username: _usernameController.text, title: '',)),      );
+        MaterialPageRoute(
+            builder: (context) => MyHomePage(
+                  username: _usernameController.text,
+                  title: '',
+                )),
+      );
     } else {
       setState(() {
         _loginStatus = 'Incorrect username or password';
@@ -113,20 +109,19 @@ class _MyLoginPage extends State<MyLoginPage> {
 
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => const LoginApp(title: 'Login Page')),
-          (Route<dynamic> route) => false,
+      MaterialPageRoute(
+          builder: (context) => const LoginApp(title: 'Login Page')),
+      (Route<dynamic> route) => false,
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text(
-          'Food Tracking: Hotdog Version',
+          'Food Tracking: Hot dog Version',
           style: TextStyle(
             color: Colors.black,
           ),
@@ -140,25 +135,27 @@ class _MyLoginPage extends State<MyLoginPage> {
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.1),
               ClipRRect(
-                child: Image.asset('assets/images/team-hot-dog-logo.png', height: 180),
+                child: Image.asset('assets/images/team-hot-dog-logo.png',
+                    height: 180),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               TextFormField(
                 controller: _usernameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Username',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.person),
                 ),
                 onFieldSubmitted: (term) {
-                  _fieldFocusChange(context, FocusScope.of(context), _passwordFocusNode);
+                  _fieldFocusChange(
+                      context, FocusScope.of(context), _passwordFocusNode);
                 },
               ),
               const SizedBox(height: 20),
               TextFormField(
                 focusNode: _passwordFocusNode,
                 controller: _passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.lock),
@@ -169,30 +166,34 @@ class _MyLoginPage extends State<MyLoginPage> {
               const SizedBox(height: 30),
               ElevatedButton(
                 onPressed: _login,
-                child: const Text('Login'),
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                 ),
+                child: const Text('Login'),
               ),
               const SizedBox(height: 20),
               Text(
                 _loginStatus,
-                style: TextStyle(color: _loginStatus == 'You have been logged in' ? Colors.green : Colors.red),
+                style: TextStyle(
+                    color: _loginStatus == 'You have been logged in'
+                        ? Colors.green
+                        : Colors.red),
               ),
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const ForgotPasswordPage()),
                   );
                 },
                 child: const Text('Forgot Password?'),
               ),
               const SizedBox(height: 20),
-              Divider(),
+              const Divider(),
               const SizedBox(height: 20),
-              Text('Don\'t have an account?'),
+              const Text('Don\'t have an account?'),
               TextButton(
                 onPressed: () {
                   Navigator.push(

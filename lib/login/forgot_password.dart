@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -23,25 +22,28 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       return;
     }
 
-    final DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('Users').doc(username).get();
+    final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(username)
+        .get();
 
     if (userDoc.exists) {
       setState(() {
-        _passwordStatus = 'Password: ${userDoc['Password']}'; // Displaying passwords like this is not secure
+        _passwordStatus =
+            'Password: ${userDoc['Password']}'; // Displaying passwords like this is not secure
       });
     } else {
       setState(() {
         _passwordStatus = 'User does not exist';
       });
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text(
           'Forgot Password',
@@ -60,7 +62,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               const SizedBox(height: 20),
               Image.asset('assets/images/team-hot-dog-logo.png', height: 100),
               const SizedBox(height: 40),
-              Text(
+              const Text(
                 'Retrieve Your Password',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
@@ -68,7 +70,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               const SizedBox(height: 20),
               TextField(
                 controller: _usernameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Username',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.person_outline),
@@ -77,15 +79,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _retrievePassword,
-                child: const Text('Retrieve Password'),
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                 ),
+                child: const Text('Retrieve Password'),
               ),
               const SizedBox(height: 20),
               Text(
                 _passwordStatus,
-                style: TextStyle(color: Colors.blue, fontSize: 16),
+                style: const TextStyle(color: Colors.blue, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ],
