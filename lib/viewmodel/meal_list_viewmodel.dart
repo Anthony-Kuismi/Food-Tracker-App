@@ -15,6 +15,9 @@ class MealListViewModel extends ChangeNotifier {
   final MealList _model = MealList();
 
   List<Meal> get meals => _model.meals;
+  Map<DateTime,List<Meal>> get mealsByDay {
+    return _model.mealsByDay;
+  }
   var firestore = FirestoreService();
 
   Future<void> load() async {
@@ -37,7 +40,7 @@ class MealListViewModel extends ChangeNotifier {
   void addMealFromMeal(Meal newMeal) async {
     meals.insert(0,newMeal);
     await firestore.addMealToUser(newMeal.toJson());
-    
+
     notifyListeners();
   }
 
@@ -48,7 +51,7 @@ class MealListViewModel extends ChangeNotifier {
   }
 
   void updateMeal(Meal oldMeal, Meal newMeal) {
-    
+
     final index = meals.indexOf(oldMeal);
     meals[index] = newMeal;
     firestore.updateMealForUser(oldMeal.id, newMeal);

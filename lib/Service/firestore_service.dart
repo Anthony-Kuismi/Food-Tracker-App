@@ -174,8 +174,14 @@ class FirestoreService {
 
   Future<List<Meal>> getMealsFromUserByTimestamp(DateTime day) async {
     List<Meal> out = await getMealsFromUser();
+    print(out);
+    print(out[0].timestamp.year == day.year);
+    print(out[0].timestamp.month == day.month);
+    print(out[0].timestamp.day == day.day);
+    out = out.where((meal) => meal.timestamp.year == day.year && meal.timestamp.month == day.month &&
+        meal.timestamp.day == day.day).toList();
+    print(out);
+    return out;
 
-    return out.where((meal) => meal.timestamp.year == day.year && meal.timestamp.month == DateTime.now().month &&
-        meal.timestamp.day == DateTime.now().day).toList();
   }
 }

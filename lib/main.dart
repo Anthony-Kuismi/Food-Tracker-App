@@ -47,14 +47,14 @@ class MyApp extends StatelessWidget {
                   primarySwatch: Colors.blue,
                 ),
                 home: isLoggedIn
-                    ? const MyHomePage(
+                    ? MyHomePage(
                         title: 'Hot Dog',
                         username: 'User') 
                     : const LoginApp(title: 'Login'),
                 navigatorKey: navigatorService.navigatorKey,
                 routes: {
                   'MyHomePage': (context) =>
-                      const MyHomePage(title: 'Hot Dog', username: ''),
+                      MyHomePage(title: 'Hot Dog', username: ''),
                   'MealListView': (context) => const MealListView(),
                   'SearchView': (context) => const SearchView(),
                   'SettingsView': (context) => const SettingsView(username: ''),

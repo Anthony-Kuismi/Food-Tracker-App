@@ -23,7 +23,7 @@ class SearchView extends StatelessWidget {
         if(didPop) searchViewModel.reset();
         foodSelectionService.update(foodSelectionService.editingMeal!);
       },
-      
+
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -187,11 +187,11 @@ class AddMealButton extends StatelessWidget {
             mealListViewModel.addMeal(
                 searchViewModel.query, searchViewModel.timestamp);
           }
-          
+
 
         },
         icon: const Icon(Icons.add, size: 18),
-        label: const Text('Add Selected Foods'),
+        label: const Text('Update Meal'),
       ),
     );
   }

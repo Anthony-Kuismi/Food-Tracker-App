@@ -16,18 +16,44 @@ class HomePageViewModel extends ChangeNotifier {
   int get waterCups => _model.getWaterAmount();
   int get waterCupsGoal => _model.getWaterGoal();
 
+  get calories => _model.calories;
+  set calories(newValue) => calories = newValue;
+  get carbohydratesTotalG => _model.carbohydratesTotalG;
+  set carbohydratesTotalG(newValue) => carbohydratesTotalG = newValue;
+  get proteinG => _model.proteinG;
+  set proteinG(newValue) => proteinG = newValue;
+  get fatTotalG => _model.fatTotalG;
+  set fatTotalG(newValue) => fatTotalG = newValue;
+
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   final HomePage _model = HomePage();
 
-  get dailyData => _model.dailyData;
+  
 
   Future<void> load() async {
     date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
     await _model.fetchWaterEntry(date);
-    await _model.fetchDailyData();
-    notifyListeners();
+    await fetchDailyData();
     updateWaterPercentage();
+    notifyListeners();
+  }
+
+  Future<void> fetchDailyData({DateTime? day}) async{
+    day ??= DateTime.now();
+    print("firestore request...");
+    final meals = await firestore.getMealsFromUserByTimestamp(day);
+    _model.calories = 0.0;
+    _model.carbohydratesTotalG = 0.0;
+    _model.proteinG = 0.0;
+    _model.fatTotalG = 0.0;
+    for (Meal meal in meals){
+      _model.calories += meal.calories;
+      _model.carbohydratesTotalG += meal.carbohydratesTotalG;
+      _model.proteinG += meal.proteinG;
+      _model.fatTotalG += meal.fatTotalG;
+    }
   }
 
   void addWater() {

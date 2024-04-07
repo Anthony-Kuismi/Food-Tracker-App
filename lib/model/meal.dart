@@ -28,6 +28,8 @@ class Meal {
         timestamp = DateTime.now(),
         foods = {for (var item in foodList) item.id: item};
 
+  get day => DateTime(timestamp.year,timestamp.month,timestamp.day);
+
   void add(Food food) {
     foods[food.id] = food;
   }

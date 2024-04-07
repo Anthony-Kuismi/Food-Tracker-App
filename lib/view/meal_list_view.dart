@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/view/component/macro_pie_chart.dart';
 import 'package:food_tracker_app/view/search_view.dart';
+import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -27,57 +28,91 @@ class MealListView extends StatelessWidget {
         builder: (context, snapshot) {
           return Consumer<MealListViewModel>(
             builder: (context, viewModel, child) {
+              final mealsByDay = viewModel.mealsByDay;
               return ListView.builder(
-                itemCount: viewModel.meals.length,
+                itemCount: mealsByDay.keys.length,
                 itemBuilder: (context, index) {
-                  final meal = viewModel.meals[index];
-                  return ListTile(
-                    title: Row( 
-                      children: [
-                        SizedBox( 
-                          width: 50,
-                          height: 50,
-                          child: MacroPieChart(
-                            meal.calories,
-                            meal.proteinG,
-                            meal.carbohydratesTotalG,
-                            meal.fatTotalG,
-                            chartRadius: 50,
-                            chartValuesOptions: const ChartValuesOptions(
-                              showChartValues: false,
+                  DateTime date = mealsByDay.keys.elementAt(index);
+                  List<Meal> dayMeals = mealsByDay[date]!;
+                  double calories = 0;
+                  double proteinG = 0;
+                  double carbohydratesTotalG = 0;
+                  double fatTotalG = 0;
+                  dayMeals.forEach((meal){
+                    calories += meal.calories;
+                    proteinG += meal.proteinG;
+                    carbohydratesTotalG += meal.carbohydratesTotalG;
+                    fatTotalG += meal.fatTotalG;
+                  });
+                  return ExpansionTile(
+                    trailing: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: MacroPieChart(
+                        calories,
+                        proteinG,
+                        carbohydratesTotalG,
+                        fatTotalG,
+                        chartRadius: 50,
+                        chartValuesOptions:
+                        const ChartValuesOptions(showChartValues: false),
+                        legendOptions: const LegendOptions(showLegends: false),
+                        centerText: '',
+                        ringStrokeWidth: 8,
+                      ),
+                    ),
+                    title: Text(DateFormat('yyyy-MM-dd').format(date)),
+                    children: dayMeals
+                        .map((meal) => ListTile(
+                      title: Row(
+                        children: [
+                          SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: MacroPieChart(
+                              meal.calories,
+                              meal.proteinG,
+                              meal.carbohydratesTotalG,
+                              meal.fatTotalG,
+                              chartRadius: 50,
+                              chartValuesOptions:
+                              const ChartValuesOptions(
+                                  showChartValues: false),
+                              legendOptions: const LegendOptions(
+                                  showLegends: false),
+                              centerText: '',
+                              ringStrokeWidth: 8,
                             ),
-                            legendOptions: const LegendOptions(
-                              showLegends: false,
-                            ),
-                            centerText: '',
-                            ringStrokeWidth: 8
                           ),
-                        ),
-                        Padding( 
-                          padding: const EdgeInsets.only(left: 8.0), 
-                          child: Expanded(
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
                               children: [
                                 Text(meal.title),
                                 Text(meal.timestampString),
                               ],
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () => viewModel.removeMeal(meal),
-                    ),
-                    onTap: () {
-                      viewModel.editMeal(meal);
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MealView(currentMeal: meal),
-                      ));
-                    },
+                        ],
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () => viewModel.removeMeal(meal),
+                        padding: const EdgeInsets.only(left:0),
+                      ),
+                      onTap: () {
+                        viewModel.editMeal(meal);
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              MealView(currentMeal: meal),
+                        ));
+                      },
+                    ))
+                        .toList(),
                   );
                 },
               );
@@ -87,47 +122,50 @@ class MealListView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                TextEditingController controller = TextEditingController();
-                return AlertDialog(
-                  title: const Text('Adding New Meal'),
-                  content: TextField(
-                    controller: controller,
-                    keyboardType: TextInputType.name,
-                    decoration: const InputDecoration(
-                      hintText: 'Meal Name',
-                    ),
-                  ),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        String mealName = controller.text;
-                        if(mealName == ''){
-                          mealName = 'Empty Name';
-                        }
-                        dynamic json = {
-                          'title': mealName,
-                          'id': const Uuid().v4(),
-                          'timestamp': DateTime.now().millisecondsSinceEpoch,
-                          'items': [],
-                        };
-                        Meal newMeal = Meal(json: json);
-                        viewModel.addMealFromMeal(newMeal);
-                        viewModel.editMeal(newMeal);
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> SearchView()));
-                      },
-                      child: const Text('OK'),
-                    ),
-                  ],
-                );
-              });
-        },
+        onPressed: () => _showAddMealDialog(context, viewModel),
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: const NavBar(key: Key('customNavBar')),
     );
+  }
+
+  void _showAddMealDialog(BuildContext context, MealListViewModel viewModel) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          TextEditingController controller = TextEditingController();
+          return AlertDialog(
+            title: const Text('Adding New Meal'),
+            content: TextField(
+              controller: controller,
+              keyboardType: TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: 'Meal Name',
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  String mealName = controller.text;
+                  if (mealName == '') {
+                    mealName = 'Empty Name';
+                  }
+                  dynamic json = {
+                    'title': mealName,
+                    'id': const Uuid().v4(),
+                    'timestamp': DateTime.now().millisecondsSinceEpoch,
+                    'items': [],
+                  };
+                  Meal newMeal = Meal(json: json);
+                  viewModel.addMealFromMeal(newMeal);
+                  viewModel.editMeal(newMeal);
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => SearchView()));
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        });
   }
 }
