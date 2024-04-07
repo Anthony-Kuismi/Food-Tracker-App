@@ -40,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   (MediaQuery.of(context).size.height / 1.5),
               children: <Widget>[
                 waterContainer(context, viewModel),
+                dailySummary(context, viewModel)
               ],
             ),
           );
@@ -177,42 +178,39 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
   );
 }
 
-// Widget dailySummary(BuildContext context, HomePageViewModel viewModel) {
-//   FirestoreService firestoreService = FirestoreService();
-//   return FutureBuilder(
-//     future: firestoreService.getMealsFromUser(),
-//     builder: (context, snapshot) {
-//       Map<String, double> summary = calculateDailySummary();
-//
-//       return Container(
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(10),
-//           color: Colors.black26,
-//         ),
-//         margin: const EdgeInsets.all(4),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             Text(
-//               'Daily Summary',
-//               style: Theme.of(context).textTheme.titleMedium,
-//               textAlign: TextAlign.center,
-//             ),
-//             SizedBox(height: 10),
-//             Text(
-//               'Total Calories: ${summary['totalCalories']}',
-//               style: Theme.of(context).textTheme.bodyLarge,
-//             ),
-//             Text(
-//               'Total Protein: ${summary['totalProtein']}',
-//               style: Theme.of(context).textTheme.bodyLarge,
-//             ),
-//             Text(
-//               'Total Carbs: ${summary['totalCarbs']}',
-//               style: Theme.of(context).textTheme.bodyLarge,
-//             ),
-//             Text(
-//               'Total Fat: ${summary['totalFat']}',
-//               style: Theme.of(context).textTheme.bodyLarge,
-//             ),
-//           ],
+Widget dailySummary(BuildContext context, HomePageViewModel viewModel) {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.black26,
+        ),
+        margin: const EdgeInsets.all(4),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Daily Summary',
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Total Calories: ${viewModel.dailyData['totalCalories']}',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Text(
+              'Total Protein: ${viewModel.dailyData['totalProtein']}',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Text(
+              'Total Carbs: ${viewModel.dailyData['totalCarbs']}',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Text(
+              'Total Fat: ${viewModel.dailyData['totalFat']}',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ],
+        ),
+      );
+}

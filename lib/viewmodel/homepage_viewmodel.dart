@@ -20,9 +20,12 @@ class HomePageViewModel extends ChangeNotifier {
 
   final HomePage _model = HomePage();
 
+  get dailyData => _model.dailyData;
+
   Future<void> load() async {
     date = DateFormat('yyyy-MM-dd').format(DateTime.now());
     await _model.fetchWaterEntry(date);
+    await _model.fetchDailyData();
     notifyListeners();
     updateWaterPercentage();
   }
@@ -56,31 +59,6 @@ class HomePageViewModel extends ChangeNotifier {
     _model.setWaterGoal(goal);
     firestore.setWaterGoalForUser(goal);
     updateWaterPercentage();
-  }
-
-  Future <Map<String, double>> calculateDailySummary() async {
-    final meals = await firestore.getMealsFromUser();
-
-    double totalCalories = 0.0;
-    double totalProtein = 0.0;
-    double totalCarbs = 0.0;
-    double totalFat = 0.0;
-
-    for (Meal meal in meals) {
-      if (true) {
-        totalCalories += meal.calories;
-        totalProtein += meal.proteinG;
-        totalCarbs += meal.carbohydratesTotalG;
-        totalFat += meal.fatTotalG;
-      }
-    }
-
-    return {
-      'totalCalories': totalCalories,
-      'totalProtein': totalProtein,
-      'totalCarbs': totalCarbs,
-      'totalFat': totalFat,
-    };
   }
 }
 

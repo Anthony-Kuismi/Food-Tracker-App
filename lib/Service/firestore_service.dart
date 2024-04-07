@@ -172,8 +172,10 @@ class FirestoreService {
     return userDoc.data()!['Gender'];
   }
 
-  // Future<List<Meal>> getMealsFromUserByDay(DateTime day) async {
-  //   list<Meal> out = await getMealsFromUser()
-  //   return
-  // }
+  Future<List<Meal>> getMealsFromUserByTimestamp(DateTime day) async {
+    List<Meal> out = await getMealsFromUser();
+
+    return out.where((meal) => meal.timestamp.year == day.year && meal.timestamp.month == DateTime.now().month &&
+        meal.timestamp.day == DateTime.now().day).toList();
+  }
 }
