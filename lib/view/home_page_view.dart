@@ -244,7 +244,7 @@ class DailySummary extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          '${viewModel.calories}',
+                          '${viewModel.calories.toStringAsFixed(1)}',
                           style: Theme.of(context).textTheme.displayLarge?.copyWith(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.w900,
@@ -266,15 +266,15 @@ class DailySummary extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Protein: ${viewModel.proteinG}g',
+                            'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
                           ),
                           Text(
-                            'Carbs: ${viewModel.carbohydratesTotalG}g',
+                            'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
                           ),
                           Text(
-                            'Fat: ${viewModel.fatTotalG}g',
+                            'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
                           ),
                         ],
