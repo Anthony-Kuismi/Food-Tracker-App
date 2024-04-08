@@ -335,7 +335,7 @@ class _SettingsView extends State<SettingsView> {
       );
      },
     ),
-      bottomNavigationBar: const NavBar(key: Key('customNavBar')),
+      bottomNavigationBar: const NavBar(key: Key('customNavBar'), currentPage: 'SettingsView'),
     );
   }
 }

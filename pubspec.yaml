@@ -49,10 +49,17 @@ dependencies:
   percent_indicator: ^4.2.3
   numberpicker: ^2.1.2
   flutter_local_notifications: ^17.0.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  image_path: "assets/images/app-icon.png"
+  adaptive_icon_foreground: "assets/images/app-icon.png"
+  adaptive_icon_background: "#5004d4"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -69,6 +76,7 @@ flutter:
   assets:
     - assets/images/TeamHotDogLogo.PNG
     - assets/images/team-hot-dog-logo.png
+    - assets/images/app_icon_logo.svg
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

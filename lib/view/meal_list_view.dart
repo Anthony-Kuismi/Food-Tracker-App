@@ -125,7 +125,7 @@ class MealListView extends StatelessWidget {
         onPressed: () => _showAddMealDialog(context, viewModel),
         child: const Icon(Icons.add),
       ),
-      bottomNavigationBar: const NavBar(key: Key('customNavBar')),
+      bottomNavigationBar: const NavBar(key: Key('customNavBar'), currentPage: 'MealListView'),
     );
   }
 
