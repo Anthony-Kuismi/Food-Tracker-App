@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../Service/auth_service.dart';
 import '../viewmodel/settings_viewmodel.dart';
@@ -43,14 +44,60 @@ class _SettingsView extends State<SettingsView> {
                 ),
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        '${viewModel.firstName} ${viewModel.lastName}',
-                        style: TextStyle(
-                          fontSize: Theme.of(context).textTheme.titleLarge?.fontSize,
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.bold,
+
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            TextEditingController firstNameController = TextEditingController();
+                            TextEditingController lastNameController = TextEditingController();
+                            return AlertDialog(
+                              title: const Text('Set your name'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  TextField(
+                                    controller: firstNameController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Enter your first name',
+                                    ),
+                                  ),
+                                  TextField(
+                                    controller: lastNameController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Enter your last name',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    String firstName = firstNameController.text;
+                                    String lastName = lastNameController.text;
+                                    if (firstName.isNotEmpty && lastName.isNotEmpty) {
+                                      viewModel.setFirstName(firstName);
+                                      viewModel.setLastName(lastName);
+                                    }
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          '${viewModel.firstName} ${viewModel.lastName}',
+                          style: TextStyle(
+                            fontSize: Theme.of(context).textTheme.titleLarge?.fontSize,
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -59,48 +106,180 @@ class _SettingsView extends State<SettingsView> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Theme.of(context).colorScheme.primaryContainer,
-                            ),
-                            child: Text(
-                              'Weight: ${viewModel.weightInPounds}lbs',
-                              style: TextStyle(
-                                fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
-                                color: Colors.white,
+
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  TextEditingController weightController = TextEditingController();
+                                  return AlertDialog(
+                                    title: const Text('Set your weight'),
+                                    content: TextField(
+                                      controller: weightController,
+                                      keyboardType: TextInputType.number,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Enter your weight in pounds',
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          double? newWeight = double.tryParse(weightController.text);
+                                          if (newWeight != null) {
+                                            viewModel.setWeightInPounds(newWeight);
+                                          }
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Theme.of(context).colorScheme.primaryContainer,
+                              ),
+                              child: Text(
+                                'Weight: ${viewModel.weightInPounds}lbs',
+                                style: TextStyle(
+                                  fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Theme.of(context).colorScheme.primaryContainer,
-                            ),
-                            child: Text(
-                              'Height: ${viewModel.heightInInches} in', // Replace with actual height
-                              style: TextStyle(
-                                fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
-                                color: Colors.white,
+
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  TextEditingController heightController = TextEditingController();
+                                  return AlertDialog(
+                                    title: const Text('Set your height'),
+                                    content: TextField(
+                                      controller: heightController,
+                                      keyboardType: TextInputType.number,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Enter your height in inches',
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          int? newHeight = int.tryParse(heightController.text);
+                                          if (newHeight != null) {
+                                            viewModel.setHeightInInches(newHeight);
+                                          }
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Theme.of(context).colorScheme.primaryContainer,
+                              ),
+                              child: Text(
+                                'Height: ${viewModel.heightInInches} in',
+                                style: TextStyle(
+                                  fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Theme.of(context).colorScheme.primaryContainer,
-                            ),
-                            child: Text(
-                              'Gender: ${viewModel.gender}', // Replace with actual gender
-                              style: TextStyle(
-                                fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
-                                color: Colors.white,
+
+
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  String? selectedGender = viewModel.gender;
+                                  return StatefulBuilder(
+                                    builder: (context, setState) {
+                                      return AlertDialog(
+                                        title: const Text('Set your gender'),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            RadioListTile<String>(
+                                              title: const Text('Male'),
+                                              value: 'Male',
+                                              groupValue: selectedGender,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  selectedGender = value;
+                                                });
+                                              },
+                                            ),
+                                            RadioListTile<String>(
+                                              title: const Text('Female'),
+                                              value: 'Female',
+                                              groupValue: selectedGender,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  selectedGender = value;
+                                                });
+                                              },
+                                            ),
+                                            RadioListTile<String>(
+                                              title: const Text('Not specified'),
+                                              value: 'Not specified',
+                                              groupValue: selectedGender,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  selectedGender = value;
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              if (selectedGender != null) {
+                                                viewModel.setGender(selectedGender!);
+                                              }
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Theme.of(context).colorScheme.primaryContainer,
+                              ),
+                              child: Text(
+                                viewModel.gender,
+                                style: TextStyle(
+                                  fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
+
                         ],
                       ),
                     ),
@@ -108,21 +287,33 @@ class _SettingsView extends State<SettingsView> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.black26,
+            GestureDetector(
+              onTap: () async {
+                final DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime.now(),
+                );
+                if (pickedDate != null) {
+                  String formattedDate = DateFormat('MM-dd-yyyy').format(pickedDate);
+                  viewModel.setBirthDate(formattedDate);
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                   borderRadius: BorderRadius.circular(10),
+                   color: Colors.black26,
                 ),
-                child: ListTile(
+                  child: ListTile(
                   title: const Text('Birthdate'),
-                  subtitle: Text(viewModel.birthDate), // Add your description
+                  subtitle: Text(viewModel.birthDate),
                   leading: const Icon(Icons.cake),
-                  onTap: () {
-                  },
                 ),
               ),
+            ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
