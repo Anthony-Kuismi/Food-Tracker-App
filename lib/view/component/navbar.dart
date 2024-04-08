@@ -12,29 +12,45 @@ class NavBar extends StatelessWidget {
         Provider.of<NavigatorService>(context, listen: false);
 
     return Container(
-      height: 70,
-      color: Theme.of(context).colorScheme.secondary,
+      height: 50,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        border: Border(
+          top: BorderSide(
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.9),
+            width: 1.0,
+          ),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
+            spreadRadius: 5.0,
+            blurRadius: 20.0,
+            offset: const Offset(0, -5),
+          ),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
-            icon: const Icon(Icons.menu_book, color: Colors.black),
+            icon: Icon(Icons.menu_book, color: Theme.of(context).colorScheme.primary),
             onPressed: () {
               navigatorService.pushReplace('MealListView');
             },
-            iconSize: 40,
+            iconSize: 30,
           ),
           IconButton(
-            icon: const Icon(Icons.home, color: Colors.black),
+            icon: Icon(Icons.home, color: Theme.of(context).colorScheme.primary),
             onPressed: () {
               navigatorService.pushReplace('MyHomePage');
             },
-            iconSize: 40,
+            iconSize: 30,
           ),
           IconButton(
-            icon: const Icon(Icons.settings, color: Colors.black),
+            icon: Icon(Icons.menu, color: Theme.of(context).colorScheme.primary),
             onPressed:(){navigatorService.pushReplace('SettingsView');},
-            iconSize: 40,
+            iconSize: 30,
           ),
         ],
       ),
