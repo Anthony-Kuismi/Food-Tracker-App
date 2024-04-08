@@ -133,13 +133,14 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
             bottom: 10,
             left: 10,
             child: ClipOval(
-              child: ElevatedButton.icon(
-                icon: const Icon(Icons.remove, size: 20, color: Colors.white),
-                label: const Text(''),
-                
+              child: FloatingActionButton(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                mini: true,
+                heroTag: 'subtractButton',
                 onPressed: () {
                   viewModel.removeWater();
                 },
+                child: const Icon(Icons.remove, size: 20, color: Colors.white),
                 
               ),
             ),
@@ -149,6 +150,7 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
             right: 10,
             child: ClipOval(
               child: FloatingActionButton(
+                heroTag: 'addButton',
                 mini: true,
                 onPressed: () {
                   viewModel.addWater();
