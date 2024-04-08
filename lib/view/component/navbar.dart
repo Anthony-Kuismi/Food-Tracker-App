@@ -4,28 +4,30 @@ import 'package:provider/provider.dart';
 import '../../service/navigator_service.dart';
 
 class NavBar extends StatelessWidget {
-  const NavBar({required Key key}) : super(key: key);
+  final String currentPage;
+
+  const NavBar({required Key key, required this.currentPage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final NavigatorService navigatorService =
-        Provider.of<NavigatorService>(context, listen: false);
+    Provider.of<NavigatorService>(context, listen: false);
 
     return Container(
-      height: 50,
+      height: 70,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.background,
         border: Border(
           top: BorderSide(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.9),
+            color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.8),
             width: 1.0,
           ),
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
+            color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.7),
             spreadRadius: 5.0,
-            blurRadius: 20.0,
+            blurRadius: 15.0,
             offset: const Offset(0, -5),
           ),
         ],
@@ -33,24 +35,47 @@ class NavBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          IconButton(
-            icon: Icon(Icons.menu_book, color: Theme.of(context).colorScheme.primary),
-            onPressed: () {
-              navigatorService.pushReplace('MealListView');
-            },
-            iconSize: 30,
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              color: currentPage == 'MealListView' ? Theme.of(context).colorScheme.primaryContainer : null,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.menu_book, color: Colors.white),
+              onPressed: () {
+                navigatorService.pushReplace('MealListView');
+              },
+              iconSize: 30,
+            ),
           ),
-          IconButton(
-            icon: Icon(Icons.home, color: Theme.of(context).colorScheme.primary),
-            onPressed: () {
-              navigatorService.pushReplace('MyHomePage');
-            },
-            iconSize: 30,
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              color: currentPage == 'MyHomePage' ? Theme.of(context).colorScheme.primaryContainer : null,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.home, color: Colors.white),
+              onPressed: () {
+                navigatorService.pushReplace('MyHomePage');
+              },
+              iconSize: 30,
+            ),
           ),
-          IconButton(
-            icon: Icon(Icons.menu, color: Theme.of(context).colorScheme.primary),
-            onPressed:(){navigatorService.pushReplace('SettingsView');},
-            iconSize: 30,
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              color: currentPage == 'SettingsView' ? Theme.of(context).colorScheme.primaryContainer : null,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.menu, color: Colors.white),
+              onPressed: () {
+                navigatorService.pushReplace('SettingsView');
+              },
+              iconSize: 30,
+            ),
           ),
         ],
       ),

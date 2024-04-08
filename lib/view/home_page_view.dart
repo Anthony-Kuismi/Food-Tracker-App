@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      bottomNavigationBar: const NavBar(key: Key('navBar')),
+      bottomNavigationBar: const NavBar(key: Key('navBar'), currentPage: 'MyHomePage'),
       body: FutureBuilder(
         future: _loadFuture,
         builder: (context, snapshot) {
