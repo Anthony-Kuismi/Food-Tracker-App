@@ -69,12 +69,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      NotificationService().showNotification(
-                          title: 'test title', body: 'get bodied');
-                    },
-                    child: Text('Send Notification')),
               ],
             ),
           );
