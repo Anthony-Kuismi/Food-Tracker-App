@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:food_tracker_app/model/meal.dart';
 import 'package:food_tracker_app/model/water.dart';
 import 'package:intl/intl.dart';
-
 import '../Service/firestore_service.dart';
 import '../Service/navigator_service.dart';
 import '../model/home_page.dart';
@@ -10,21 +10,50 @@ class HomePageViewModel extends ChangeNotifier {
   late final NavigatorService navigatorService;
   var firestore = FirestoreService();
 
-  double _waterPercentage = 0.0; // initial value
+  double _waterPercentage = 0.0; 
 
   double get waterPercentage => _waterPercentage;
   int get waterCups => _model.getWaterAmount();
   int get waterCupsGoal => _model.getWaterGoal();
 
+  get calories => _model.calories;
+  set calories(newValue) => calories = newValue;
+  get carbohydratesTotalG => _model.carbohydratesTotalG;
+  set carbohydratesTotalG(newValue) => carbohydratesTotalG = newValue;
+  get proteinG => _model.proteinG;
+  set proteinG(newValue) => proteinG = newValue;
+  get fatTotalG => _model.fatTotalG;
+  set fatTotalG(newValue) => fatTotalG = newValue;
+
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   final HomePage _model = HomePage();
 
+  
+
   Future<void> load() async {
     date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
     await _model.fetchWaterEntry(date);
-    notifyListeners();
+    await fetchDailyData();
     updateWaterPercentage();
+    notifyListeners();
+  }
+
+  Future<void> fetchDailyData({DateTime? day}) async{
+    day ??= DateTime.now();
+    print("firestore request...");
+    final meals = await firestore.getMealsFromUserByTimestamp(day);
+    _model.calories = 0.0;
+    _model.carbohydratesTotalG = 0.0;
+    _model.proteinG = 0.0;
+    _model.fatTotalG = 0.0;
+    for (Meal meal in meals){
+      _model.calories += meal.calories;
+      _model.carbohydratesTotalG += meal.carbohydratesTotalG;
+      _model.proteinG += meal.proteinG;
+      _model.fatTotalG += meal.fatTotalG;
+    }
   }
 
   void addWater() {
@@ -58,3 +87,5 @@ class HomePageViewModel extends ChangeNotifier {
     updateWaterPercentage();
   }
 }
+
+

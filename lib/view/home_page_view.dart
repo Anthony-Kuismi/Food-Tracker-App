@@ -1,13 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/service/local_notification_service.dart';
-import 'package:provider/provider.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../viewmodel/homepage_viewmodel.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title, required String username});
+  MyHomePage({super.key, required this.title, required String username});
 
+  HomePageViewModel viewModel = HomePageViewModel();
   final String title;
 
   @override
@@ -16,8 +17,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  void initState() {
+    super.initState();
+    _loadFuture = widget.viewModel.load();
+  }
+
+  late Future _loadFuture;
+
+  @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<HomePageViewModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -31,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       bottomNavigationBar: const NavBar(key: Key('navBar')),
       body: FutureBuilder(
-        future: viewModel.load(),
+        future: _loadFuture,
         builder: (context, snapshot) {
           return Padding(
             padding: const EdgeInsets.all(16),
@@ -40,13 +48,16 @@ class _MyHomePageState extends State<MyHomePage> {
               childAspectRatio: MediaQuery.of(context).size.width /
                   (MediaQuery.of(context).size.height / 1.5),
               children: <Widget>[
-                waterContainer(context, viewModel),
+
+                waterContainer(context, widget.viewModel),
+                DailySummary(viewModel: widget.viewModel!),
                 ElevatedButton(
                     onPressed: () {
                       NotificationService().showNotification(
                           title: 'test title', body: 'get bodied');
                     },
-                    child: Text('Send Notification'))
+                    child: Text('Send Notification')
+                ),
               ],
             ),
           );
@@ -115,7 +126,7 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
                         : Theme.of(context).colorScheme.primaryContainer,
                 animation: true,
                 animateFromLastPercent: true,
-                animationDuration: 750, // Set your desired animation duration
+                animationDuration: 750,
               );
             },
           ),
@@ -132,11 +143,12 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
             left: 10,
             child: ClipOval(
               child: FloatingActionButton(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 mini: true,
+                heroTag: 'subtractButton',
                 onPressed: () {
                   viewModel.removeWater();
                 },
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 child: const Icon(Icons.remove, size: 20, color: Colors.white),
               ),
             ),
@@ -146,6 +158,7 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
             right: 10,
             child: ClipOval(
               child: FloatingActionButton(
+                heroTag: 'addButton',
                 mini: true,
                 onPressed: () {
                   viewModel.addWater();
@@ -182,4 +195,47 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
       ),
     ),
   );
+}
+
+class DailySummary extends StatelessWidget {
+  HomePageViewModel viewModel;
+
+  DailySummary({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.black26,
+        ),
+        margin: const EdgeInsets.all(4),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Daily Summary',
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Total Calories: ${viewModel.calories}',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Text(
+              'Total Protein: ${viewModel.proteinG}',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Text(
+              'Total Carbs: ${viewModel.carbohydratesTotalG}',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Text(
+              'Total Fat: ${viewModel.fatTotalG}',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ],
+        ));
+  }
 }

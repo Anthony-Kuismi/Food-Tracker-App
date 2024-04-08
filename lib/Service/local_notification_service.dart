@@ -43,7 +43,7 @@ class NotificationService extends ChangeNotifier{
     var platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
 
     await flutterLocalNotificationsPlugin.show(
-      0, // Notification ID
+      0, 
       title,
       body,
       platformChannelSpecifics,
@@ -54,21 +54,14 @@ class NotificationService extends ChangeNotifier{
      waterTimer = Timer.periodic(const Duration(hours: 2), (Timer timer) async {
        DateTime? lastWater = await firestore.getMostRecentWaterForUser();
        log(DateTime.now().difference(lastWater??DateTime.now()).toString());
-       if(DateTime.now().difference(lastWater??DateTime.now()) > Duration(hours:2)){
+       var timeSinceWater = DateTime.now().difference(lastWater??DateTime.now());
+       if(timeSinceWater > Duration(hours:2)){
          print("Notification should fire here");
          NotificationService().showNotification(
-             title: 'WATER NOW', body: 'Chug some wata');
+             title: 'Drink Some Water', body: 'Stay Hydrated its been $timeSinceWater since you drank water');
        }
      });
   }
 
 
 }
-
-
-//notification sends after a certain time
-//1) user adds water
-//2) time stamp is attached to that action
-//3) time stamp is checked every interval
-//4) if time stamp shows its been to long a notification to drink more water is sent
-//4) repeat

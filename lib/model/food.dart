@@ -138,4 +138,10 @@ class Food {
     sugarG = newValue;
     custom = true;
   }
+
+  Food clone() {
+    Food clone = Food.fromJson(this.toJson());
+    clone.id = Uuid().v4();
+    return clone;
+  }
 }

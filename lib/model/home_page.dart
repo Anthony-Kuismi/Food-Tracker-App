@@ -1,6 +1,5 @@
 import 'package:food_tracker_app/model/water.dart';
 import 'package:intl/intl.dart';
-
 import '../Service/firestore_service.dart';
 
 class HomePage {
@@ -10,10 +9,21 @@ class HomePage {
       Water(date: DateFormat('yyyy-MM-dd').format(DateTime.now()), amount: 0, timestamps: []);
   int goal = 10;
 
+  double calories = 0.0;
+  double proteinG = 0.0;
+  double carbohydratesTotalG = 0.0;
+  double fatTotalG = 0.0;
+
+
+
   Future<void> fetchWaterEntry(String date) async {
     water = await FirestoreService().getWaterEntryForUser(date);
     goal = await FirestoreService().getWaterGoalForUser();
   }
+
+  
+  
+  
 
   void addWater() {
     water.amount++;

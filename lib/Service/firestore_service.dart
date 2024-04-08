@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import '../model/food.dart';
 import '../model/meal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -190,4 +189,59 @@ class FirestoreService {
     }
 
   }
+  Future<List<Meal>> getMealsFromUserByTimestamp(DateTime day) async {
+    List<Meal> out = await getMealsFromUser();
+    print(out);
+    print(out[0].timestamp.year == day.year);
+    print(out[0].timestamp.month == day.month);
+    print(out[0].timestamp.day == day.day);
+    out = out.where((meal) => meal.timestamp.year == day.year && meal.timestamp.month == day.month &&
+        meal.timestamp.day == day.day).toList();
+    print(out);
+    return out;
+
+  }
+
+  Future<void> setUserFirstName(firstName) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'First Name': firstName});
+  }
+
+  Future<void> setUserLastName(lastName) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'Last Name': lastName});
+  }
+
+  Future<void> setUserHeightInInches(height) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'Height': height});
+  }
+
+  Future<void> setUserWeightInPounds(weight) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'Weight': weight});
+  }
+
+  Future<void> setUserGender(gender) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'Gender': gender});
+  }
+
+  Future<void> setUserBirthdate(birthdate) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'Birthdate': birthdate});
+  }
+
 }

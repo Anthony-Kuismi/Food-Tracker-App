@@ -6,6 +6,7 @@ import '../../viewmodel/search_viewmodel.dart';
 import '../../viewmodel/meal_list_viewmodel.dart';
 import '../model/meal.dart';
 import 'food_view.dart';
+import 'meal_view.dart';
 
 class SearchView extends StatelessWidget {
   const SearchView({super.key});
@@ -13,42 +14,47 @@ class SearchView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final searchViewModel = Provider.of<SearchViewModel>(context, listen: true);
-    final mealListViewModel =
-        Provider.of<MealListViewModel>(context, listen: true);
-    final foodSelectionService =
-        Provider.of<FoodSelectionService>(context, listen: true);
-    final navigatorService =
-        Provider.of<NavigatorService>(context, listen: false);
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
-          'Add Foods to Your Diet',
-          style: TextStyle(
-            color: Colors.black,
+    final mealListViewModel = Provider.of<MealListViewModel>(context, listen: true);
+    final foodSelectionService = Provider.of<FoodSelectionService>(context, listen: true);
+    final navigatorService = Provider.of<NavigatorService>(context, listen: false);
+
+    return PopScope(
+      onPopInvoked: (bool didPop) {
+        if(didPop) searchViewModel.reset();
+        foodSelectionService.update(foodSelectionService.editingMeal!);
+      },
+
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          iconTheme: const IconThemeData(color: Colors.black),
+          title: const Text(
+            'Add Foods to Your Diet',
+            style: TextStyle(
+              color: Colors.black,
+            ),
           ),
         ),
-      ),
-      body: Column(
-        children: [
-          SearchBar(viewmodel: searchViewModel),
-          SearchResults(
-            searchViewModel: searchViewModel,
-            foodSelectionService: foodSelectionService,
-            navigatorService: navigatorService,
-          ),
-          AddMealButton(
+        body: Column(
+          children: [
+            SearchBar(viewmodel: searchViewModel),
+            SearchResults(
               searchViewModel: searchViewModel,
-              mealListViewModel: mealListViewModel,
               foodSelectionService: foodSelectionService,
-              navigatorService: navigatorService),
-        ],
+              navigatorService: navigatorService,
+            ),
+            AddMealButton(
+                searchViewModel: searchViewModel,
+                mealListViewModel: mealListViewModel,
+                foodSelectionService: foodSelectionService,
+                navigatorService: navigatorService),
+          ],
+        ),
       ),
     );
   }
 }
-
 class SearchBar extends StatelessWidget {
   final SearchViewModel viewmodel;
 
@@ -171,6 +177,9 @@ class AddMealButton extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       child: ElevatedButton.icon(
         onPressed: () {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => MealView(currentMeal: foodSelectionService.editingMeal!,),
+          ));
           if (foodSelectionService.mode == FoodSelectionMode.edit) {
             Meal oldMeal = foodSelectionService.editingMeal as Meal;
             mealListViewModel.updateMeal(oldMeal, foodSelectionService.data);
@@ -178,12 +187,11 @@ class AddMealButton extends StatelessWidget {
             mealListViewModel.addMeal(
                 searchViewModel.query, searchViewModel.timestamp);
           }
-          searchViewModel.reset();
-          foodSelectionService.reset();
-          navigatorService.pushReplace('MealListView');
+
+
         },
         icon: const Icon(Icons.add, size: 18),
-        label: const Text('Add Selected Foods'),
+        label: const Text('Update Meal'),
       ),
     );
   }

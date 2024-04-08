@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:food_tracker_app/service/local_notification_service.dart';
 import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,7 +37,7 @@ class MyApp extends StatelessWidget {
         future: Firebase.initializeApp(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            //return SomethingWentWrong(); // Please add this functionality
+            
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return AppProvider(
@@ -54,14 +53,14 @@ class MyApp extends StatelessWidget {
                   primarySwatch: Colors.blue,
                 ),
                 home: isLoggedIn
-                    ? const MyHomePage(
+                    ? MyHomePage(
                         title: 'Hot Dog',
-                        username: 'User') // Adjust according to your logic
+                        username: 'User') 
                     : const LoginApp(title: 'Login'),
                 navigatorKey: navigatorService.navigatorKey,
                 routes: {
                   'MyHomePage': (context) =>
-                      const MyHomePage(title: 'Hot Dog', username: ''),
+                      MyHomePage(title: 'Hot Dog', username: ''),
                   'MealListView': (context) => const MealListView(),
                   'SearchView': (context) => const SearchView(),
                   'SettingsView': (context) => const SettingsView(username: ''),
@@ -71,7 +70,7 @@ class MyApp extends StatelessWidget {
             );
           }
           return const MaterialApp(
-              home: CircularProgressIndicator()); // Loading indicator;
+              home: CircularProgressIndicator()); 
         });
   }
 
