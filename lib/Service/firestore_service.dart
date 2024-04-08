@@ -184,4 +184,47 @@ class FirestoreService {
     return out;
 
   }
+
+  Future<void> setUserFirstName(firstName) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'First Name': firstName});
+  }
+
+  Future<void> setUserLastName(lastName) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'Last Name': lastName});
+  }
+
+  Future<void> setUserHeightInInches(height) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'Height': height});
+  }
+
+  Future<void> setUserWeightInPounds(weight) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'Weight': weight});
+  }
+
+  Future<void> setUserGender(gender) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'Gender': gender});
+  }
+
+  Future<void> setUserBirthdate(birthdate) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'Birthdate': birthdate});
+  }
+
 }

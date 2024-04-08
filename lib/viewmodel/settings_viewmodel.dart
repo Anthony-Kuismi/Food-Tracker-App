@@ -53,6 +53,42 @@ class SettingsViewModel extends ChangeNotifier {
     return _model.gender;
   }
 
+  void setFirstName(String firstName) {
+    _model.firstName = firstName;
+    firestore.setUserFirstName(firstName);
+    notifyListeners();
+  }
+
+  void setLastName(String lastName) {
+    _model.lastName = lastName;
+    firestore.setUserLastName(lastName);
+    notifyListeners();
+  }
+
+  void setHeightInInches(int heightInInches) {
+    _model.heightInInches = heightInInches;
+    firestore.setUserHeightInInches(heightInInches);
+    notifyListeners();
+  }
+
+  void setWeightInPounds(double weightInPounds) {
+    _model.weightInPounds = weightInPounds;
+    firestore.setUserWeightInPounds(weightInPounds);
+    notifyListeners();
+  }
+
+  void setBirthDate(String birthDate) {
+    _model.birthDate = birthDate;
+    firestore.setUserBirthdate(birthDate);
+    notifyListeners();
+  }
+
+  void setGender(String gender) {
+    _model.gender = gender;
+    firestore.setUserGender(gender);
+    notifyListeners();
+  }
+
 
 
 }
