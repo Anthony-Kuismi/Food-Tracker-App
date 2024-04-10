@@ -237,7 +237,7 @@ GestureDetector weightContainer(BuildContext context, viewModel) {
                                 ),
                                 Icon(
                                   Icons.arrow_upward,
-                                  color: Colors.green,
+                                  color: Colors.white,
                                   size: 18,
                                 )
                               ],

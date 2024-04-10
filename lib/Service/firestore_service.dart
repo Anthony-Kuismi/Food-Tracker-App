@@ -244,4 +244,26 @@ class FirestoreService {
     user.doc('$username').update({'Birthdate': birthdate});
   }
 
+  Future<int> getUserLastWeightEntry() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    final userDoc = await user.doc('$username').get();
+    return userDoc.data()!['Last Weight Entry'];
+  }
+
+  Future<void> setUserLastWeightEntry(int weight) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'Last Weight Entry': weight});
+  }
+
+  Future<void> addUserWeightEntry(DateTime date, int weight, int entry) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'Last Weight Entry': weight});
+  }
+
 }
