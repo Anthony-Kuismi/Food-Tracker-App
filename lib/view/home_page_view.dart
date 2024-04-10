@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         (MediaQuery.of(context).size.height / 1.5),
                     children: <Widget>[
                       waterContainer(context, widget.viewModel),
-
+                      weightContainer(context, widget.viewModel),
                     ],
                   ),
                 ),
@@ -76,6 +76,184 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+GestureDetector weightContainer(BuildContext context, viewModel) {
+  return GestureDetector(
+    onTap: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          TextEditingController controller = TextEditingController();
+          return AlertDialog(
+            title: const Text('Select Weekly Goal'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Enter how much weight you would like to gain/lose every week'),
+                TextField(
+                  controller: controller,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter your goal',
+                  ),
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  int? newValue = int.tryParse(controller.text);
+                  if (newValue != null) {
+                    //viewModel.setWaterGoal(newValue);
+                  }
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    },
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.black26,
+      ),
+      margin: const EdgeInsets.all(4),
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Positioned(
+              top: 10,
+              child: Text(
+                'Your Weight',
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Positioned(
+              top: 35,
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  'Goal Here',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 10,
+              right: 10,
+              child: ClipOval(
+                child: FloatingActionButton(
+                  heroTag: 'addButton',
+                  mini: true,
+                  onPressed: () {
+                    //viewModel.addWater();
+                  },
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  child: const Icon(Icons.scale, size: 20, color: Colors.black),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 25,
+              left: 15,
+              child: Text(
+                'Log Weight',
+                style: Theme.of(context).textTheme.titleSmall,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Center(
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: '145',
+                              style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'lbs',
+                              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          RichText(
+                            text: TextSpan(
+                              style: DefaultTextStyle.of(context).style,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: '145',
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'lbs',
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                Text(
+                                  '5%',
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.arrow_upward,
+                                  color: Colors.green,
+                                  size: 18,
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        )
+    ),
+  );
 }
 
 GestureDetector waterContainer(BuildContext context, viewModel) {
