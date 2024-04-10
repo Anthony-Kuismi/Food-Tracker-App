@@ -29,20 +29,24 @@ class HomePageViewModel extends ChangeNotifier {
 
   final HomePage _model = HomePage();
 
-  
+  double get weightGoal => _model.weightGoal;
+  double get weight => _model.weight;
+  int get lastEntryNumber => _model.lastEntryNumber;
+  double get lastWeightEntry => _model.lastWeight;
+
 
   Future<void> load() async {
     date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-
     await _model.fetchWaterEntry(date);
     await fetchDailyData();
+    await _model.fetchWeightEntry(date);
+    print("here" + lastWeightEntry.toString());
     updateWaterPercentage();
     notifyListeners();
   }
 
   Future<void> fetchDailyData({DateTime? day}) async{
     day ??= DateTime.now();
-    print("firestore request...");
     final meals = await firestore.getMealsFromUserByTimestamp(day);
     _model.calories = 0.0;
     _model.carbohydratesTotalG = 0.0;

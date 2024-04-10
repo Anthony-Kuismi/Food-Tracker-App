@@ -142,7 +142,7 @@ GestureDetector weightContainer(BuildContext context, viewModel) {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  'Goal Here',
+                  'Goal:' + viewModel.weightGoal.toString() + ' lbs',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black),
                   textAlign: TextAlign.center,
                 ),
@@ -183,7 +183,7 @@ GestureDetector weightContainer(BuildContext context, viewModel) {
                           style: DefaultTextStyle.of(context).style,
                           children: <TextSpan>[
                             TextSpan(
-                              text: '145',
+                              text: viewModel.weight.toStringAsFixed(1),
                               style: Theme.of(context).textTheme.displayMedium?.copyWith(
                                 color: Theme.of(context).colorScheme.primary,
                                 fontWeight: FontWeight.w900,
@@ -209,7 +209,7 @@ GestureDetector weightContainer(BuildContext context, viewModel) {
                               style: DefaultTextStyle.of(context).style,
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: '145',
+                                  text: viewModel.lastWeightEntry.toStringAsFixed(1),
                                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600,
