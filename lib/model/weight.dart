@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 class Weight {
-  DateTime date;
+  String date;
   double weight;
 
   Weight({required this.date, required this.weight});

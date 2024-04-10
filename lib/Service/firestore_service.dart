@@ -3,6 +3,7 @@ import '../model/food.dart';
 import '../model/meal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/water.dart';
+import '../model/weight.dart';
 
 class FirestoreService {
   Future<void> addMealToUser(Map<String, dynamic> meal) async {
@@ -244,7 +245,7 @@ class FirestoreService {
     user.doc('$username').update({'Birthdate': birthdate});
   }
 
-  Future<int> getUserLastWeightEntry() async {
+  Future<int> getUserLastWeightEntryNumber() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
     final user = FirebaseFirestore.instance.collection('Users');
@@ -259,11 +260,19 @@ class FirestoreService {
     user.doc('$username').update({'Last Weight Entry': weight});
   }
 
-  Future<void> addUserWeightEntry(DateTime date, int weight, int entry) async {
+  Future<void> addUserWeightEntry(Weight weight, int entry) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
-    final user = FirebaseFirestore.instance.collection('Users');
-    user.doc('$username').update({'Last Weight Entry': weight});
+    final user = FirebaseFirestore.instance.collection('Users/$username/Weight Entries');
+    user.doc('entry' + (entry).toString()).set(weight.toJson());
+  }
+
+  Future<double> getUserWeight(int num) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users/$username/Weight Entries');
+    final userDoc = await user.doc('entry' + (num).toString()).get();
+    return (userDoc.data()!['weight'] as double);
   }
 
 }
