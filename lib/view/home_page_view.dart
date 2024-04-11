@@ -4,6 +4,8 @@ import 'package:food_tracker_app/service/local_notification_service.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../viewmodel/homepage_viewmodel.dart';
+import '../Service/basal_metabolic_rate_service.dart';
+import '../viewmodel/settings_viewmodel.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({super.key, required this.title, required String username});
@@ -210,6 +212,7 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
 
 class DailySummary extends StatelessWidget {
   HomePageViewModel viewModel;
+  BMRService bmrService = new BMRService();
 
   DailySummary({super.key, required this.viewModel});
 
@@ -248,7 +251,13 @@ class DailySummary extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          '${viewModel.calories.toStringAsFixed(1)}',
+                          '${bmrService.calculateDailyCalorieGoal(
+                              viewModel.weightInPounds * 0.453592,
+                              viewModel.heightInInches * 2.54,
+                              viewModel.getGender(),
+                              viewModel.getAge,
+                              Lifestyle.SEDENTARY,
+                            ).toStringAsFixed(1)}',
                           style: Theme.of(context).textTheme.displayLarge?.copyWith(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.w900,

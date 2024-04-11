@@ -8,7 +8,7 @@ class SettingsViewModel extends ChangeNotifier {
 
   var firestore = FirestoreService();
 
-  
+
 
 
   final Settings _model = Settings();
@@ -18,9 +18,6 @@ class SettingsViewModel extends ChangeNotifier {
   double get weightInPounds => _model.weightInPounds;
   String get birthDate => _model.birthDate;
   String get gender => _model.gender;
-
-  
-
 
   Future<void> load() async {
     await _model.fetchSettings();
@@ -47,8 +44,8 @@ class SettingsViewModel extends ChangeNotifier {
     return _model.birthDate;
   }
 
-  String getGender() {
-    return _model.gender;
+  Gender getGender() {
+
   }
 
   void setFirstName(String firstName) {
@@ -86,7 +83,4 @@ class SettingsViewModel extends ChangeNotifier {
     firestore.setUserGender(gender);
     notifyListeners();
   }
-
-
-
 }
