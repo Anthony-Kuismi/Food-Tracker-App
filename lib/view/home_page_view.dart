@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     childAspectRatio: MediaQuery.of(context).size.width /
                         (MediaQuery.of(context).size.height / 4.5),
                     children: <Widget>[
-                      DailySummary(viewModel: widget.viewModel),
+                      dailySummaryContainer(context, widget.viewModel),
                     ],
                   ),
 
@@ -90,7 +90,7 @@ GestureDetector weightContainer(BuildContext context, viewModel) {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Enter how much weight you would like to gain/lose every week'),
+                Text('Enter how much weight you would like to gain/lose every week\n\nYou may not lose/gain more than two pounds a week.'),
                 TextField(
                   controller: controller,
                   keyboardType: TextInputType.number,
@@ -103,9 +103,13 @@ GestureDetector weightContainer(BuildContext context, viewModel) {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  int? newValue = int.tryParse(controller.text);
-                  if (newValue != null) {
-                    //viewModel.setWaterGoal(newValue);
+                  double? newValue = double.tryParse(controller.text);
+                  if (newValue != null && newValue > 2) {
+                    viewModel.setWeightGoal(2);
+                  } else if (newValue != null && newValue < -2) {
+                    viewModel.setWeightGoal(-2);
+                  } else if (newValue != null) {
+                    viewModel.setWeightGoal(newValue);
                   }
                   Navigator.of(context).pop();
                 },
@@ -229,15 +233,15 @@ GestureDetector weightContainer(BuildContext context, viewModel) {
                             child: Row(
                               children: [
                                 Text(
-                                  '5%',
+                                  '${viewModel.percentChange.toStringAsFixed(1)}%',
                                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: Colors.green,
+                                    color: viewModel.weightGoal > 0 && viewModel.percentChange > 0 ? Colors.green : Colors.red,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 Icon(
-                                  Icons.arrow_upward,
-                                  color: Colors.white,
+                                  viewModel.percentChange > 0 ? Icons.arrow_upward : Icons.arrow_downward,
+                                  color: viewModel.weightGoal > 0 && viewModel.percentChange > 0 ? Colors.green : Colors.red,
                                   size: 18,
                                 )
                               ],
@@ -386,88 +390,80 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
   );
 }
 
-class DailySummary extends StatelessWidget {
-  HomePageViewModel viewModel;
-
-  DailySummary({super.key, required this.viewModel});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.black26,
-      ),
-      margin: const EdgeInsets.all(4),
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        'Daily Summary',
-                        style: Theme.of(context).textTheme.titleMedium,
-                        textAlign: TextAlign.left,
-                      ),
-                      const Icon(Icons.today),
-                    ],
-                  ),
+Container dailySummaryContainer(BuildContext context, HomePageViewModel viewModel) {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: Colors.black26,
+    ),
+    margin: const EdgeInsets.all(4),
+    child: Padding(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Daily Summary',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.left,
                 ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          '${viewModel.calories.toStringAsFixed(1)}',
-                          style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        Text(
-                          'Calories',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ],
+                const Icon(Icons.today),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${viewModel.calories.toStringAsFixed(1)}',
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w900,
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
-                          ),
-                          Text(
-                            'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
-                          ),
-                          Text(
-                            'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
-                          ),
-                        ],
-                      ),
+                  ),
+                  Text(
+                    'Calories',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+                    ),
+                    Text(
+                      'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+                    ),
+                    Text(
+                      'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
                     ),
                   ],
                 ),
-              ],
-            )
-        )
-
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
   );
-  }
 }
