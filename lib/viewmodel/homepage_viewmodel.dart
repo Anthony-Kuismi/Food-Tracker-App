@@ -102,6 +102,13 @@ class HomePageViewModel extends ChangeNotifier {
     firestore.setUserWeightGoal(goal);
     notifyListeners();
   }
+
+  void setWeightInPounds(double weight) {
+    _model.weight = weight;
+    firestore.setUserWeightInPounds(weight);
+    calcWeightChange();
+    notifyListeners();
+  }
 }
 
 

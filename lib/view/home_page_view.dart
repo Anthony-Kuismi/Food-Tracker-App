@@ -168,7 +168,35 @@ GestureDetector weightContainer(BuildContext context, viewModel, Function refres
                   heroTag: 'addButton',
                   mini: true,
                   onPressed: () {
-                    //viewModel.addWater();
+                    TextEditingController controller = TextEditingController();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Enter Your Weight'),
+                          content: TextField(
+                            controller: controller,
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              hintText: 'Enter your weight',
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                double? newValue = double.tryParse(controller.text);
+                                if (newValue != null) {
+                                  viewModel.setWeightInPounds(newValue);
+                                }
+                                Navigator.of(context).pop();
+                                refresh();
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   child: const Icon(Icons.scale, size: 20, color: Colors.black),
