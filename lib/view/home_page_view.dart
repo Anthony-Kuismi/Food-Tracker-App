@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_tracker_app/service/local_notification_service.dart';
+import 'package:provider/provider.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../viewmodel/homepage_viewmodel.dart';
@@ -8,24 +7,30 @@ import '../viewmodel/homepage_viewmodel.dart';
 class MyHomePage extends StatefulWidget {
   MyHomePage({super.key, required this.title, required String username});
 
-  HomePageViewModel viewModel = HomePageViewModel();
+  final HomePageViewModel viewModel = HomePageViewModel();
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  void refresh() {
+    setState(() {});
+  }
+
+  late Future _loadFuture;
+
   @override
   void initState() {
     super.initState();
     _loadFuture = widget.viewModel.load();
   }
 
-  late Future _loadFuture;
-
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<HomePageViewModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -64,8 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     childAspectRatio: MediaQuery.of(context).size.width /
                         (MediaQuery.of(context).size.height / 1.5),
                     children: <Widget>[
-                      waterContainer(context, widget.viewModel),
-                      weightContainer(context, widget.viewModel),
+                      waterContainer(context, widget.viewModel, refresh),
+                      weightContainer(context, widget.viewModel, refresh),
                     ],
                   ),
                 ),
@@ -78,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-GestureDetector weightContainer(BuildContext context, viewModel) {
+GestureDetector weightContainer(BuildContext context, viewModel, Function refresh) {
   return GestureDetector(
     onTap: () {
       showDialog(
@@ -112,6 +117,7 @@ GestureDetector weightContainer(BuildContext context, viewModel) {
                     viewModel.setWeightGoal(newValue);
                   }
                   Navigator.of(context).pop();
+                  refresh();
                 },
                 child: const Text('OK'),
               ),
@@ -235,13 +241,17 @@ GestureDetector weightContainer(BuildContext context, viewModel) {
                                 Text(
                                   '${viewModel.percentChange.toStringAsFixed(1)}%',
                                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: viewModel.weightGoal > 0 && viewModel.percentChange > 0 ? Colors.green : Colors.red,
+                                    color: (viewModel.weightGoal >= 0 && viewModel.percentChange >= 0) ? Colors.green :
+                                    (viewModel.weightGoal <= 0 && viewModel.percentChange <= 0) ? Colors.green :
+                                    Colors.red,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 Icon(
                                   viewModel.percentChange > 0 ? Icons.arrow_upward : Icons.arrow_downward,
-                                  color: viewModel.weightGoal > 0 && viewModel.percentChange > 0 ? Colors.green : Colors.red,
+                                  color: (viewModel.weightGoal >= 0 && viewModel.percentChange >= 0) ? Colors.green :
+                                  (viewModel.weightGoal <= 0 && viewModel.percentChange <= 0) ? Colors.green :
+                                  Colors.red,
                                   size: 18,
                                 )
                               ],
@@ -260,7 +270,7 @@ GestureDetector weightContainer(BuildContext context, viewModel) {
   );
 }
 
-GestureDetector waterContainer(BuildContext context, viewModel) {
+GestureDetector waterContainer(BuildContext context, viewModel, Function refresh) {
   return GestureDetector(
     onTap: () {
       showDialog(
@@ -283,6 +293,7 @@ GestureDetector waterContainer(BuildContext context, viewModel) {
                   if (newValue != null) {
                     viewModel.setWaterGoal(newValue);
                   }
+                  refresh();
                   Navigator.of(context).pop();
                 },
                 child: const Text('OK'),

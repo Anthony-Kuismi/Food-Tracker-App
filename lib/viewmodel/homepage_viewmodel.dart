@@ -41,7 +41,6 @@ class HomePageViewModel extends ChangeNotifier {
     await _model.fetchWaterEntry(date);
     await fetchDailyData();
     await _model.fetchWeightEntry(date);
-    print("here" + lastWeightEntry.toString());
     calcWeightChange();
     updateWaterPercentage();
     notifyListeners();
