@@ -8,9 +8,6 @@ class SettingsViewModel extends ChangeNotifier {
 
   var firestore = FirestoreService();
 
-
-
-
   final Settings _model = Settings();
   String get firstName => _model.firstName;
   String get lastName => _model.lastName;
@@ -42,10 +39,6 @@ class SettingsViewModel extends ChangeNotifier {
 
   String getBirthDate() {
     return _model.birthDate;
-  }
-
-  Gender getGender() {
-
   }
 
   void setFirstName(String firstName) {

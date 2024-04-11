@@ -15,6 +15,7 @@ class HomePageViewModel extends ChangeNotifier {
   double get waterPercentage => _waterPercentage;
   int get waterCups => _model.getWaterAmount();
   int get waterCupsGoal => _model.getWaterGoal();
+  double percentChange = 0;
 
   get calories => _model.calories;
   set calories(newValue) => calories = newValue;
@@ -29,20 +30,24 @@ class HomePageViewModel extends ChangeNotifier {
 
   final HomePage _model = HomePage();
 
-  
+  double get weightGoal => _model.weightGoal;
+  double get weight => _model.weight;
+  int get lastEntryNumber => _model.lastEntryNumber;
+  double get lastWeightEntry => _model.lastWeight;
+
 
   Future<void> load() async {
     date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-
     await _model.fetchWaterEntry(date);
     await fetchDailyData();
+    await _model.fetchWeightEntry(date);
+    calcWeightChange();
     updateWaterPercentage();
     notifyListeners();
   }
 
   Future<void> fetchDailyData({DateTime? day}) async{
     day ??= DateTime.now();
-    print("firestore request...");
     final meals = await firestore.getMealsFromUserByTimestamp(day);
     _model.calories = 0.0;
     _model.carbohydratesTotalG = 0.0;
@@ -85,6 +90,17 @@ class HomePageViewModel extends ChangeNotifier {
     _model.setWaterGoal(goal);
     firestore.setWaterGoalForUser(goal);
     updateWaterPercentage();
+  }
+
+  void calcWeightChange() {
+    percentChange = -((lastWeightEntry - weight) / lastWeightEntry) * 100;
+    notifyListeners();
+  }
+
+  void setWeightGoal(double goal) {
+    _model.weightGoal = goal;
+    firestore.setUserWeightGoal(goal);
+    notifyListeners();
   }
 }
 
