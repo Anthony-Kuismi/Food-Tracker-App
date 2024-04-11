@@ -54,11 +54,11 @@ class HomePage {
   Future<void> fetchWeightEntry(String date) async {
     try {
       lastEntryNumber = await FirestoreService().getUserLastWeightEntryNumber();
-      print('Last entry number: $lastEntryNumber');
+      print('Last entry number: ${lastEntryNumber}');
 
       weight = await FirestoreService().getUserWeightInPounds();
       weightGoal = await FirestoreService().getUserWeightGoal();
-      print("a request...");
+      print(lastEntryNumber);
 
       lastWeight = await FirestoreService().getUserWeightByEntry(lastEntryNumber);
       print("firestore request...");

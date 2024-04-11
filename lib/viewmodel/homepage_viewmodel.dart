@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../Service/firestore_service.dart';
 import '../Service/navigator_service.dart';
 import '../model/home_page.dart';
+import '../model/weight.dart';
 
 class HomePageViewModel extends ChangeNotifier {
   late final NavigatorService navigatorService;
@@ -105,7 +106,11 @@ class HomePageViewModel extends ChangeNotifier {
 
   void setWeightInPounds(double weight) {
     _model.weight = weight;
+    Weight obj = Weight(date: date, weight: weight);
     firestore.setUserWeightInPounds(weight);
+    firestore.addWeightEntry(obj, (lastEntryNumber + 2).toString());
+    firestore.setUserLastWeightEntry(lastEntryNumber + 1);
+
     calcWeightChange();
     notifyListeners();
   }

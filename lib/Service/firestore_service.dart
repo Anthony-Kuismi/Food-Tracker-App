@@ -253,11 +253,11 @@ class FirestoreService {
     return userDoc.data()!['Last Weight Entry'];
   }
 
-  Future<void> setUserLastWeightEntry(int weight) async {
+  Future<void> setUserLastWeightEntry(int num) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
     final user = FirebaseFirestore.instance.collection('Users');
-    user.doc('$username').update({'Last Weight Entry': weight});
+    user.doc('$username').update({'Last Weight Entry': num});
   }
 
   Future<void> addUserWeightEntry(Weight weight, int entry) async {
@@ -270,11 +270,10 @@ class FirestoreService {
   Future<double> getUserWeightByEntry(int num) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
-    final user = FirebaseFirestore.instance.collection('Users/$username/Weight Entries');
-    final userDoc = await user.doc('entry' + (num).toString()).get();
-    print(userDoc);
-    print(userDoc.data()!['Weight']);
-    return (userDoc.data()!['Weight'].toDouble());
+    final docRef = FirebaseFirestore.instance.doc('Users/$username/Weight Entries/entry${num}');
+    final docSnapshot = await docRef.get();
+    print('num $num');
+    return (docSnapshot.data()!['weight']).toDouble();
   }
 
   Future<void> setUserWeightGoal(double num) async {
@@ -290,6 +289,13 @@ class FirestoreService {
     final user = FirebaseFirestore.instance.collection('Users');
     final userDoc = await user.doc('$username').get();
     return (userDoc.data()!['Weight Goal'] as num).toDouble();
+  }
+
+  Future<void> addWeightEntry(Weight weight, String num) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users/$username/Weight Entries');
+    user.doc('entry${num}').set(weight.toJson());
   }
 
 }
