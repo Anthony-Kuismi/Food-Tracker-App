@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:food_tracker_app/Service/basal_metabolic_rate_service.dart';
 import '../model/food.dart';
 import '../model/meal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -292,4 +293,32 @@ class FirestoreService {
     return (userDoc.data()!['Weight Goal'] as num).toDouble();
   }
 
+  Future<Lifestyle> getUserLifestyle() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    final userDoc = await user.doc('$username').get();
+    final data = userDoc.data()!['Lifestyle'];
+    switch(data){
+      case 'Sedentary':
+        return Lifestyle.SEDENTARY;
+      case 'Slightly Active':
+        return Lifestyle.SLIGHTLY_ACTIVE;
+      case 'Moderately Active':
+        return Lifestyle.MODERATELY_ACTIVE;
+      case 'Very Active':
+        return Lifestyle.VERY_ACTIVE;
+      case 'Extremely Active':
+        return Lifestyle.EXTREMELY_ACTIVE;
+      default:
+        return Lifestyle.SEDENTARY;
+    }
+  }
+
+  Future<void> setUserLifestyle(String lifestyle) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final user = FirebaseFirestore.instance.collection('Users');
+    user.doc('$username').update({'Lifestyle': lifestyle});
+  }
 }

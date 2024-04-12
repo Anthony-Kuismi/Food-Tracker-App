@@ -437,7 +437,7 @@ Container dailySummaryContainer(BuildContext context, HomePageViewModel viewMode
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${viewModel.calories.toStringAsFixed(1)}',
+                    '${viewModel.calorieGoal.toStringAsFixed(1)}',
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w900,

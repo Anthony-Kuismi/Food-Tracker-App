@@ -17,6 +17,12 @@ class HomePageViewModel extends ChangeNotifier {
   int get waterCupsGoal => _model.getWaterGoal();
   double percentChange = 0;
 
+  double _caloriePercentage = 0.0;
+  double get caloriePercentage => _caloriePercentage;
+
+  double _calorieGoal = 0.0;
+  double get calorieGoal => _calorieGoal;
+
   get calories => _model.calories;
   set calories(newValue) => calories = newValue;
   get carbohydratesTotalG => _model.carbohydratesTotalG;
@@ -41,7 +47,10 @@ class HomePageViewModel extends ChangeNotifier {
     await _model.fetchWaterEntry(date);
     await fetchDailyData();
     await _model.fetchWeightEntry(date);
+    await _model.fetchUserInfo();
     calcWeightChange();
+    updateCalorieGoal();
+    updateCaloriePercentage();
     updateWaterPercentage();
     notifyListeners();
   }
@@ -100,6 +109,16 @@ class HomePageViewModel extends ChangeNotifier {
   void setWeightGoal(double goal) {
     _model.weightGoal = goal;
     firestore.setUserWeightGoal(goal);
+    notifyListeners();
+  }
+
+  void updateCalorieGoal(){
+    _calorieGoal = _model.getDailyCalorieGoal();
+    notifyListeners();
+  }
+
+  void updateCaloriePercentage(){
+    _caloriePercentage = _model.calories/_model.getDailyCalorieGoal();
     notifyListeners();
   }
 }

@@ -1,3 +1,5 @@
+import 'package:food_tracker_app/Service/basal_metabolic_rate_service.dart';
+
 import '../Service/firestore_service.dart';
 
 class Settings {
@@ -9,6 +11,7 @@ class Settings {
   double weightInPounds = 0;
   String birthDate = '';
   String gender = '';
+  Lifestyle lifestyle = Lifestyle.EXTREMELY_ACTIVE;
 
   Future<void> fetchSettings() async {
     firstName = await firestore.getUserFirstName();
@@ -17,5 +20,6 @@ class Settings {
     weightInPounds = await firestore.getUserWeightInPounds();
     birthDate = await firestore.getUserBirthdate();
     gender = await firestore.getUserGender();
+    lifestyle = await firestore.getUserLifestyle();
   }
 }
