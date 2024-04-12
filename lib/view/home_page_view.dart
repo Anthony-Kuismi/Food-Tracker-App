@@ -354,10 +354,10 @@ GestureDetector waterContainer(BuildContext context, viewModel, Function refresh
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 progressColor: viewModel.waterPercentage < 0.5
-                    ? Colors.red
+                    ? Theme.of(context).colorScheme.tertiary
                     : viewModel.waterPercentage < 1.0
-                        ? Colors.orange
-                        : Theme.of(context).colorScheme.primaryContainer,
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.primaryContainer,
                 animation: true,
                 animateFromLastPercent: true,
                 animationDuration: 750,
@@ -464,16 +464,38 @@ Container dailySummaryContainer(BuildContext context, HomePageViewModel viewMode
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '${viewModel.calories.toStringAsFixed(1)}',
-                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w900,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 9),
+                    child:                   Text(
+                      '${viewModel.calories.toStringAsFixed(0)}',
+                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
                   ),
-                  Text(
-                    'Calories',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                  LinearPercentIndicator(
+                    width: 100,
+                    lineHeight: 6.0,
+                    percent: 1, //percent of calories consumed
+                    animation: true,
+                    trailing: new Text('2200'), //total calories that should be consumed
+                    /*
+                    REPLACE 'waterPercentage' WITH 'caloriesPercentage' IN THE LINES BELOW
+                     */
+                    progressColor: viewModel.waterPercentage < 0.5
+                        ? Theme.of(context).colorScheme.tertiary
+                        : viewModel.waterPercentage < 1.0
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.primaryContainer,
+                    barRadius: Radius.circular(10),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 9),
+                    child: Text(
+                      'Calories',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
                   ),
                 ],
               ),
