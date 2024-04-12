@@ -477,9 +477,9 @@ Container dailySummaryContainer(BuildContext context, HomePageViewModel viewMode
                   LinearPercentIndicator(
                     width: 100,
                     lineHeight: 6.0,
-                    percent: 1, //percent of calories consumed
+                    percent: 1, 
                     animation: true,
-                    trailing: new Text('2200'), //total calories that should be consumed
+                    trailing: new Text('2200'), 
                     /*
                     REPLACE 'waterPercentage' WITH 'caloriesPercentage' IN THE LINES BELOW
                      */

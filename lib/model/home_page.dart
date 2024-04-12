@@ -62,7 +62,7 @@ class HomePage {
 
       lastWeight = await FirestoreService().getUserWeightByEntry(lastEntryNumber);
       print("firestore request...");
-      print('Last weight goal: $lastWeight'); // Add this line
+      print('Last weight goal: $lastWeight'); 
     } catch (e) {
       print('Error fetching weight entry: $e');
     }

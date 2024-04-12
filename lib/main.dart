@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
                   'MealListView': (context) => const MealListView(),
                   'SearchView': (context) => const SearchView(),
                   'SettingsView': (context) => const SettingsView(username: ''),
-                  'CustomFoodView': (context) => const CustomFoodView(),
+                  'CustomFoodView': (context) => CustomFoodView(),
                 },
               ),
             );

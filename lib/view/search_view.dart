@@ -200,7 +200,7 @@ class AddMealButton extends StatelessWidget {
           ElevatedButton.icon(
             onPressed: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => CustomFoodView(), // Replace MealView with CustomFoodView
+                builder: (context) => CustomFoodView(foodSelectionService: foodSelectionService,), 
               ));
             },
             icon: const Icon(Icons.dashboard_customize, size: 18),

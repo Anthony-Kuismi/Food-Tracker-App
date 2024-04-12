@@ -15,12 +15,12 @@ class Meal {
   int get timestampInt => timestamp.millisecondsSinceEpoch;
 
   Meal({required dynamic json})
-      : title = json['title'],
-        id = json['id'],
-        timestamp = DateTime.fromMillisecondsSinceEpoch(json['timestamp']),
-        foods = {
-          for (var item in json['items']) item['id']: Food.fromJson(item)
-        };
+      : title = json?['title'] ?? 'TITLE',
+        id = json?['id'] ?? Uuid().v4(),
+        timestamp = json?['timestamp'] != null? DateTime.fromMillisecondsSinceEpoch(json['timestamp']) : DateTime.now(),
+        foods = json?['items'] != null ?{
+          for (var item in json?['items']) item['id']: Food.fromJson(item)
+        }:{};
 
   Meal.fromFoodList(List<Food> foodList)
       : title = 'New Meal',
