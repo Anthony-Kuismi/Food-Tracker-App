@@ -448,12 +448,18 @@ Container dailySummaryContainer(BuildContext context, HomePageViewModel viewMode
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Daily Summary',
-                  style: Theme.of(context).textTheme.titleMedium,
-                  textAlign: TextAlign.left,
+                Padding(
+                  padding: const EdgeInsets.only(left: 9),
+                  child: Text(
+                    'Daily Summary',
+                    style: Theme.of(context).textTheme.titleMedium,
+                    textAlign: TextAlign.left,
+                  ),
                 ),
-                const Icon(Icons.today),
+                Padding(
+                  padding: const EdgeInsets.only(right: 9),
+                  child: const Icon(Icons.today),
+                ),
               ],
             ),
           ),
@@ -499,28 +505,31 @@ Container dailySummaryContainer(BuildContext context, HomePageViewModel viewMode
                   ),
                 ],
               ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
-                    ),
-                    Text(
-                      'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
-                    ),
-                    Text(
-                      'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
-                    ),
-                  ],
+              Padding(
+                padding: EdgeInsets.only(right: 9),
+                child:               Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+                      ),
+                      Text(
+                        'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+                      ),
+                      Text(
+                        'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
