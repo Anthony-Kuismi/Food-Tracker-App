@@ -1,4 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/model/meal.dart';
+import 'package:food_tracker_app/service/food_selection_service.dart';
+import 'package:food_tracker_app/view/search_view.dart';
+import 'package:food_tracker_app/viewmodel/meal_list_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../model/food.dart';
@@ -7,22 +13,28 @@ import '../service/navigator_service.dart';
 
 class CustomFoodView extends StatelessWidget {
   final Food? editingFood;
+  
+  late FoodSelectionService? foodSelectionService;
 
-  const CustomFoodView({Key? key, this.editingFood}) : super(key: key);
+  CustomFoodView({Key? key, this.editingFood, this.foodSelectionService}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
     final Food editingFood = this.editingFood ?? Food.fromJson({});
-
-    return FoodForm(editingFood: editingFood);
+    foodSelectionService ??= Provider.of<FoodSelectionService>(context);
+    return FoodForm(editingFood: editingFood, foodSelectionService: this.foodSelectionService!);
   }
 }
 
 class FoodForm extends StatefulWidget {
   final Food editingFood;
+  
   final FirestoreService firestore = FirestoreService();
+  final FoodSelectionService foodSelectionService;
 
-  FoodForm({super.key, required this.editingFood});
+  FoodForm({super.key, required this.editingFood, required this.foodSelectionService});
 
   @override
   FoodFormState createState() => FoodFormState();
@@ -30,6 +42,7 @@ class FoodForm extends StatefulWidget {
 
 class FoodFormState extends State<FoodForm> {
   Food? editingFood;
+  Meal? editingMeal;
   late TextEditingController _nameController;
   late TextEditingController _caloriesController;
   late TextEditingController _servingController;
@@ -69,12 +82,14 @@ class FoodFormState extends State<FoodForm> {
         TextEditingController(text: widget.editingFood.fiberG.toString());
     _sugarController =
         TextEditingController(text: widget.editingFood.sugarG.toString());
+    FoodSelectionService foodSelectionService = widget.foodSelectionService;
   }
 
   @override
   Widget build(BuildContext context) {
     final navigatorService =
         Provider.of<NavigatorService>(context, listen: false);
+    final mealListViewModel = Provider.of<MealListViewModel>(context,listen:false);
     editingFood = editingFood ?? Food.fromJson({});
     return Scaffold(
         appBar: AppBar(
@@ -189,7 +204,12 @@ class FoodFormState extends State<FoodForm> {
                         custom: true);
 
                     await widget.firestore.addCustomFoodForUser(updatedFood);
-                    navigatorService.pop();
+                    Meal oldMeal = widget.foodSelectionService.editingMeal as Meal;
+                    widget.foodSelectionService.data.add(updatedFood);
+                    mealListViewModel.updateMeal(oldMeal, widget.foodSelectionService.data);
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => SearchView(), 
+                    ));
                   },
                   child: const Text('Save'),
                 ),

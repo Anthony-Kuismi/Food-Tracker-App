@@ -13,7 +13,7 @@ enum Gender {
 }
 
 class BMRService {
-  //Weight in kilos and height in cm age in years
+  
   double calculateDailyCalorieGoal(double weight, double height, Gender gender,
       double age, Lifestyle lifestyle) {
     double BMR;
@@ -53,12 +53,12 @@ class BMRService {
     return BMR;
   }
 
-  //Weight in kilos and height in cm age in years
+  
   double calculateMaleBMR(double weight, double height, double age) {
     return (10 * weight) + (6.25 * height) - (5 * age) + 5;
   }
 
-  //Weight in kilos and height in cm age in years
+  
   double calculateFemaleBMR(double weight, double height, double age) {
     return (10 * weight) + (6.25 * height) - (5 * age) - 161;
   }

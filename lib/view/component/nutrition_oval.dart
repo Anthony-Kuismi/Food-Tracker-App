@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:food_tracker_app/model/meal.dart';
 import '../../service/firestore_service.dart';
 
-class NutritionRow extends StatefulWidget {
+class NutritionOval extends StatefulWidget {
   final String label;
   dynamic value;
   final String measurement;
   final Meal currentMeal;
   Function setter;
 
-  NutritionRow(this.label, this.value, this.measurement,
+  NutritionOval(this.label, this.value, this.measurement,
       {Key? key, required this.setter, required this.currentMeal})
       : super(key: key);
 
   @override
-  NutritionRowState createState() => NutritionRowState();
+  NutritionOvalState createState() => NutritionOvalState();
 }
 
-class NutritionRowState extends State<NutritionRow> {
+class NutritionOvalState extends State<NutritionOval> {
   FirestoreService firestoreService = FirestoreService();
 
   void updateValue(newValue) {
@@ -64,19 +64,39 @@ class NutritionRowState extends State<NutritionRow> {
               );
             });
       },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.black45,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: Container(
+            height: 120,
+            width: 30,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              border: Border.all(color: Theme.of(context).colorScheme.primaryContainer, width: 8),
+            ),
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${widget.value.toInt()}${widget.measurement}',
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                    Text(
+                      '${widget.label}',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ],
+                ),
+                Positioned(
+                  top: 10,
+                  child: Icon(Icons.edit, size: 14),
+                ),
+              ],
+            ),
           ),
-          child: ListTile(
-            title: Text('${widget.label}${widget.value}${widget.measurement}'),
-            trailing: const Icon(Icons.edit),
-          ),
-        ),
-      ),
+        )
     );
   }
 }

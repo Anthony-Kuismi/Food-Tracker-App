@@ -137,7 +137,7 @@ class SearchViewModel extends ChangeNotifier {
         json.addAll(foodSelectionService.data.foods);
         _searchModel.data.update(json);
         _searchModel.customData.foods.values.forEach((food){
-            if(_searchModel.query.contains(food.title)){
+            if(_searchModel.query.toLowerCase().contains(food.title)){
               _searchModel.data.add(food.clone());
             }
         });

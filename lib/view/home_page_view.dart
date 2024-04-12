@@ -131,7 +131,7 @@ GestureDetector weightContainer(BuildContext context, viewModel, Function refres
     child: Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.black26,
+        color: Colors.black45,
       ),
       margin: const EdgeInsets.all(4),
         child: Stack(
@@ -336,7 +336,7 @@ GestureDetector waterContainer(BuildContext context, viewModel, Function refresh
     child: Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.black26,
+        color: Colors.black45,
       ),
       margin: const EdgeInsets.all(4),
       child: Stack(
@@ -354,10 +354,10 @@ GestureDetector waterContainer(BuildContext context, viewModel, Function refresh
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 progressColor: viewModel.waterPercentage < 0.5
-                    ? Colors.red
+                    ? Theme.of(context).colorScheme.tertiary
                     : viewModel.waterPercentage < 1.0
-                        ? Colors.orange
-                        : Theme.of(context).colorScheme.primaryContainer,
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.primaryContainer,
                 animation: true,
                 animateFromLastPercent: true,
                 animationDuration: 750,
@@ -435,7 +435,7 @@ Container dailySummaryContainer(BuildContext context, HomePageViewModel viewMode
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-      color: Colors.black26,
+      color: Colors.black45,
     ),
     margin: const EdgeInsets.all(4),
     child: Padding(
@@ -448,12 +448,18 @@ Container dailySummaryContainer(BuildContext context, HomePageViewModel viewMode
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Daily Summary',
-                  style: Theme.of(context).textTheme.titleMedium,
-                  textAlign: TextAlign.left,
+                Padding(
+                  padding: const EdgeInsets.only(left: 9),
+                  child: Text(
+                    'Daily Summary',
+                    style: Theme.of(context).textTheme.titleMedium,
+                    textAlign: TextAlign.left,
+                  ),
                 ),
-                const Icon(Icons.today),
+                Padding(
+                  padding: const EdgeInsets.only(right: 9),
+                  child: const Icon(Icons.today),
+                ),
               ],
             ),
           ),
@@ -464,41 +470,66 @@ Container dailySummaryContainer(BuildContext context, HomePageViewModel viewMode
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '${viewModel.calories.toStringAsFixed(1)}',
-                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w900,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 9),
+                    child:                   Text(
+                      '${viewModel.calories.toStringAsFixed(0)}',
+                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
                   ),
-                  Text(
-                    'Calories',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                  LinearPercentIndicator(
+                    width: 100,
+                    lineHeight: 6.0,
+                    percent: 1, 
+                    animation: true,
+                    trailing: new Text('2200'), 
+                    /*
+                    REPLACE 'waterPercentage' WITH 'caloriesPercentage' IN THE LINES BELOW
+                     */
+                    progressColor: viewModel.waterPercentage < 0.5
+                        ? Theme.of(context).colorScheme.tertiary
+                        : viewModel.waterPercentage < 1.0
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.primaryContainer,
+                    barRadius: Radius.circular(10),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 9),
+                    child: Text(
+                      'Calories',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
                   ),
                 ],
               ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
-                    ),
-                    Text(
-                      'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
-                    ),
-                    Text(
-                      'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
-                    ),
-                  ],
+              Padding(
+                padding: EdgeInsets.only(right: 9),
+                child:               Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+                      ),
+                      Text(
+                        'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+                      ),
+                      Text(
+                        'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

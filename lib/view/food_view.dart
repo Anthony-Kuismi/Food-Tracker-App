@@ -4,6 +4,7 @@ import '../model/food.dart';
 import './component/macro_pie_chart.dart';
 import './component/nutrition_row.dart';
 import '../service/firestore_service.dart';
+import 'component/nutrition_oval.dart';
 
 class FoodView extends StatefulWidget {
   final Food currentFood;
@@ -19,10 +20,14 @@ class FoodViewState extends State<FoodView> {
   void updateMacroPieChart(MacroPieChart macroPieChart) {
     setState(() {
       macroPieChart = MacroPieChart(
+          Theme.of(context).colorScheme.primaryContainer,
+          Theme.of(context).colorScheme.primary,
+          Theme.of(context).colorScheme.tertiary,
           widget.currentFood.calories,
           widget.currentFood.proteinG,
           widget.currentFood.carbohydratesTotalG,
-          widget.currentFood.fatTotalG);
+          widget.currentFood.fatTotalG
+      );
     });
   }
 
@@ -30,16 +35,20 @@ class FoodViewState extends State<FoodView> {
   Widget build(BuildContext context) {
     final currentFood = widget.currentFood;
     MacroPieChart macroPieChart = MacroPieChart(
-        currentFood.calories,
-        currentFood.proteinG,
-        currentFood.carbohydratesTotalG,
-        currentFood.fatTotalG);
+      Theme.of(context).colorScheme.primaryContainer,
+      Theme.of(context).colorScheme.primary,
+      Theme.of(context).colorScheme.tertiary,
+      currentFood.calories,
+      currentFood.proteinG,
+      currentFood.carbohydratesTotalG,
+      currentFood.fatTotalG,
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
-          currentFood.title,
+          '${currentFood.title[0].toUpperCase()}${currentFood.title.substring(1)} Marcos',
           style: const TextStyle(
             color: Colors.black,
           ),
@@ -52,51 +61,66 @@ class FoodViewState extends State<FoodView> {
           children: [
             const Padding(
               padding: EdgeInsets.all(13.0),
-              child: Text(
-                  style: TextStyle(
-                    fontSize: 24,
+            ),
+            Text(
+              '${widget.currentMeal.calories.toInt()} Calories',
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                fontWeight: FontWeight.w900,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.all(12.0),
+                    child: NutritionOval('Protein', currentFood.proteinG, 'g',
+                        setter: (newValue) async {
+                          currentFood.setProteinG = newValue;
+                          updateMacroPieChart(macroPieChart);
+                          await widget.firestoreService.addCustomFoodForUser(currentFood);
+                        },
+                        currentMeal: widget.currentMeal),
                   ),
-                  'Macronutrients'),
-            ),
-            NutritionRow('Protein: ', currentFood.proteinG, 'g',
-                setter: (newValue) async {
-                    currentFood.setProteinG = newValue;
-                    updateMacroPieChart(macroPieChart);
-                    await widget.firestoreService.addCustomFoodForUser(currentFood);
-                },
-                currentMeal: widget.currentMeal),
-            NutritionRow(
-              'Carbohydrates: ',
-              currentFood.carbohydratesTotalG,
-              'g',
-              setter: (newValue) async {
-                currentFood.setCarbohydratesTotalG = newValue;
-                updateMacroPieChart(macroPieChart);
-                await widget.firestoreService.addCustomFoodForUser(currentFood);
-
-              },
-              currentMeal: widget.currentMeal,
-            ),
-            NutritionRow(
-              'Fats: ',
-              currentFood.fatTotalG,
-              'g',
-              setter: (newValue) async {
-                currentFood.setFatTotalG = newValue;
-                updateMacroPieChart(macroPieChart);
-                await widget.firestoreService.addCustomFoodForUser(currentFood);
-
-              },
-              currentMeal: widget.currentMeal,
+                ),
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.all(12.0),
+                    child: NutritionOval(
+                      'Carbs',
+                      currentFood.carbohydratesTotalG,
+                      'g',
+                      setter: (newValue) async {
+                        currentFood.setCarbohydratesTotalG = newValue;
+                        updateMacroPieChart(macroPieChart);
+                        await widget.firestoreService.addCustomFoodForUser(currentFood);
+                      },
+                      currentMeal: widget.currentMeal,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.all(12.0),
+                    child: NutritionOval(
+                      'Fats',
+                      currentFood.fatTotalG,
+                      'g',
+                      setter: (newValue) async {
+                        currentFood.setFatTotalG = newValue;
+                        updateMacroPieChart(macroPieChart);
+                        await widget.firestoreService.addCustomFoodForUser(currentFood);
+                      },
+                      currentMeal: widget.currentMeal,
+                    ),
+                  ),
+                ),
+              ],
             ),
             macroPieChart,
             const Padding(
               padding: EdgeInsets.all(12.0),
-              child: Text(
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
-                  'Other Nutrition'),
             ),
             NutritionRow(
               'Saturated Fat:',

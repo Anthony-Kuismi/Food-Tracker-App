@@ -3,6 +3,9 @@ import 'package:pie_chart/pie_chart.dart';
 
 class MacroPieChart extends PieChart {
   MacroPieChart(
+      Color primaryContainerColor,
+      Color secondaryContainerColor,
+      Color tertiaryContainerColor,
       double cals,
       double protein,
       double carbs,
@@ -16,6 +19,7 @@ class MacroPieChart extends PieChart {
         ChartValuesOptions? chartValuesOptions,
         LegendOptions? legendOptions,
         double? ringStrokeWidth,
+
       }) : super(
     dataMap: dataMap ?? {
       'Protein': protein * 4,
@@ -23,14 +27,14 @@ class MacroPieChart extends PieChart {
       'Fats': fats * 9,
     },
     colorList: colorList ?? [
-      const Color.fromARGB(255, 241, 116, 120),
-      const Color.fromARGB(255, 117, 188, 248),
-      const Color.fromARGB(255, 254, 242, 125),
+       primaryContainerColor,
+       secondaryContainerColor,
+       tertiaryContainerColor,
     ],
     chartType: chartType ?? ChartType.ring,
     chartRadius: chartRadius ?? 200,
     ringStrokeWidth: ringStrokeWidth ?? 32,
-    centerText: centerText ?? '$cals Cals',
+    centerText: centerText ?? '${cals.toStringAsFixed(1)} Cals',
     chartValuesOptions: chartValuesOptions ?? const ChartValuesOptions(
       showChartValues: true,
       showChartValueBackground: true,
@@ -40,7 +44,7 @@ class MacroPieChart extends PieChart {
     ),
     legendOptions: legendOptions ?? const LegendOptions(
       legendPosition: LegendPosition.top,
-      legendShape: BoxShape.rectangle,
+      legendShape: BoxShape.circle,
       showLegendsInRow: true,
     ),
 
