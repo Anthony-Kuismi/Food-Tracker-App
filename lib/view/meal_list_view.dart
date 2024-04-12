@@ -49,6 +49,9 @@ class MealListView extends StatelessWidget {
                       width: 50,
                       height: 50,
                       child: MacroPieChart(
+                        Theme.of(context).colorScheme.primaryContainer,
+                        Theme.of(context).colorScheme.primary,
+                        Theme.of(context).colorScheme.tertiary,
                         calories,
                         proteinG,
                         carbohydratesTotalG,
@@ -70,6 +73,9 @@ class MealListView extends StatelessWidget {
                             width: 50,
                             height: 50,
                             child: MacroPieChart(
+                              Theme.of(context).colorScheme.primaryContainer,
+                              Theme.of(context).colorScheme.primary,
+                              Theme.of(context).colorScheme.tertiary,
                               meal.calories,
                               meal.proteinG,
                               meal.carbohydratesTotalG,

@@ -131,7 +131,7 @@ GestureDetector weightContainer(BuildContext context, viewModel, Function refres
     child: Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.black26,
+        color: Colors.black45,
       ),
       margin: const EdgeInsets.all(4),
         child: Stack(
@@ -336,7 +336,7 @@ GestureDetector waterContainer(BuildContext context, viewModel, Function refresh
     child: Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.black26,
+        color: Colors.black45,
       ),
       margin: const EdgeInsets.all(4),
       child: Stack(
@@ -435,7 +435,7 @@ Container dailySummaryContainer(BuildContext context, HomePageViewModel viewMode
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-      color: Colors.black26,
+      color: Colors.black45,
     ),
     margin: const EdgeInsets.all(4),
     child: Padding(
