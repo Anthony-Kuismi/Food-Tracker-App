@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_tracker_app/Service/basal_metabolic_rate_service.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../Service/auth_service.dart';
@@ -369,6 +368,7 @@ class _SettingsView extends State<SettingsView> {
                                       });
                                     },
                                   ),
+                                  const Text('Little or no exercise'),
                                   RadioListTile<String>(
                                     title: const Text('Slightly Active'),
                                     value: 'Slightly Active',
@@ -379,6 +379,7 @@ class _SettingsView extends State<SettingsView> {
                                       });
                                     },
                                   ),
+                                  const Text('Exercise 1-3 times a week'),
                                   RadioListTile<String>(
                                     title: const Text('Moderately Active'),
                                     value: 'Moderately Active',
@@ -389,6 +390,7 @@ class _SettingsView extends State<SettingsView> {
                                       });
                                     },
                                   ),
+                                  const Text('Exercise 3-5 times a week'),
                                   RadioListTile<String>(
                                     title: const Text('Very Active'),
                                     value: 'Very Active',
@@ -399,6 +401,7 @@ class _SettingsView extends State<SettingsView> {
                                       });
                                     },
                                   ),
+                                  const Text('Exercise 6-7 times a week'),
                                   RadioListTile<String>(
                                     title: const Text('Extremely Active'),
                                     value: 'Extremely Active',
@@ -409,6 +412,7 @@ class _SettingsView extends State<SettingsView> {
                                       });
                                     },
                                   ),
+                                  const Text('Physical Job or regular training'),
                                 ],
                               ),
                               actions: <Widget>[
