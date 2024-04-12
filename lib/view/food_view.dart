@@ -59,6 +59,16 @@ class FoodViewState extends State<FoodView> {
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
+            const Padding(
+              padding: EdgeInsets.all(13.0),
+            ),
+            Text(
+              '${widget.currentMeal.calories.toInt()} Calories',
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                fontWeight: FontWeight.w900,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

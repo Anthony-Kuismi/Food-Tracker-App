@@ -73,16 +73,25 @@ class NutritionOvalState extends State<NutritionOval> {
               borderRadius: BorderRadius.circular(50),
               border: Border.all(color: Theme.of(context).colorScheme.primaryContainer, width: 8),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Stack(
+              alignment: Alignment.topCenter,
               children: [
-                Text(
-                  '${widget.value}${widget.measurement}',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${widget.value.toInt()}${widget.measurement}',
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                    Text(
+                      '${widget.label}',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ],
                 ),
-                Text(
-                  '${widget.label}',
-                  style: Theme.of(context).textTheme.titleSmall,
+                Positioned(
+                  top: 10,
+                  child: Icon(Icons.edit, size: 14),
                 ),
               ],
             ),

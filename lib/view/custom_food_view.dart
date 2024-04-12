@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/view/search_view.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../model/food.dart';
@@ -189,7 +190,9 @@ class FoodFormState extends State<FoodForm> {
                         custom: true);
 
                     await widget.firestore.addCustomFoodForUser(updatedFood);
-                    navigatorService.pop();
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => SearchView(), // Replace MealView with CustomFoodView
+                    ));
                   },
                   child: const Text('Save'),
                 ),

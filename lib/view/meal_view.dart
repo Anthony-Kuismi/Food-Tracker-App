@@ -50,6 +50,13 @@ class MealViewState extends State<MealView> {
                 const Padding(
                   padding: EdgeInsets.all(13.0),
                 ),
+                Text(
+                  '${widget.currentMeal.calories.toInt()} Calories',
+                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                    fontWeight: FontWeight.w900,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -69,7 +76,7 @@ class MealViewState extends State<MealView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  '${widget.currentMeal.proteinG}g',
+                                  '${widget.currentMeal.proteinG.toInt()}g',
                                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
                                 ),
                                 Text(
@@ -98,7 +105,7 @@ class MealViewState extends State<MealView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  '${widget.currentMeal.carbohydratesTotalG}g',
+                                  '${widget.currentMeal.carbohydratesTotalG.toInt()}g',
                                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
                                 ),
                                 Text(
@@ -127,7 +134,7 @@ class MealViewState extends State<MealView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  '${widget.currentMeal.fatTotalG}g',
+                                  '${widget.currentMeal.fatTotalG.toInt()}g',
                                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
                                 ),
                                 Text(

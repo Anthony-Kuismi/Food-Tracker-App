@@ -5,6 +5,7 @@ import '../../service/food_selection_service.dart';
 import '../../viewmodel/search_viewmodel.dart';
 import '../../viewmodel/meal_list_viewmodel.dart';
 import '../model/meal.dart';
+import 'custom_food_view.dart';
 import 'food_view.dart';
 import 'meal_view.dart';
 
@@ -175,24 +176,39 @@ class AddMealButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(16),
-      child: ElevatedButton.icon(
-        onPressed: () {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => MealView(currentMeal: foodSelectionService.editingMeal!,),
-          ));
-          if (foodSelectionService.mode == FoodSelectionMode.edit) {
-            Meal oldMeal = foodSelectionService.editingMeal as Meal;
-            mealListViewModel.updateMeal(oldMeal, foodSelectionService.data);
-          } else {
-            mealListViewModel.addMeal(
-                searchViewModel.query, searchViewModel.timestamp);
-          }
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ElevatedButton.icon(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => MealView(currentMeal: foodSelectionService.editingMeal!,),
+              ));
+              if (foodSelectionService.mode == FoodSelectionMode.edit) {
+                Meal oldMeal = foodSelectionService.editingMeal as Meal;
+                mealListViewModel.updateMeal(oldMeal, foodSelectionService.data);
+              } else {
+                mealListViewModel.addMeal(
+                    searchViewModel.query, searchViewModel.timestamp);
+              }
 
 
-        },
-        icon: const Icon(Icons.add, size: 18),
-        label: const Text('Update Meal'),
-      ),
+            },
+            icon: const Icon(Icons.add, size: 18),
+            label: const Text('Update Meal'),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => CustomFoodView(), // Replace MealView with CustomFoodView
+              ));
+            },
+            icon: const Icon(Icons.dashboard_customize, size: 18),
+            label: const Text('Add Custom Food'),
+          ),
+        ],
+      )
     );
+
   }
 }
