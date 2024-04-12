@@ -97,6 +97,7 @@ class Food {
   set setFatTotalG(newValue) {
     fatTotalG = newValue;
     custom = true;
+    updateCalories();
   }
 
   set setFatSaturatedG(newValue) {
@@ -107,6 +108,7 @@ class Food {
   set setProteinG(newValue) {
     proteinG = newValue;
     custom = true;
+    updateCalories();
   }
 
   set setSodiumMg(newValue) {
@@ -127,6 +129,7 @@ class Food {
   set setCarbohydratesTotalG(newValue) {
     carbohydratesTotalG = newValue;
     custom = true;
+    updateCalories();
   }
 
   set setFiberG(newValue) {
@@ -137,6 +140,10 @@ class Food {
   set setSugarG(newValue) {
     sugarG = newValue;
     custom = true;
+  }
+
+  void updateCalories(){
+    calories = fatTotalG * 9 + carbohydratesTotalG * 4 + proteinG * 4;
   }
 
   Food clone() {
