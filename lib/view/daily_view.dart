@@ -8,20 +8,21 @@ import '../viewmodel/daily_viewmodel.dart';
 import 'component/macro_pie_chart.dart';
 
 class DailyView extends StatelessWidget {
-  DateTime timestamp; 
+  DateTime timestamp;
 
   DailyView({required this.timestamp});
 
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<DailyViewModel>(context);
-    final mealListViewModel = Provider.of<MealListViewModel>(context,listen: false);
+    final mealListViewModel = Provider.of<MealListViewModel>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (viewModel.timestamp != timestamp) { 
+      if (viewModel.timestamp != timestamp) {
         viewModel.timestamp = timestamp;
-        viewModel.init(); 
+        viewModel.init();
       }
     });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Daily Summary', style: TextStyle(color: Colors.black)),
@@ -30,10 +31,12 @@ class DailyView extends StatelessWidget {
       ),
       body: FutureProvider(
         create: (BuildContext context) {
-          viewModel.init();
-          return null;
+          return viewModel.init(); 
         },
         builder: (context, snapshot) {
+          if (viewModel.isLoading) { 
+            return Center(child: CircularProgressIndicator());
+          }
           return ListView(
             children: [
               Padding(
@@ -44,7 +47,7 @@ class DailyView extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.arrow_left),
                       onPressed: () {
-                        this.timestamp = timestamp.subtract(Duration(days: 1));
+                        timestamp = timestamp.subtract(Duration(days: 1));
                         viewModel.previousDay();
                       },
                     ),
@@ -55,12 +58,21 @@ class DailyView extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.arrow_right),
                       onPressed: () {
-                        this.timestamp = timestamp.add(Duration(days: 1));
+                        timestamp = timestamp.add(Duration(days: 1));
                         viewModel.nextDay();
                       },
                     ),
                   ],
                 ),
+              ),
+              MacroPieChart(
+                Theme.of(context).colorScheme.primaryContainer,
+                Theme.of(context).colorScheme.primary,
+                Theme.of(context).colorScheme.tertiary,
+                viewModel.data.calories,
+                viewModel.data.proteinG,
+                viewModel.data.carbohydratesTotalG,
+                viewModel.data.fatTotalG,
               ),
               ...List.generate(viewModel.meals.length, (index) {
                 final meal = viewModel.meals[index];
@@ -79,10 +91,8 @@ class DailyView extends StatelessWidget {
                           meal.carbohydratesTotalG,
                           meal.fatTotalG,
                           chartRadius: 50,
-                          chartValuesOptions:
-                          const ChartValuesOptions(showChartValues: false),
-                          legendOptions:
-                          const LegendOptions(showLegends: false),
+                          chartValuesOptions: const ChartValuesOptions(showChartValues: false),
+                          legendOptions: const LegendOptions(showLegends: false),
                           centerText: '',
                           ringStrokeWidth: 8,
                         ),
@@ -100,16 +110,16 @@ class DailyView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  onTap: (){
+                  onTap: () {
                     mealListViewModel.editMeal(meal);
-                    Navigator.push(context,MaterialPageRoute(builder: (context)=>MealView(currentMeal: meal)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MealView(currentMeal: meal)));
                   },
                 );
               }),
             ],
           );
         },
-        initialData: [],
+        initialData: null, 
       ),
     );
   }

@@ -3,6 +3,7 @@ import '../model/daily.dart';
 
 class DailyViewModel extends ChangeNotifier {
   final Daily _model;
+  bool isLoading = false;
 
   DailyViewModel(timestamp)
       : _model = Daily(timestamp??DateTime.now()) {
@@ -10,6 +11,8 @@ class DailyViewModel extends ChangeNotifier {
   }
 
   DateTime get timestamp => _model.timestamp;
+
+  get data => _model.data;
   set timestamp(newValue) {
     _model.timestamp = newValue;
     notifyListeners();
@@ -28,7 +31,9 @@ void previousDay() {
 
 
   Future<void> init() async {
+    isLoading = true;
     await _model.init();
+    isLoading = false;
     notifyListeners();
   }
 }
