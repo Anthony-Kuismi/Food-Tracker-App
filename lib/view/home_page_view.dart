@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/view/daily_view.dart';
+import 'package:food_tracker_app/viewmodel/daily_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -433,6 +434,7 @@ GestureDetector waterContainer(BuildContext context, viewModel, Function refresh
 }
 
 InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel) {
+  final dailyViewModel = Provider.of<DailyViewModel>(context);
   return InkWell(
     onTap: (){
       Navigator.push(context,MaterialPageRoute(builder: (context)=>DailyView(timestamp: DateTime.now(),)));
@@ -478,7 +480,7 @@ InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel)
                     Padding(
                       padding: const EdgeInsets.only(left: 9),
                       child:                   Text(
-                        '${viewModel.calories.toStringAsFixed(0)}',
+                        '${dailyViewModel.calories.toStringAsFixed(0)}',
                         style: Theme.of(context).textTheme.displayLarge?.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w900,
@@ -512,7 +514,7 @@ InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel)
                 ),
                 Padding(
                   padding: EdgeInsets.only(right: 9),
-                  child:               Container(
+                  child: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primary,
@@ -522,15 +524,15 @@ InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel)
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
+                          'Protein: ${dailyViewModel.proteinG.toStringAsFixed(1)}g',
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
                         ),
                         Text(
-                          'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
+                          'Carbs: ${dailyViewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
                         ),
                         Text(
-                          'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
+                          'Fat: ${dailyViewModel.fatTotalG.toStringAsFixed(1)}g',
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
                         ),
                       ],
