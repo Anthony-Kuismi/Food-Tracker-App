@@ -6,9 +6,19 @@ import '../viewmodel/daily_viewmodel.dart';
 import 'component/macro_pie_chart.dart';
 
 class DailyView extends StatelessWidget {
+  DateTime timestamp; 
+
+  DailyView({required this.timestamp});
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<DailyViewModel>(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (viewModel.timestamp != timestamp) { 
+        viewModel.timestamp = timestamp;
+        viewModel.init(); 
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text('Daily Summary', style: TextStyle(color: Colors.black)),
@@ -24,10 +34,29 @@ class DailyView extends StatelessWidget {
           return ListView(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  DateFormat('HH:mm MM-dd-yyyy').format(viewModel.timestamp),
-                  style: Theme.of(context).textTheme.headline6,
+                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_left),
+                      onPressed: () {
+                        this.timestamp = timestamp.subtract(Duration(days: 1));
+                        viewModel.previousDay();
+                      },
+                    ),
+                    Text(
+                      DateFormat('yyyy-MM-dd').format(viewModel.timestamp),
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.arrow_right),
+                      onPressed: () {
+                        this.timestamp = timestamp.add(Duration(days: 1));
+                        viewModel.nextDay();
+                      },
+                    ),
+                  ],
                 ),
               ),
               ...List.generate(viewModel.meals.length, (index) {
@@ -48,10 +77,9 @@ class DailyView extends StatelessWidget {
                           meal.fatTotalG,
                           chartRadius: 50,
                           chartValuesOptions:
-                          const ChartValuesOptions(
-                              showChartValues: false),
-                          legendOptions: const LegendOptions(
-                              showLegends: false),
+                          const ChartValuesOptions(showChartValues: false),
+                          legendOptions:
+                          const LegendOptions(showLegends: false),
                           centerText: '',
                           ringStrokeWidth: 8,
                         ),
@@ -59,10 +87,8 @@ class DailyView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Column(
-                          mainAxisAlignment:
-                          MainAxisAlignment.center,
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(meal.title),
                             Text(meal.timestampString),

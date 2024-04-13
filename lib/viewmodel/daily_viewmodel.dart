@@ -10,7 +10,20 @@ class DailyViewModel extends ChangeNotifier {
   }
 
   DateTime get timestamp => _model.timestamp;
+  set timestamp(newValue) {
+    _model.timestamp = newValue;
+    notifyListeners();
+  }
 
+void nextDay() {
+  timestamp = timestamp.add(Duration(days: 1));
+  init();
+}
+
+void previousDay() {
+  timestamp = timestamp.subtract(Duration(days: 1));
+  init();
+}
   get meals => _model.meals;
 
 
