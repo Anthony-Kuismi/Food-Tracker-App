@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/view/meal_view.dart';
+import 'package:food_tracker_app/viewmodel/meal_list_viewmodel.dart';
 import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +15,7 @@ class DailyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<DailyViewModel>(context);
+    final mealListViewModel = Provider.of<MealListViewModel>(context,listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (viewModel.timestamp != timestamp) { 
         viewModel.timestamp = timestamp;
@@ -97,6 +100,10 @@ class DailyView extends StatelessWidget {
                       ),
                     ],
                   ),
+                  onTap: (){
+                    mealListViewModel.editMeal(meal);
+                    Navigator.push(context,MaterialPageRoute(builder: (context)=>MealView(currentMeal: meal)));
+                  },
                 );
               }),
             ],
