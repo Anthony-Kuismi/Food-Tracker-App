@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_tracker_app/view/daily_view.dart';
 import 'package:food_tracker_app/viewmodel/daily_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'component/date_picker_button.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../viewmodel/homepage_viewmodel.dart';
@@ -446,12 +447,12 @@ InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel)
       ),
       margin: const EdgeInsets.all(4),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(right:9),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: const EdgeInsets.only(bottom: 10),
+
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -463,10 +464,7 @@ InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel)
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 9),
-                    child: const Icon(Icons.today),
-                  ),
+                  Flexible(child: DatePickerButton()),
                 ],
               ),
             ),
