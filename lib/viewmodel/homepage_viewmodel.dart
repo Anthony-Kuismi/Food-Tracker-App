@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../Service/firestore_service.dart';
 import '../Service/navigator_service.dart';
 import '../model/home_page.dart';
+import '../model/weight.dart';
 
 class HomePageViewModel extends ChangeNotifier {
   late final NavigatorService navigatorService;
@@ -109,6 +110,8 @@ class HomePageViewModel extends ChangeNotifier {
   void setWeightGoal(double goal) {
     _model.weightGoal = goal;
     firestore.setUserWeightGoal(goal);
+    updateCaloriePercentage();
+    updateCalorieGoal();
     notifyListeners();
   }
 
@@ -117,8 +120,25 @@ class HomePageViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateCaloriePercentage(){
-    _caloriePercentage = _model.calories/_model.getDailyCalorieGoal();
+  void updateCaloriePercentage() {
+    _caloriePercentage = _model.calories / _model.getDailyCalorieGoal();
+    if(_caloriePercentage < 0){
+      _caloriePercentage = 0;
+    }else if(_caloriePercentage > 1){
+      _caloriePercentage = 1;
+    }
+  }
+
+  void setWeightInPounds(double weight) {
+    _model.weight = weight;
+    Weight obj = Weight(date: date, weight: weight);
+    firestore.setUserWeightInPounds(weight);
+    firestore.addWeightEntry(obj, (lastEntryNumber + 2).toString());
+    firestore.setUserLastWeightEntry(lastEntryNumber + 1);
+
+    calcWeightChange();
+    updateCalorieGoal();
+    updateCaloriePercentage();
     notifyListeners();
   }
 }
