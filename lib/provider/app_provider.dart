@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/viewmodel/daily_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../service/food_selection_service.dart';
 import '../service/local_notification_service.dart';
@@ -46,6 +47,7 @@ class AppProvider extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => SettingsViewModel(),
         ),
+        ChangeNotifierProvider<DailyViewModel>(create:(context)=>DailyViewModel(null)),
       ],
       child: child,
     );

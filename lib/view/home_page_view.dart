@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/view/daily_view.dart';
 import 'package:provider/provider.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -431,110 +432,116 @@ GestureDetector waterContainer(BuildContext context, viewModel, Function refresh
   );
 }
 
-Container dailySummaryContainer(BuildContext context, HomePageViewModel viewModel) {
-  return Container(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10),
-      color: Colors.black45,
-    ),
-    margin: const EdgeInsets.all(4),
-    child: Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 9),
-                  child: Text(
-                    'Daily Summary',
-                    style: Theme.of(context).textTheme.titleMedium,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 9),
-                  child: const Icon(Icons.today),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel) {
+  return InkWell(
+    onTap: (){
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>DailyView()));
+    },
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.black45,
+      ),
+      margin: const EdgeInsets.all(4),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 9),
-                    child:                   Text(
-                      '${viewModel.calories.toStringAsFixed(0)}',
-                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.w900,
-                      ),
+                    child: Text(
+                      'Daily Summary',
+                      style: Theme.of(context).textTheme.titleMedium,
+                      textAlign: TextAlign.left,
                     ),
-                  ),
-                  LinearPercentIndicator(
-                    width: 100,
-                    lineHeight: 6.0,
-                    percent: 1, 
-                    animation: true,
-                    trailing: new Text('2200'), 
-                    /*
-                    REPLACE 'waterPercentage' WITH 'caloriesPercentage' IN THE LINES BELOW
-                     */
-                    progressColor: viewModel.waterPercentage < 0.5
-                        ? Theme.of(context).colorScheme.tertiary
-                        : viewModel.waterPercentage < 1.0
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.primaryContainer,
-                    barRadius: Radius.circular(10),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 9),
-                    child: Text(
-                      'Calories',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
+                    padding: const EdgeInsets.only(right: 9),
+                    child: const Icon(Icons.today),
                   ),
                 ],
               ),
-              Padding(
-                padding: EdgeInsets.only(right: 9),
-                child:               Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 9),
+                      child:                   Text(
+                        '${viewModel.calories.toStringAsFixed(0)}',
+                        style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
-                      Text(
-                        'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+                    ),
+                    LinearPercentIndicator(
+                      width: 100,
+                      lineHeight: 6.0,
+                      percent: 1, 
+                      animation: true,
+                      trailing: new Text('2200'), 
+                      /*
+                      REPLACE 'waterPercentage' WITH 'caloriesPercentage' IN THE LINES BELOW
+                       */
+                      progressColor: viewModel.waterPercentage < 0.5
+                          ? Theme.of(context).colorScheme.tertiary
+                          : viewModel.waterPercentage < 1.0
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.primaryContainer,
+                      barRadius: Radius.circular(10),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 9),
+                      child: Text(
+                        'Calories',
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Text(
-                        'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ],
+                Padding(
+                  padding: EdgeInsets.only(right: 9),
+                  child:               Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+                        ),
+                        Text(
+                          'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+                        ),
+                        Text(
+                          'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+    
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     ),
   );
