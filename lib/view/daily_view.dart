@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/view/meal_view.dart';
+import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:food_tracker_app/viewmodel/meal_list_viewmodel.dart';
 import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -28,13 +29,29 @@ class DailyView extends StatelessWidget {
         title: const Text('Daily Summary', style: TextStyle(color: Colors.black)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.black),
+        actions: [
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.person, color: Colors.white),
+              onPressed: () {
+                Navigator.push(context,MaterialPageRoute(builder: (context)=> SettingsView(username: '',)));
+              },
+              iconSize: 30,
+            ),
+          ),
+        ],
+
       ),
       body: FutureProvider(
         create: (BuildContext context) {
           return viewModel.init(); 
         },
         builder: (context, snapshot) {
-          if (viewModel.isLoading) { 
+          if (viewModel.isLoading) {
             return Center(child: CircularProgressIndicator());
           }
           return ListView(
@@ -77,38 +94,41 @@ class DailyView extends StatelessWidget {
               ...List.generate(viewModel.meals.length, (index) {
                 final meal = viewModel.meals[index];
                 return ListTile(
-                  title: Row(
-                    children: [
-                      SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: MacroPieChart(
-                          Theme.of(context).colorScheme.primaryContainer,
-                          Theme.of(context).colorScheme.primary,
-                          Theme.of(context).colorScheme.tertiary,
-                          meal.calories,
-                          meal.proteinG,
-                          meal.carbohydratesTotalG,
-                          meal.fatTotalG,
-                          chartRadius: 50,
-                          chartValuesOptions: const ChartValuesOptions(showChartValues: false),
-                          legendOptions: const LegendOptions(showLegends: false),
-                          centerText: '',
-                          ringStrokeWidth: 8,
+                  title: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: MacroPieChart(
+                            Theme.of(context).colorScheme.primaryContainer,
+                            Theme.of(context).colorScheme.primary,
+                            Theme.of(context).colorScheme.tertiary,
+                            meal.calories,
+                            meal.proteinG,
+                            meal.carbohydratesTotalG,
+                            meal.fatTotalG,
+                            chartRadius: 50,
+                            chartValuesOptions: const ChartValuesOptions(showChartValues: false),
+                            legendOptions: const LegendOptions(showLegends: false),
+                            centerText: '',
+                            ringStrokeWidth: 8,
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(meal.title),
-                            Text(meal.timestampString),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(meal.title),
+                              Text(meal.timestampString),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   onTap: () {
                     mealListViewModel.editMeal(meal);

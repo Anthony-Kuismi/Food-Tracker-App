@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/Service/navigator_service.dart';
 import 'package:food_tracker_app/view/daily_view.dart';
+import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:provider/provider.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -8,6 +10,7 @@ import '../Service/basal_metabolic_rate_service.dart';
 import '../viewmodel/settings_viewmodel.dart';
 
 class MyHomePage extends StatefulWidget {
+  final NavigatorService navigatorService = NavigatorService();
   MyHomePage({super.key, required this.title, required String username});
 
   final HomePageViewModel viewModel = HomePageViewModel();
@@ -44,6 +47,21 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.black,
           ),
         ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.person, color: Colors.white),
+              onPressed: () {
+                Navigator.push(context,MaterialPageRoute(builder: (context)=> SettingsView(username: '',)));
+              },
+              iconSize: 30,
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: const NavBar(key: Key('navBar'), currentPage: 'MyHomePage'),
       body: FutureBuilder(

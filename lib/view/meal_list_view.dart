@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/view/component/macro_pie_chart.dart';
 import 'package:food_tracker_app/view/search_view.dart';
+import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,22 @@ class MealListView extends StatelessWidget {
         title: const Text('Diet Log', style: TextStyle(color: Colors.black)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.black),
+        actions: [
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.person, color: Colors.white),
+              onPressed: () {
+                Navigator.push(context,MaterialPageRoute(builder: (context)=> SettingsView(username: '',)));
+              },
+              iconSize: 30,
+            ),
+          ),
+        ],
+
       ),
       body: FutureBuilder(
         future: viewModel.load(),
