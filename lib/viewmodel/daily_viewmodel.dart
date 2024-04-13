@@ -11,6 +11,8 @@ class DailyViewModel extends ChangeNotifier {
 
   DateTime get timestamp => _model.timestamp;
 
+  get meals => _model.meals;
+
 
   Future<void> init() async {
     await _model.init();
