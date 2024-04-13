@@ -4,7 +4,7 @@ class Food {
   String title;
   String id;
   String name;
-  double calories;
+  
   double servingSizeG;
   double fatTotalG;
   double fatSaturatedG;
@@ -21,7 +21,7 @@ class Food {
       {required this.title,
       required this.id,
       required this.name,
-      required this.calories,
+      
       required this.servingSizeG,
       required this.fatTotalG,
       required this.fatSaturatedG,
@@ -39,7 +39,7 @@ class Food {
       title: json['title'] ?? 'New Food',
       id: json['id'] ?? const Uuid().v4(),
       name: json['name'] ?? 'New Food',
-      calories: json['calories']?.toDouble() ?? 0,
+      
       servingSizeG: json['serving_size_g']?.toDouble() ?? 0.0,
       fatTotalG: json['fat_total_g']?.toDouble() ?? 0.0,
       fatSaturatedG: json['fat_saturated_g']?.toDouble() ?? 0.0,
@@ -84,10 +84,10 @@ class Food {
     custom = true;
   }
 
-  set setCalories(newValue) {
-    calories = newValue;
-    custom = true;
-  }
+  
+  
+  
+  
 
   set setServingSizeG(newValue) {
     servingSizeG = newValue;
@@ -97,7 +97,7 @@ class Food {
   set setFatTotalG(newValue) {
     fatTotalG = newValue;
     custom = true;
-    updateCalories();
+    
   }
 
   set setFatSaturatedG(newValue) {
@@ -108,7 +108,7 @@ class Food {
   set setProteinG(newValue) {
     proteinG = newValue;
     custom = true;
-    updateCalories();
+    
   }
 
   set setSodiumMg(newValue) {
@@ -129,7 +129,7 @@ class Food {
   set setCarbohydratesTotalG(newValue) {
     carbohydratesTotalG = newValue;
     custom = true;
-    updateCalories();
+    
   }
 
   set setFiberG(newValue) {
@@ -142,8 +142,12 @@ class Food {
     custom = true;
   }
 
-  void updateCalories(){
-    calories = fatTotalG * 9 + carbohydratesTotalG * 4 + proteinG * 4;
+  
+  
+  
+
+  double get calories{
+    return fatTotalG * 9 + carbohydratesTotalG * 4 + proteinG * 4;
   }
 
   Food clone() {

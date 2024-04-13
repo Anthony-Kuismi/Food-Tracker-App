@@ -48,7 +48,7 @@ class FoodViewState extends State<FoodView> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
-          '${currentFood.title[0].toUpperCase()}${currentFood.title.substring(1)} Marcos',
+          '${currentFood.title[0].toUpperCase()}${currentFood.title.substring(1)} Macros',
           style: const TextStyle(
             color: Colors.black,
           ),
@@ -63,7 +63,7 @@ class FoodViewState extends State<FoodView> {
               padding: EdgeInsets.all(13.0),
             ),
             Text(
-              '${widget.currentMeal.calories.toInt()} Calories',
+              '${widget.currentFood.calories.toInt()} Calories',
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                 fontWeight: FontWeight.w900,
                 color: Theme.of(context).colorScheme.primary,
