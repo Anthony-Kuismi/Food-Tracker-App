@@ -11,12 +11,16 @@ enum ChartsViewMode {
 
 class ChartsViewModel extends ChangeNotifier {
   Charts _model;
+
+  bool isLoading = false;
   ChartsViewModel({required DateTime start, required DateTime end}):_model = Charts(start:start,end:end){
-    _initializeChartsModel();
+    initializeChartsModel();
   }
 
-  Future<void> _initializeChartsModel() async {
+  Future<void> initializeChartsModel() async {
+    isLoading = true;
     await _model.init();
+    isLoading = false;
     notifyListeners();
   }
 
@@ -24,34 +28,33 @@ class ChartsViewModel extends ChangeNotifier {
 
   get dataSets => _model.datasets;
 
-  late TabController _tabController;
-  get tabController=>_tabController;
 
-  get calories => null;
+  get calories => _model.calories;
 
-  get proteinTotalG => null;
+  get proteinTotalG => _model.proteinTotalG;
 
-  get carbohydratesTotalG => null;
+  get carbohydratesTotalG => _model.carbohydratesTotalG;
 
-  get fatsTotalG => null;
+  get fatTotalG => _model.fatTotalG;
 
+  List<String> labels = ['Calories','Protein','Carbohydrates','Fat',];
 
-  set tabController(newValue)=>_tabController=newValue;
-
-  List<String> labels = ['Calories','Protein','Carbohydrates','Fat'];
-
-  get start =>  _model.start;
+  get start => _model.start;
   get end => _model.end;
   set start(newValue)=>_model.start = newValue;
   set end(newValue)=>_model.end = newValue;
 
   Future<void> updateStart(DateTime start) async {
     this.start=start;
+    await _model.fetchData();
     notifyListeners();
   }
 
   Future<void> updateEnd(DateTime end) async {
     this.end=end;
+    await _model.fetchData();
     notifyListeners();
   }
+
+  void load() {}
 }
