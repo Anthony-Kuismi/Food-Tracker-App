@@ -330,17 +330,18 @@ class _SettingsView extends State<SettingsView> {
                                 children: <Widget>[
                                   RadioListTile<String>(
                                     title: const Text('Sedentary'),
+                                    subtitle: const Text('Little or no exercise'),
                                     value: 'Sedentary',
                                     groupValue: selectedLifestyle,
                                     onChanged: (value) {
                                       setState(() {
                                         selectedLifestyle = value;
                                       });
-                                    },
+                                      },
                                   ),
-                                  const Text('Little or no exercise'),
                                   RadioListTile<String>(
                                     title: const Text('Slightly Active'),
+                                    subtitle: const Text('Exercise 1-3 times a week'),
                                     value: 'Slightly Active',
                                     groupValue: selectedLifestyle,
                                     onChanged: (value) {
@@ -349,9 +350,9 @@ class _SettingsView extends State<SettingsView> {
                                       });
                                     },
                                   ),
-                                  const Text('Exercise 1-3 times a week'),
                                   RadioListTile<String>(
                                     title: const Text('Moderately Active'),
+                                    subtitle: const Text('Exercise 3-5 times a week'),
                                     value: 'Moderately Active',
                                     groupValue: selectedLifestyle,
                                     onChanged: (value) {
@@ -360,9 +361,9 @@ class _SettingsView extends State<SettingsView> {
                                       });
                                     },
                                   ),
-                                  const Text('Exercise 3-5 times a week'),
                                   RadioListTile<String>(
                                     title: const Text('Very Active'),
+                                    subtitle: const Text('Exercise 6-7 times a week'),
                                     value: 'Very Active',
                                     groupValue: selectedLifestyle,
                                     onChanged: (value) {
@@ -371,9 +372,9 @@ class _SettingsView extends State<SettingsView> {
                                       });
                                     },
                                   ),
-                                  const Text('Exercise 6-7 times a week'),
                                   RadioListTile<String>(
                                     title: const Text('Extremely Active'),
+                                    subtitle: const Text('Exercise multiple times a day'),
                                     value: 'Extremely Active',
                                     groupValue: selectedLifestyle,
                                     onChanged: (value) {
@@ -382,7 +383,6 @@ class _SettingsView extends State<SettingsView> {
                                       });
                                     },
                                   ),
-                                  const Text('Physical Job or regular training'),
                                 ],
                               ),
                               actions: <Widget>[
