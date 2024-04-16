@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/Service/navigator_service.dart';
+import 'package:food_tracker_app/view/daily_view.dart';
+import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:provider/provider.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -7,6 +10,8 @@ import '../Service/basal_metabolic_rate_service.dart';
 import '../viewmodel/settings_viewmodel.dart';
 
 class MyHomePage extends StatefulWidget {
+  final NavigatorService navigatorService = NavigatorService();
+
   MyHomePage({super.key, required this.title, required String username});
 
   final HomePageViewModel viewModel = HomePageViewModel();
@@ -17,7 +22,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   void refresh() {
     setState(() {});
   }
@@ -43,8 +47,29 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.black,
           ),
         ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.person, color: Colors.white),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SettingsView(
+                              username: '',
+                            )));
+              },
+              iconSize: 30,
+            ),
+          ),
+        ],
       ),
-      bottomNavigationBar: const NavBar(key: Key('navBar'), currentPage: 'MyHomePage'),
+      bottomNavigationBar:
+          const NavBar(key: Key('navBar'), currentPage: 'MyHomePage'),
       body: FutureBuilder(
         future: _loadFuture,
         builder: (context, snapshot) {
@@ -52,7 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: <Widget>[
-
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 4.5,
                   child: GridView.count(
@@ -63,7 +87,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       dailySummaryContainer(context, widget.viewModel),
                     ],
                   ),
-
                 ),
                 Expanded(
                   child: GridView.count(
@@ -85,7 +108,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-GestureDetector weightContainer(BuildContext context, viewModel, Function refresh) {
+GestureDetector weightContainer(
+    BuildContext context, viewModel, Function refresh) {
   return GestureDetector(
     onTap: () {
       showDialog(
@@ -97,7 +121,8 @@ GestureDetector weightContainer(BuildContext context, viewModel, Function refres
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Enter how much weight you would like to gain/lose every week\n\nYou may not lose/gain more than two pounds a week.'),
+                Text(
+                    'Enter how much weight you would like to gain/lose every week\n\nYou may not lose/gain more than two pounds a week.'),
                 TextField(
                   controller: controller,
                   keyboardType: TextInputType.number,
@@ -129,11 +154,11 @@ GestureDetector weightContainer(BuildContext context, viewModel, Function refres
       );
     },
     child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.black45,
-      ),
-      margin: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.black45,
+        ),
+        margin: const EdgeInsets.all(4),
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -155,7 +180,10 @@ GestureDetector weightContainer(BuildContext context, viewModel, Function refres
                 ),
                 child: Text(
                   'Goal:' + viewModel.weightGoal.toString() + ' lbs',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: Colors.black),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -184,7 +212,8 @@ GestureDetector weightContainer(BuildContext context, viewModel, Function refres
                           actions: <Widget>[
                             TextButton(
                               onPressed: () {
-                                double? newValue = double.tryParse(controller.text);
+                                double? newValue =
+                                    double.tryParse(controller.text);
                                 if (newValue != null) {
                                   viewModel.setWeightInPounds(newValue);
                                 }
@@ -224,17 +253,24 @@ GestureDetector weightContainer(BuildContext context, viewModel, Function refres
                           children: <TextSpan>[
                             TextSpan(
                               text: viewModel.weight.toStringAsFixed(1),
-                              style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.w900,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium
+                                  ?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    fontWeight: FontWeight.w900,
+                                  ),
                             ),
                             TextSpan(
                               text: 'lbs',
-                              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                             ),
                           ],
                         ),
@@ -249,18 +285,25 @@ GestureDetector weightContainer(BuildContext context, viewModel, Function refres
                               style: DefaultTextStyle.of(context).style,
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: viewModel.lastWeightEntry.toStringAsFixed(1),
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  text: viewModel.lastWeightEntry
+                                      .toStringAsFixed(1),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                 ),
                                 TextSpan(
                                   text: 'lbs',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                 ),
                               ],
                             ),
@@ -270,18 +313,32 @@ GestureDetector weightContainer(BuildContext context, viewModel, Function refres
                               children: [
                                 Text(
                                   '${viewModel.percentChange.toStringAsFixed(1)}%',
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: (viewModel.weightGoal >= 0 && viewModel.percentChange >= 0) ? Colors.green :
-                                    (viewModel.weightGoal <= 0 && viewModel.percentChange <= 0) ? Colors.green :
-                                    Colors.red,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(
+                                        color: (viewModel.weightGoal >= 0 &&
+                                                viewModel.percentChange >= 0)
+                                            ? Colors.green
+                                            : (viewModel.weightGoal <= 0 &&
+                                                    viewModel.percentChange <=
+                                                        0)
+                                                ? Colors.green
+                                                : Colors.red,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                 ),
                                 Icon(
-                                  viewModel.percentChange > 0 ? Icons.arrow_upward : Icons.arrow_downward,
-                                  color: (viewModel.weightGoal >= 0 && viewModel.percentChange >= 0) ? Colors.green :
-                                  (viewModel.weightGoal <= 0 && viewModel.percentChange <= 0) ? Colors.green :
-                                  Colors.red,
+                                  viewModel.percentChange > 0
+                                      ? Icons.arrow_upward
+                                      : Icons.arrow_downward,
+                                  color: (viewModel.weightGoal >= 0 &&
+                                          viewModel.percentChange >= 0)
+                                      ? Colors.green
+                                      : (viewModel.weightGoal <= 0 &&
+                                              viewModel.percentChange <= 0)
+                                          ? Colors.green
+                                          : Colors.red,
                                   size: 18,
                                 )
                               ],
@@ -295,12 +352,12 @@ GestureDetector weightContainer(BuildContext context, viewModel, Function refres
               ),
             )
           ],
-        )
-    ),
+        )),
   );
 }
 
-GestureDetector waterContainer(BuildContext context, viewModel, Function refresh) {
+GestureDetector waterContainer(
+    BuildContext context, viewModel, Function refresh) {
   return GestureDetector(
     onTap: () {
       showDialog(
@@ -356,8 +413,8 @@ GestureDetector waterContainer(BuildContext context, viewModel, Function refresh
                 progressColor: viewModel.waterPercentage < 0.5
                     ? Theme.of(context).colorScheme.tertiary
                     : viewModel.waterPercentage < 1.0
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.primaryContainer,
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.primaryContainer,
                 animation: true,
                 animateFromLastPercent: true,
                 animationDuration: 750,
@@ -392,7 +449,7 @@ GestureDetector waterContainer(BuildContext context, viewModel, Function refresh
             right: 10,
             child: ClipOval(
               child: FloatingActionButton(
-                heroTag: 'addButton',
+                // heroTag: 'addButton',
                 mini: true,
                 onPressed: () {
                   viewModel.addWater();
@@ -420,7 +477,10 @@ GestureDetector waterContainer(BuildContext context, viewModel, Function refresh
               ),
               child: Text(
                 'Goal: ${viewModel.waterCupsGoal} Cups',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: Colors.black),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -431,110 +491,132 @@ GestureDetector waterContainer(BuildContext context, viewModel, Function refresh
   );
 }
 
-Container dailySummaryContainer(BuildContext context, HomePageViewModel viewModel) {
-  return Container(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10),
-      color: Colors.black45,
-    ),
-    margin: const EdgeInsets.all(4),
-    child: Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 9),
-                  child: Text(
-                    'Daily Summary',
-                    style: Theme.of(context).textTheme.titleMedium,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 9),
-                  child: const Icon(Icons.today),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+InkWell dailySummaryContainer(
+    BuildContext context, HomePageViewModel viewModel) {
+  return InkWell(
+    onTap: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DailyView(
+                    timestamp: DateTime.now(),
+                  )));
+    },
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.black45,
+      ),
+      margin: const EdgeInsets.all(4),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 9),
-                    child:                   Text(
-                      '${viewModel.calories.toStringAsFixed(0)}',
-                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.w900,
-                      ),
+                    child: Text(
+                      'Daily Summary',
+                      style: Theme.of(context).textTheme.titleMedium,
+                      textAlign: TextAlign.left,
                     ),
-                  ),
-                  LinearPercentIndicator(
-                    width: 100,
-                    lineHeight: 6.0,
-                    percent: viewModel.caloriePercentage,
-                    animation: true,
-                    trailing: new Text(viewModel.calorieGoal.toStringAsFixed(0)),
-                    /*
-                    REPLACE 'waterPercentage' WITH 'caloriesPercentage' IN THE LINES BELOW
-                     */
-                    progressColor: viewModel.caloriePercentage < 0.5
-                        ? Theme.of(context).colorScheme.tertiary
-                        : viewModel.caloriePercentage < 1.0
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.primaryContainer,
-                    barRadius: Radius.circular(10),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 9),
-                    child: Text(
-                      'Calories',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
+                    padding: const EdgeInsets.only(right: 9),
+                    child: const Icon(Icons.today),
                   ),
                 ],
               ),
-              Padding(
-                padding: EdgeInsets.only(right: 9),
-                child:               Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 9),
+                      child: Text(
+                        '${viewModel.calories.toStringAsFixed(0)}',
+                        style:
+                            Theme.of(context).textTheme.displayLarge?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.w900,
+                                ),
                       ),
-                      Text(
-                        'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+                    ),
+                    LinearPercentIndicator(
+                      width: 100,
+                      lineHeight: 6.0,
+                      percent: viewModel.caloriePercentage,
+                      animation: true,
+                      trailing:
+                          new Text(viewModel.calorieGoal.toStringAsFixed(0)),
+                      /*
+                    REPLACE 'waterPercentage' WITH 'caloriesPercentage' IN THE LINES BELOW
+                     */
+                      progressColor: viewModel.caloriePercentage < 0.5
+                          ? Theme.of(context).colorScheme.tertiary
+                          : viewModel.caloriePercentage < 1.0
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.primaryContainer,
+                      barRadius: Radius.circular(10),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 9),
+                      child: Text(
+                        'Calories',
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Text(
-                        'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
-                      ),
-                    ],
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 9),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(color: Colors.black),
+                        ),
+                        Text(
+                          'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(color: Colors.black),
+                        ),
+                        Text(
+                          'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(color: Colors.black),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     ),
   );
