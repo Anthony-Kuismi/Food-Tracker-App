@@ -31,8 +31,10 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.navigatorService, required this.isLoggedIn, required this.notificationService});
   @override
   Widget build(BuildContext context) {
-  log("test123");
+  log("Main is building rn :) ");
+  //starts notifications
     notificationService.startWaterTimer();
+    notificationService.lateMealNotification();
     return FutureBuilder(
         future: Firebase.initializeApp(),
         builder: (context, snapshot) {
