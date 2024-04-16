@@ -143,18 +143,10 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
                 child: SizedBox(
                   height:100,
                   child: SfSparkLineChart.custom(
-                    axisCrossesAt: 100000,
                     axisLineWidth: 0,
                     dataCount: viewModel.calories.length,
                     xValueMapper: (int index) => DateFormat('MM dd yy').format(viewModel.calories[index].timestamp),
                     yValueMapper: (int index) => viewModel.calories[index].value,
-                    plotBand: SparkChartPlotBand(
-                      start: 14,
-                      end: 28,
-                      color: Colors.red.withOpacity(0.2),
-                      borderColor: Colors.green,
-                      borderWidth: 2,
-                    ),
                     labelDisplayMode: SparkChartLabelDisplayMode.none,
                     trackball: SparkChartTrackball(
                       activationMode: SparkChartActivationMode.tap,
