@@ -63,6 +63,7 @@ class NotificationService extends ChangeNotifier{
   }
 
   //notfiy if a meal is missed
+  //currently sends  this notification if no meal is adde for the current date in the diet log
   void lateMealNotification() async {
     final mealListForToday = await firestore.getMealsFromUserByTimestamp(DateTime.now());
     if(mealListForToday.isEmpty) {
