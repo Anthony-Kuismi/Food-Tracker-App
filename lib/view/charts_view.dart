@@ -57,7 +57,7 @@ class ChartsView extends StatelessWidget {
         const NavBar(key: Key('navBar'), currentPage: 'ChartsView'),
         body: Container(
           child: Padding(
-            padding: const EdgeInsets.all(48.0),
+            padding: const EdgeInsets.all(12.0),
             child: ChartsTabView(
               viewModel: chartsViewModel,
             ),
@@ -90,7 +90,7 @@ class ChartsTabView extends StatefulWidget {
   Widget buildSparkLineChart(BuildContext context, List<DataPoint> data) {
     return SfSparkLineChart.custom(
       dataCount: data.length,
-      xValueMapper: (int index) => data[index].timestamp,
+      xValueMapper: (int index) => DateFormat('MM dd yy').format(data[index].timestamp),
       yValueMapper: (int index) => data[index].value,
       plotBand: SparkChartPlotBand(
         start: 14,
@@ -99,7 +99,7 @@ class ChartsTabView extends StatefulWidget {
         borderColor: Colors.green,
         borderWidth: 2,
       ),
-      labelDisplayMode: SparkChartLabelDisplayMode.last,
+      labelDisplayMode: SparkChartLabelDisplayMode.none,
       trackball: SparkChartTrackball(
         activationMode: SparkChartActivationMode.tap,
         tooltipFormatter: (TooltipFormatterDetails details) => '${details
@@ -124,31 +124,53 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
 
   _ChartsTabViewState({required this.viewModel});
 
+
   get caloriesChart {
     if (viewModel.isLoading){
       return Text("Loading!");
     }else{
-      return SfSparkLineChart.custom(
-        dataCount: viewModel.calories.length,
-        xValueMapper: (int index) => viewModel.calories[index].timestamp,
-        yValueMapper: (int index) => viewModel.calories[index].value,
-        plotBand: SparkChartPlotBand(
-          start: 14,
-          end: 28,
-          color: Colors.red.withOpacity(0.2),
-          borderColor: Colors.green,
-          borderWidth: 2,
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
+        child: Column(
+          children: [
+            Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8)
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(0),
+                child: SizedBox(
+                  height:100,
+                  child: SfSparkLineChart.custom(
+                    axisCrossesAt: 100000,
+                    axisLineWidth: 0,
+                    dataCount: viewModel.calories.length,
+                    xValueMapper: (int index) => DateFormat('MM dd yy').format(viewModel.calories[index].timestamp),
+                    yValueMapper: (int index) => viewModel.calories[index].value,
+                    plotBand: SparkChartPlotBand(
+                      start: 14,
+                      end: 28,
+                      color: Colors.red.withOpacity(0.2),
+                      borderColor: Colors.green,
+                      borderWidth: 2,
+                    ),
+                    labelDisplayMode: SparkChartLabelDisplayMode.none,
+                    trackball: SparkChartTrackball(
+                      activationMode: SparkChartActivationMode.tap,
+                      tooltipFormatter: (TooltipFormatterDetails details) => '${details
+                          .x}\n${details.y}',
+                    ),
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .secondary,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        labelDisplayMode: SparkChartLabelDisplayMode.last,
-        trackball: SparkChartTrackball(
-          activationMode: SparkChartActivationMode.tap,
-          tooltipFormatter: (TooltipFormatterDetails details) => '${details
-              .x}\n${details.y}',
-        ),
-        color: Theme
-            .of(context)
-            .colorScheme
-            .secondary,
       );
     }
   }
@@ -157,26 +179,45 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
     if(viewModel.isLoading){
       return Text("Loading!");
     }else{
-      return SfSparkLineChart.custom(
-        dataCount: viewModel.proteinTotalG != null
-            ? viewModel.proteinTotalG.length
-            : 0,
-        xValueMapper: (int index) => viewModel.proteinTotalG[index].timestamp,
-        yValueMapper: (int index) => viewModel.proteinTotalG[index].value,
-        plotBand: SparkChartPlotBand(
-          start: 14,
-          end: 28,
-          color: Colors.red.withOpacity(0.2),
-          borderColor: Colors.green,
-          borderWidth: 2,
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 4.0),
+        child: Column(
+          children: [
+            Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: SizedBox(
+                  height: 100,
+                  child: SfSparkLineChart.custom(
+                    dataCount: viewModel.proteinTotalG != null
+                        ? viewModel.proteinTotalG.length
+                        : 0,
+                    xValueMapper: (int index) => DateFormat('MM dd yy').format(viewModel.proteinTotalG[index].timestamp),
+                    yValueMapper: (int index) => viewModel.proteinTotalG[index].value,
+                    plotBand: SparkChartPlotBand(
+                      start: 14,
+                      end: 28,
+                      color: Colors.red.withOpacity(0.2),
+                      borderColor: Colors.green,
+                      borderWidth: 2,
+                    ),
+                    labelDisplayMode: SparkChartLabelDisplayMode.none,
+                    trackball: SparkChartTrackball(
+                      activationMode: SparkChartActivationMode.tap,
+                      tooltipFormatter: (TooltipFormatterDetails details) =>
+                          '${details.x}\n${details.y}',
+                    ),
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        labelDisplayMode: SparkChartLabelDisplayMode.last,
-        trackball: SparkChartTrackball(
-          activationMode: SparkChartActivationMode.tap,
-          tooltipFormatter: (TooltipFormatterDetails details) =>
-              '${details.x}\n${details.y}',
-        ),
-        color: Theme.of(context).colorScheme.secondary,
       );
     }
   }
@@ -185,27 +226,46 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
     if (viewModel.isLoading){
       return Text("Loading!");
     }else{
-      return SfSparkLineChart.custom(
-        dataCount: viewModel.carbohydratesTotalG.length,
-        xValueMapper: (int index) => viewModel.carbohydratesTotalG[index].timestamp,
-        yValueMapper: (int index) => viewModel.carbohydratesTotalG[index].value,
-        plotBand: SparkChartPlotBand(
-          start: 14,
-          end: 28,
-          color: Colors.red.withOpacity(0.2),
-          borderColor: Colors.green,
-          borderWidth: 2,
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical:4.0),
+        child: Column(
+          children: [
+            Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: SizedBox(
+                  height: 100,
+                  child: SfSparkLineChart.custom(
+                    dataCount: viewModel.carbohydratesTotalG.length,
+                    xValueMapper: (int index) => DateFormat('MM dd yy').format(viewModel.carbohydratesTotalG[index].timestamp),
+                    yValueMapper: (int index) => viewModel.carbohydratesTotalG[index].value,
+                    plotBand: SparkChartPlotBand(
+                      start: 14,
+                      end: 28,
+                      color: Colors.red.withOpacity(0.2),
+                      borderColor: Colors.green,
+                      borderWidth: 2,
+                    ),
+                    labelDisplayMode: SparkChartLabelDisplayMode.none,
+                    trackball: SparkChartTrackball(
+                      activationMode: SparkChartActivationMode.tap,
+                      tooltipFormatter: (TooltipFormatterDetails details) => '${details
+                          .x}\n${details.y}',
+                    ),
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .primary,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        labelDisplayMode: SparkChartLabelDisplayMode.last,
-        trackball: SparkChartTrackball(
-          activationMode: SparkChartActivationMode.tap,
-          tooltipFormatter: (TooltipFormatterDetails details) => '${details
-              .x}\n${details.y}',
-        ),
-        color: Theme
-            .of(context)
-            .colorScheme
-            .secondary,
       );
     }
   }
@@ -214,27 +274,46 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
     if(viewModel.isLoading){
       return Text("Loading!");
     }else{
-      return SfSparkLineChart.custom(
-        dataCount: viewModel.fatTotalG != null? viewModel.fatTotalG.length : 0,
-        xValueMapper: (int index) => viewModel.fatTotalG[index].timestamp,
-        yValueMapper: (int index) => viewModel.fatTotalG[index].value,
-        plotBand: SparkChartPlotBand(
-          start: 14,
-          end: 28,
-          color: Colors.red.withOpacity(0.2),
-          borderColor: Colors.green,
-          borderWidth: 2,
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical:4.0),
+        child: Column(
+          children: [
+            Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: SizedBox(
+                  height: 100,
+                  child: SfSparkLineChart.custom(
+                    dataCount: viewModel.fatTotalG != null? viewModel.fatTotalG.length : 0,
+                    xValueMapper: (int index) => DateFormat('MM dd yy').format(viewModel.fatTotalG[index].timestamp),
+                    yValueMapper: (int index) => viewModel.fatTotalG[index].value,
+                    plotBand: SparkChartPlotBand(
+                      start: 14,
+                      end: 28,
+                      color: Colors.red.withOpacity(0.2),
+                      borderColor: Colors.green,
+                      borderWidth: 2,
+                    ),
+                    labelDisplayMode: SparkChartLabelDisplayMode.none,
+                    trackball: SparkChartTrackball(
+                      activationMode: SparkChartActivationMode.tap,
+                      tooltipFormatter: (TooltipFormatterDetails details) => '${details
+                          .x}\n${details.y}',
+                    ),
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .tertiary,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        labelDisplayMode: SparkChartLabelDisplayMode.last,
-        trackball: SparkChartTrackball(
-          activationMode: SparkChartActivationMode.tap,
-          tooltipFormatter: (TooltipFormatterDetails details) => '${details
-              .x}\n${details.y}',
-        ),
-        color: Theme
-            .of(context)
-            .colorScheme
-            .secondary,
       );
     }
   }
@@ -272,23 +351,33 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
             isScrollable: true,
             tabs: viewModel.labels.map<Tab>((label) => Tab(text: label)).toList(),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.date_range),
-                onPressed: () => _pickDate(context, viewModel, true),
-                tooltip: 'Set Start Date',
-              ),
-              IconButton(
-                icon: const Icon(Icons.date_range),
-                onPressed: () => _pickDate(context, viewModel, false),
-                tooltip: 'Set End Date',
-              ),
-            ],
-          ),
           Expanded(
             child: charts,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Text('Start', style: TextStyle(fontSize: 16),),
+                  IconButton(
+                    icon: const Icon(Icons.date_range),
+                    onPressed: () => _pickDate(context, viewModel, true),
+                    tooltip: 'Set Start Date',
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text('End', style: TextStyle(fontSize: 16),),
+                  IconButton(
+                    icon: const Icon(Icons.date_range),
+                    onPressed: () => _pickDate(context, viewModel, false),
+                    tooltip: 'Set End Date',
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),

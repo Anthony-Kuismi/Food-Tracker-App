@@ -49,7 +49,7 @@ class AppProvider extends StatelessWidget {
           create: (context) => SettingsViewModel(),
         ),
         ChangeNotifierProvider<DailyViewModel>(create:(context)=>DailyViewModel(null)),
-        ChangeNotifierProvider<ChartsViewModel>(create: (context)=>ChartsViewModel(start: DateTime.now().subtract(Duration(days:7)),end: DateTime.now()))
+        ChangeNotifierProvider<ChartsViewModel>(create: (context)=>ChartsViewModel(start: DateTime.now().subtract(Duration(days:182)),end: DateTime.now()))
       ],
       child: child,
     );
