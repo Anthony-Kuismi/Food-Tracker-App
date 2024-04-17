@@ -37,7 +37,8 @@ class ChartsViewModel extends ChangeNotifier {
 
   get fatTotalG => _model.fatTotalG;
 
-  List<String> labels = ['Calories','Protein','Carbohydrates','Fat',];
+  List<String> labels = ['Calories','Protein','Carbs','Fat',];
+  List<String> periods = ['1w','4w','3m','1y'];
 
   get start => _model.start;
   get end => _model.end;

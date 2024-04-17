@@ -126,6 +126,7 @@ class ChartsTabView extends StatefulWidget {
 class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateMixin {
   ChartsViewModel viewModel;
   late TabController tabController;
+  late TabController dateController;
   late TabBarView charts;
 
   _ChartsTabViewState({required this.viewModel});
@@ -147,7 +148,7 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
               child: Padding(
                 padding: const EdgeInsets.all(0),
                 child: SizedBox(
-                  height:100,
+                  height: 250,
                   child: SfSparkLineChart.custom(
                     axisLineWidth: 0,
                     dataCount: viewModel.calories.length,
@@ -189,7 +190,7 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
               child: Padding(
                 padding: const EdgeInsets.all(0.0),
                 child: SizedBox(
-                  height: 100,
+                  height: 250,
                   child: SfSparkLineChart.custom(
                     dataCount: viewModel.proteinTotalG != null
                         ? viewModel.proteinTotalG.length
@@ -236,7 +237,7 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
               child: Padding(
                 padding: const EdgeInsets.all(0.0),
                 child: SizedBox(
-                  height: 100,
+                  height: 250,
                   child: SfSparkLineChart.custom(
                     dataCount: viewModel.carbohydratesTotalG.length,
                     xValueMapper: (int index) => DateFormat('MM dd yy').format(viewModel.carbohydratesTotalG[index].timestamp),
@@ -284,7 +285,7 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
               child: Padding(
                 padding: const EdgeInsets.all(0.0),
                 child: SizedBox(
-                  height: 100,
+                  height: 250,
                   child: SfSparkLineChart.custom(
                     dataCount: viewModel.fatTotalG != null? viewModel.fatTotalG.length : 0,
                     xValueMapper: (int index) => DateFormat('MM dd yy').format(viewModel.fatTotalG[index].timestamp),
@@ -338,19 +339,93 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
     tabController = TabController(length: viewModel.labels.length, vsync: this);
+    dateController = TabController(length: viewModel.periods.length, vsync: this);
     updateCharts();
     return FutureProvider(
       create: (BuildContext context) { return viewModel.initializeChartsModel(); },
       initialData: null,
       child: Column(
         children: [
-          TabBar(
-            controller: tabController,
-            isScrollable: true,
-            tabs: viewModel.labels.map<Tab>((label) => Tab(text: label)).toList(),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
           ),
-          Expanded(
+          Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 2 / 3,
+              decoration: BoxDecoration(
+                color: Colors.black45,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TabBar(
+                controller: dateController,
+                isScrollable: false,
+                indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
+                dividerColor: Colors.transparent,
+                labelColor: Theme.of(context).colorScheme.primary,
+                unselectedLabelColor: Colors.grey,
+                tabs: viewModel.periods.map<Tab>((periods) => Tab(text: periods)).toList(),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              CircleAvatar(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_left, color: Colors.white),
+                  onPressed: () {
+                  },
+                ),
+              ),
+              Text(
+                '4/9/24 - 4/16/24',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              CircleAvatar(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_right, color: Colors.white),
+                  onPressed: () {
+                  },
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+          ),
+          Container(
             child: charts,
+            height: 270,
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+          ),
+          Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 6 / 7,
+              decoration: BoxDecoration(
+                color: Colors.black45,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TabBar(
+                controller: tabController,
+                isScrollable: false,
+                indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
+                dividerColor: Colors.transparent,
+                labelColor: Theme.of(context).colorScheme.primary,
+                unselectedLabelColor: Colors.grey,
+                tabs: viewModel.labels.map<Tab>((labels) => Tab(text: labels)).toList(),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
