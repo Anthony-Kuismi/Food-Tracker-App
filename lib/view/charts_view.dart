@@ -317,29 +317,69 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
     }
   }
 
-  Future<void> _pickDate(BuildContext context, ChartsViewModel viewModel,
-      bool isStart) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: isStart ? viewModel.start : viewModel.end,
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null) {
-      if (isStart) {
-        await viewModel.updateStart(picked);
-        updateCharts();
-      } else {
-        await viewModel.updateEnd(picked);
-        updateCharts();
-      }
+  DateTime startDate = DateTime.now().subtract(Duration(days: 7));
+  DateTime endDate = DateTime.now();
+
+  Future<void> _pickStartDate(BuildContext context, ChartsViewModel viewModel,
+      String selectedOption, int modifier) async {
+    switch (selectedOption) {
+      case '1w':
+        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 7 * (modifier + 1))));
+        break;
+      case '4w':
+        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 28 * (modifier + 1))));
+        break;
+      case '3m':
+        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 90 * (modifier + 1))));
+        break;
+      case '1y':
+        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 365 * (modifier + 1))));
+        break;
     }
+    print('Start Date: ${viewModel.start}');
+  }
+
+  Future<void> _pickEndDate(BuildContext context, ChartsViewModel viewModel,
+      String selectedOption, int modifier) async {
+    switch (selectedOption) {
+      case '1w':
+        await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 7 * modifier)));
+        break;
+      case '4w':
+        await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 28 * modifier)));
+        break;
+      case '3m':
+        await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 90 * modifier)));
+        break;
+      case '1y':
+        await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 365 * modifier)));
+        break;
+    }
+    print('End Date: ${viewModel.end}');
+  }
+
+  String selectedOption = '1w';
+  int modifier = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: viewModel.labels.length, vsync: this);
+    dateController = TabController(length: viewModel.periods.length, vsync: this);
+
+    dateController.addListener(() {
+      if (!dateController.indexIsChanging) {
+        modifier = 0;
+        int selectedIndex = dateController.index;
+         selectedOption = viewModel.periods[selectedIndex];
+        _pickStartDate(context, viewModel, selectedOption, modifier);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    tabController = TabController(length: viewModel.labels.length, vsync: this);
-    dateController = TabController(length: viewModel.periods.length, vsync: this);
+
     updateCharts();
     return FutureProvider(
       create: (BuildContext context) { return viewModel.initializeChartsModel(); },
@@ -378,11 +418,14 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
                 child: IconButton(
                   icon: Icon(Icons.arrow_left, color: Colors.white),
                   onPressed: () {
+                    modifier++;
+                    _pickStartDate(context, viewModel, selectedOption, modifier);
+                    _pickEndDate(context, viewModel, selectedOption, modifier);
                   },
                 ),
               ),
               Text(
-                '4/9/24 - 4/16/24',
+                '${viewModel.start.month}/${viewModel.start.day}/${viewModel.start.year} - ${viewModel.end.month}/${viewModel.end.day}/${viewModel.end.year}',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               CircleAvatar(
@@ -390,6 +433,11 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
                 child: IconButton(
                   icon: Icon(Icons.arrow_right, color: Colors.white),
                   onPressed: () {
+                    if (modifier > 0) {
+                      modifier--;
+                    }
+                    _pickEndDate(context, viewModel, selectedOption, modifier);
+                    _pickStartDate(context, viewModel, selectedOption, modifier);
                   },
                 ),
               ),
@@ -427,31 +475,6 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
           Padding(
             padding: const EdgeInsets.all(20.0),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Text('Start', style: TextStyle(fontSize: 16),),
-                  IconButton(
-                    icon: const Icon(Icons.date_range),
-                    onPressed: () => _pickDate(context, viewModel, true),
-                    tooltip: 'Set Start Date',
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Text('End', style: TextStyle(fontSize: 16),),
-                  IconButton(
-                    icon: const Icon(Icons.date_range),
-                    onPressed: () => _pickDate(context, viewModel, false),
-                    tooltip: 'Set End Date',
-                  ),
-                ],
-              ),
-            ],
-          ),
         ],
       ),
     );
@@ -462,6 +485,7 @@ class _ChartsTabViewState extends State<ChartsTabView> with TickerProviderStateM
   @override
   void dispose(){
     tabController.dispose();
+    dateController.dispose();
     super.dispose();
   }
 
