@@ -66,13 +66,13 @@ class NavBar extends StatelessWidget {
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-              color: currentPage == 'SettingsView' ? Theme.of(context).colorScheme.primaryContainer : null,
+              color: currentPage == 'ChartsView' ? Theme.of(context).colorScheme.primaryContainer : null,
               borderRadius: BorderRadius.circular(25),
             ),
             child: IconButton(
-              icon: const Icon(Icons.menu, color: Colors.white),
+              icon: const Icon(Icons.insert_chart_outlined_rounded, color: Colors.white),
               onPressed: () {
-                navigatorService.pushReplace('SettingsView');
+                navigatorService.pushReplace('ChartsView');
               },
               iconSize: 30,
             ),

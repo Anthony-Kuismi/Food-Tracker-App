@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/view/search_view.dart';
+import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:food_tracker_app/viewmodel/search_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../model/meal.dart';
@@ -39,6 +40,34 @@ class MealViewState extends State<MealView> {
               color: Colors.black,
             ),
           ),
+          actions: [
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              child: CircleAvatar(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 10.0), // Add padding to the right
+                  child: IconButton(
+                    icon: const Icon(Icons.person, color: Colors.white, size: 25),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingsView(
+                                username: '',
+                              )));
+                    },
+                    iconSize: 30,
+                  ),
+                ),
+              ),
+            ),
+          ],
+
         ),
         body: Stack(
             children: [

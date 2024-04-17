@@ -22,6 +22,7 @@ class Search {
 
   Future<void> initialize() async {
     await fetchCustomData();
+    print("Firestore called!!!");
   }
 
   Future<void> fetchCustomData() async {
@@ -33,7 +34,7 @@ class Search {
   }
 }
 
-void main() async {
-  Search search = Search();
-  await search.initialize();
-}
+
+
+
+

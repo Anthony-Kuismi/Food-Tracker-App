@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_tracker_app/Service/basal_metabolic_rate_service.dart';
 import 'package:food_tracker_app/view/home_page_view.dart';
@@ -336,5 +338,35 @@ class FirestoreService {
     final dailynotes =
     FirebaseFirestore.instance.collection('Users/$username/Daily Notes');
     dailynotes.doc(DateFormat('MM dd yy').format(now)).set({'Daily Notes': dailyNotes});
+  }
+
+  Future<Map<DateTime, List<Meal>>> getMealsFromUserByTimestampRange(
+      DateTime start,
+      DateTime end) async {
+    List<Meal> mealData = await getMealsFromUser();
+    Map<DateTime, List<Meal>> out = {};
+    var day = DateTime(start.year, start.month, start.day);
+    end = DateTime(end.year, end.month, end.day);
+    log(day.toString());
+    log(end.toString());
+
+    if (start.millisecondsSinceEpoch >
+        end.millisecondsSinceEpoch) throw Error();
+    while (day.year != end.year || day.month != end.month ||
+        day.day != end.day + 1) {
+      out[day] = [];
+      log(out.entries.length.toString());
+      day = day.add(Duration(days: 1));
+    }
+    log(out.toString());
+    for (Meal meal in mealData) {
+      if (out.keys.contains(meal.day)) {
+        out[meal.day]!.add(meal);
+        log("True!");
+      } else {
+        log("False");
+      }
+    }
+    return out;
   }
 }
