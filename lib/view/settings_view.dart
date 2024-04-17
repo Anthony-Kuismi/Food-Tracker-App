@@ -22,7 +22,7 @@ class _SettingsView extends State<SettingsView> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
-          'Settings',
+          'My Profile',
           style: TextStyle(
             color: Colors.black,
           ),
