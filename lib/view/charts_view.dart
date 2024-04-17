@@ -31,21 +31,28 @@ class ChartsView extends StatelessWidget {
           ),
           actions: [
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
+                color: Theme.of(context).colorScheme.primary,
               ),
-              child: IconButton(
-                icon: const Icon(Icons.person, color: Colors.white),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SettingsView(
+              child: CircleAvatar(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 10.0), // Add padding to the right
+                  child: IconButton(
+                    icon: const Icon(Icons.person, color: Colors.white, size: 25),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingsView(
                                 username: '',
                               )));
-                },
-                iconSize: 30,
+                    },
+                    iconSize: 30,
+                  ),
+                ),
               ),
             ),
           ],
@@ -116,6 +123,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
     with TickerProviderStateMixin {
   ChartsViewModel viewModel;
   late TabController tabController;
+  late TabController dateController;
   late TabBarView charts;
 
   _ChartsTabViewState({required this.viewModel});
@@ -135,7 +143,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
               child: Padding(
                 padding: const EdgeInsets.all(0),
                 child: SizedBox(
-                  height: 100,
+                  height: 250,
                   child: SfCartesianChart(
                     primaryXAxis: DateTimeAxis(),
                     series: <CartesianSeries>[
@@ -170,7 +178,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
               child: Padding(
                 padding: const EdgeInsets.all(0.0),
                 child: SizedBox(
-                  height: 100,
+                  height: 250,
                   child: SfCartesianChart(
                     primaryXAxis: DateTimeAxis(),
                     series: <CartesianSeries>[
@@ -205,7 +213,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
               child: Padding(
                 padding: const EdgeInsets.all(0.0),
                 child: SizedBox(
-                  height: 100,
+                  height: 250,
                   child: SfCartesianChart(
                     primaryXAxis: DateTimeAxis(),
                     series: <CartesianSeries>[
@@ -240,7 +248,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
               child: Padding(
                 padding: const EdgeInsets.all(0.0),
                 child: SizedBox(
-                  height: 100,
+                  height: 250,
                   child: SfCartesianChart(
                     primaryXAxis: DateTimeAxis(),
                     series: <CartesianSeries>[
@@ -260,28 +268,69 @@ class _ChartsTabViewState extends State<ChartsTabView>
     }
   }
 
-  Future<void> _pickDate(
-      BuildContext context, ChartsViewModel viewModel, bool isStart) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: isStart ? viewModel.start : viewModel.end,
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null) {
-      if (isStart) {
-        await viewModel.updateStart(picked);
-        updateCharts();
-      } else {
-        await viewModel.updateEnd(picked);
-        updateCharts();
-      }
+  DateTime startDate = DateTime.now().subtract(Duration(days: 7));
+  DateTime endDate = DateTime.now();
+
+  Future<void> _pickStartDate(BuildContext context, ChartsViewModel viewModel,
+      String selectedOption, int modifier) async {
+    switch (selectedOption) {
+      case '1w':
+        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 7 * (modifier + 1))));
+        break;
+      case '4w':
+        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 28 * (modifier + 1))));
+        break;
+      case '3m':
+        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 90 * (modifier + 1))));
+        break;
+      case '1y':
+        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 365 * (modifier + 1))));
+        break;
     }
+    print('Start Date: ${viewModel.start}');
+  }
+
+  Future<void> _pickEndDate(BuildContext context, ChartsViewModel viewModel,
+      String selectedOption, int modifier) async {
+    switch (selectedOption) {
+      case '1w':
+        await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 7 * modifier)));
+        break;
+      case '4w':
+        await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 28 * modifier)));
+        break;
+      case '3m':
+        await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 90 * modifier)));
+        break;
+      case '1y':
+        await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 365 * modifier)));
+        break;
+    }
+    print('End Date: ${viewModel.end}');
+  }
+
+  String selectedOption = '1w';
+  int modifier = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: viewModel.labels.length, vsync: this);
+    dateController = TabController(length: viewModel.periods.length, vsync: this);
+
+    dateController.addListener(() {
+      if (!dateController.indexIsChanging) {
+        modifier = 0;
+        int selectedIndex = dateController.index;
+         selectedOption = viewModel.periods[selectedIndex];
+        _pickStartDate(context, viewModel, selectedOption, modifier);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    tabController = TabController(length: viewModel.labels.length, vsync: this);
+
     updateCharts();
     return FutureProvider(
       create: (BuildContext context) {
@@ -290,45 +339,91 @@ class _ChartsTabViewState extends State<ChartsTabView>
       initialData: null,
       child: Column(
         children: [
-          TabBar(
-            controller: tabController,
-            isScrollable: true,
-            tabs:
-                viewModel.labels.map<Tab>((label) => Tab(text: label)).toList(),
+          Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 2 / 3,
+              decoration: BoxDecoration(
+                color: Colors.black45,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TabBar(
+                controller: dateController,
+                isScrollable: false,
+                indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
+                dividerColor: Colors.transparent,
+                labelColor: Theme.of(context).colorScheme.primary,
+                unselectedLabelColor: Colors.grey,
+                tabs: viewModel.periods.map<Tab>((periods) => Tab(text: periods)).toList(),
+              ),
+            ),
           ),
-          Expanded(
-            child: charts,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    'Start',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.date_range),
-                    onPressed: () => _pickDate(context, viewModel, true),
-                    tooltip: 'Set Start Date',
-                  ),
-                ],
+            children: <Widget>[
+              CircleAvatar(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_left, color: Colors.white),
+                  onPressed: () {
+                    modifier++;
+                    _pickStartDate(context, viewModel, selectedOption, modifier);
+                    _pickEndDate(context, viewModel, selectedOption, modifier);
+                  },
+                ),
               ),
-              Column(
-                children: [
-                  Text(
-                    'End',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.date_range),
-                    onPressed: () => _pickDate(context, viewModel, false),
-                    tooltip: 'Set End Date',
-                  ),
-                ],
+              Text(
+                '${viewModel.start.month}/${viewModel.start.day}/${viewModel.start.year} - ${viewModel.end.month}/${viewModel.end.day}/${viewModel.end.year}',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              CircleAvatar(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_right, color: Colors.white),
+                  onPressed: () {
+                    if (modifier > 0) {
+                      modifier--;
+                    }
+                    _pickEndDate(context, viewModel, selectedOption, modifier);
+                    _pickStartDate(context, viewModel, selectedOption, modifier);
+                  },
+                ),
               ),
             ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+          ),
+          Container(
+            child: charts,
+            height: 270,
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+          ),
+          Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 6 / 7,
+              decoration: BoxDecoration(
+                color: Colors.black45,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TabBar(
+                controller: tabController,
+                isScrollable: false,
+                indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
+                dividerColor: Colors.transparent,
+                labelColor: Theme.of(context).colorScheme.primary,
+                unselectedLabelColor: Colors.grey,
+                tabs: viewModel.labels.map<Tab>((labels) => Tab(text: labels)).toList(),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
           ),
         ],
       ),
@@ -338,6 +433,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
   @override
   void dispose() {
     tabController.dispose();
+    dateController.dispose();
     super.dispose();
   }
 

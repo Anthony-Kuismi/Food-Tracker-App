@@ -42,28 +42,35 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         automaticallyImplyLeading: false,
         title: const Text(
-          'Food Tracking: Hot dog Version',
+          'Food Tracking',
           style: TextStyle(
             color: Colors.black,
           ),
         ),
         actions: [
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
+              color: Theme.of(context).colorScheme.primary,
             ),
-            child: IconButton(
-              icon: const Icon(Icons.person, color: Colors.white),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SettingsView(
+            child: CircleAvatar(
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              child: Padding(
+                padding: EdgeInsets.only(right: 10.0), // Add padding to the right
+                child: IconButton(
+                  icon: const Icon(Icons.person, color: Colors.white, size: 25),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SettingsView(
                               username: '',
                             )));
-              },
-              iconSize: 30,
+                  },
+                  iconSize: 30,
+                ),
+              ),
             ),
           ),
         ],
