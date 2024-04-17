@@ -18,6 +18,9 @@ class HomePageViewModel extends ChangeNotifier {
   int get waterCupsGoal => _model.getWaterGoal();
   double percentChange = 0;
 
+  String? notes;
+  String? get newNotes => notes;
+
   double _caloriePercentage = 0.0;
   double get caloriePercentage => _caloriePercentage;
 
@@ -141,6 +144,14 @@ class HomePageViewModel extends ChangeNotifier {
     updateCaloriePercentage();
     notifyListeners();
   }
+
+  void addNotes(String newNotes) {
+    notes = newNotes;
+    firestore.addCustomNotesForUser(notes!, DateTime.now());
+    notifyListeners();
+  }
+
+
 }
 
 

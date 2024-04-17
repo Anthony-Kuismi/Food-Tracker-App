@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_tracker_app/Service/basal_metabolic_rate_service.dart';
+import 'package:food_tracker_app/view/home_page_view.dart';
+import 'package:intl/intl.dart';
 import '../model/food.dart';
 import '../model/meal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -326,5 +328,13 @@ class FirestoreService {
     final username = prefs.getString('username');
     final user = FirebaseFirestore.instance.collection('Users/$username/Weight Entries');
     user.doc('entry${num}').set(weight.toJson());
+  }
+
+  Future<void> addCustomNotesForUser(String dailyNotes, DateTime now) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final dailynotes =
+    FirebaseFirestore.instance.collection('Users/$username/Daily Notes');
+    dailynotes.doc(DateFormat('MM dd yy').format(now)).set({'Daily Notes': dailyNotes});
   }
 }

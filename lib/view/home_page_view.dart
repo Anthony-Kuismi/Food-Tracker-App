@@ -50,9 +50,9 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context, snapshot) {
           return Padding(
             padding: const EdgeInsets.all(16),
+
             child: Column(
               children: <Widget>[
-
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 4.5,
                   child: GridView.count(
@@ -73,11 +73,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       waterContainer(context, widget.viewModel, refresh),
                       weightContainer(context, widget.viewModel, refresh),
+                      dailyNotes(context),
                     ],
                   ),
                 ),
               ],
             ),
+
           );
         },
       ),
@@ -533,6 +535,96 @@ Container dailySummaryContainer(BuildContext context, HomePageViewModel viewMode
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget dailyNotes(BuildContext context) {
+  final viewModel = Provider.of<HomePageViewModel>(context);
+  String displayedNotes = viewModel.notes ?? 'No notes added';
+  final controller = TextEditingController(text: viewModel.notes);
+
+  return Consumer<HomePageViewModel>(
+    builder: (context, viewModel, child) => GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Edit Notes'),
+              content: TextField(
+                controller: controller,
+                decoration: const InputDecoration(
+                  hintText: 'Enter Notes',
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    String notes = controller.text;
+                    viewModel.addNotes(notes); // Add notes to ViewModel
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                  child: const Text('Save'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+      child: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Positioned(
+            top: 10,
+            child: Text(
+              'Daily Notes',
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          // Show custom notes here
+          Positioned(
+            top: 40, // Adjust position as needed
+            left: 10,
+            right: 10,
+            child: GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Notes'),
+                      content: SingleChildScrollView(
+                        child: Text(
+                          displayedNotes,
+                          style: TextStyle(fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          child: const Text('Close'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Text(
+                displayedNotes.length > 20
+                    ? displayedNotes.substring(0, 20) + "..."
+                    : displayedNotes,
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
         ],
       ),
