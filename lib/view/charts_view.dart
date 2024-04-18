@@ -150,7 +150,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
                       LineSeries<DataPoint,dynamic>(
                           dataSource: viewModel.calories,
                           xValueMapper: (DataPoint item, _) => item.timestamp,
-                          yValueMapper: (DataPoint item, _) => item.value
+                          yValueMapper: (DataPoint item, _) => item.value,
+                          color: Theme.of(context).colorScheme.primaryContainer
                       )
                     ],
                   ),
@@ -185,7 +186,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
                       LineSeries<DataPoint,dynamic>(
                           dataSource: viewModel.proteinTotalG,
                           xValueMapper: (DataPoint item, _) => item.timestamp,
-                          yValueMapper: (DataPoint item, _) => item.value
+                          yValueMapper: (DataPoint item, _) => item.value,
+                          color: Theme.of(context).colorScheme.primaryContainer
                       )
                     ],
                   ),
@@ -220,7 +222,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
                       LineSeries<DataPoint,dynamic>(
                           dataSource: viewModel.carbohydratesTotalG,
                           xValueMapper: (DataPoint item, _) => item.timestamp,
-                          yValueMapper: (DataPoint item, _) => item.value
+                          yValueMapper: (DataPoint item, _) => item.value,
+                          color: Theme.of(context).colorScheme.primaryContainer
                       )
                     ],
                   ),
@@ -255,7 +258,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
                       LineSeries<DataPoint,dynamic>(
                           dataSource: viewModel.fatTotalG,
                           xValueMapper: (DataPoint item, _) => item.timestamp,
-                          yValueMapper: (DataPoint item, _) => item.value
+                          yValueMapper: (DataPoint item, _) => item.value,
+                          color: Theme.of(context).colorScheme.primaryContainer
                       )
                     ],
                   ),
@@ -288,6 +292,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
         break;
     }
     print('Start Date: ${viewModel.start}');
+    setState(() {});
+
   }
 
   Future<void> _pickEndDate(BuildContext context, ChartsViewModel viewModel,

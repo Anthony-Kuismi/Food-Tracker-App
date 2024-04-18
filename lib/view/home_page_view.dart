@@ -104,6 +104,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       waterContainer(context, widget.viewModel, refresh),
                       weightContainer(context, widget.viewModel, refresh),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 4.5,
+                  child: GridView.count(
+                    crossAxisCount: 1,
+                    childAspectRatio: MediaQuery.of(context).size.width /
+                        (MediaQuery.of(context).size.height / 4.5),
+                    children: <Widget>[
                       dailyNotes(context),
                     ],
                   ),
@@ -665,59 +675,77 @@ Widget dailyNotes(BuildContext context) {
           },
         );
       },
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Positioned(
-            top: 10,
-            child: Text(
-              'Daily Notes',
-              style: Theme.of(context).textTheme.titleMedium,
-              textAlign: TextAlign.center,
-            ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.black45,
           ),
-          // Show custom notes here
-          Positioned(
-            top: 40, // Adjust position as needed
-            left: 10,
-            right: 10,
-            child: GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Notes'),
-                      content: SingleChildScrollView(
-                        child: Text(
-                          displayedNotes,
-                          style: TextStyle(fontSize: 16),
-                          textAlign: TextAlign.center,
-                        ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.topCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 9, bottom: 9, right: 19, left: 19),
+                      child: Text(
+                        'Daily Notes',
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.left,
                       ),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Close the dialog
-                          },
-                          child: const Text('Close'),
-                        ),
-                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 9, bottom: 9, right: 19, left: 19),
+                      child: const Icon(Icons.note_add),
+                    ),
+                  ],
+                ),
+              ),
+              // Show custom notes here
+              Positioned(
+                top: 40, // Adjust position as needed
+                left: 10,
+                right: 10,
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Notes'),
+                          content: SingleChildScrollView(
+                            child: Text(
+                              displayedNotes,
+                              style: TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              child: const Text('Close'),
+                            ),
+                          ],
+                        );
+                      },
                     );
                   },
-                );
-              },
-              child: Text(
-                displayedNotes.length > 20
-                    ? displayedNotes.substring(0, 20) + "..."
-                    : displayedNotes,
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
+                  child: Text(
+                    displayedNotes.length > 20
+                        ? displayedNotes.substring(0, 20) + "..."
+                        : displayedNotes,
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
     ),
   );
 }
