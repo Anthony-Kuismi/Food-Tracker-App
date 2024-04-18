@@ -34,8 +34,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.navigatorService, required this.isLoggedIn, required this.notificationService});
   @override
   Widget build(BuildContext context) {
-  log("test123");
-    notificationService.startWaterTimer();
+      notificationService.startWaterTimer();
     return FutureBuilder(
         future: Firebase.initializeApp(),
         builder: (context, snapshot) {

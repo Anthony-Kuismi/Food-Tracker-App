@@ -57,13 +57,12 @@ class MealListViewModel extends ChangeNotifier {
   }
 
   void updateMeal(Meal oldMeal, Meal newMeal) {
-    // final index = meals.indexOf(oldMeal);
-    // final index = meals.indexWhere((meal) => meal.id == oldMeal.id);
+    
+    
     final index = id2Idx[oldMeal.id]??-1;
     meals[index] = newMeal;
     firestore.updateMealForUser(oldMeal.id, newMeal);
-    log('MEAL UPDATED! Food Count: ${newMeal.foods.length}');
-    notifyListeners();
+        notifyListeners();
   }
 
   void editMeal(Meal meal) {

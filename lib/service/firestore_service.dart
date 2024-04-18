@@ -306,23 +306,17 @@ class FirestoreService {
     Map<DateTime, List<Meal>> out = {};
     var day = DateTime(start.year,start.month, start.day);
     end = DateTime(end.year,end.month,end.day);
-    log(day.toString());
-    log(end.toString());
-
+        
     if(start.millisecondsSinceEpoch > end.millisecondsSinceEpoch) throw Error();
     while(day.year != end.year || day.month != end.month || day.day != end.day+1){
       out[day] = [];
-      log(out.entries.length.toString());
-      day = day.add(Duration(days: 1));
+            day = day.add(Duration(days: 1));
     }
-    log(out.toString());
-    for (Meal meal in mealData) {
+        for (Meal meal in mealData) {
       if(out.keys.contains(meal.day)){
         out[meal.day]!.add(meal);
-        log("True!");
-      }else{
-        log("False");
-      }
+              }else{
+              }
     }
     return out;
   }

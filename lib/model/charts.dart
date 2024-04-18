@@ -36,9 +36,7 @@ class Charts {
 
   Future<void> init() async {
     await fetchData();
-    log("Firestore called!!!");
-    log("FIRESTORE CALLED I SAID!");
-  }
+          }
 
   Future<void> fetchData() async {
     calories = [];

@@ -16,14 +16,11 @@ class Daily {
 
 
   Future<void> fetchData(DateTime timestamp) async {
-    log("HELLO!!");
-    meals = await firestoreService.getMealsFromUserByTimestamp(timestamp);
+        meals = await firestoreService.getMealsFromUserByTimestamp(timestamp);
     data = Meal.fromFoodList(meals.expand((meal) => meal.foods.values).toList());
-    log('DATA FETCHED. DAILY CALORIES: ${data?.calories}');
-  }
+      }
 
   Future<void> init() async {
-    log("HELLO?!");
-    await fetchData(timestamp);
+        await fetchData(timestamp);
   }
 }

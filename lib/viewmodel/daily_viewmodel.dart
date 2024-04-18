@@ -15,7 +15,7 @@ class DailyViewModel extends ChangeNotifier {
 
   set timestamp(newValue) {
     _model.timestamp = newValue;
-    notifyListeners();
+    
   }
 
   void nextDay() {

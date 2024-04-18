@@ -26,14 +26,13 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
   late DailyViewModel viewModel = Provider.of<DailyViewModel>(context, listen: true);
   late MealListViewModel mealListViewModel = Provider.of<MealListViewModel>(context, listen: false);
   get data => Meal.fromFoodList((mealListViewModel.mealsByDay[timestamp]??[]).expand((meal) => meal.foods.values).toList());
-  late Consumer<DailyViewModel> pieChart = this.macroPieChart;
+  late Consumer<DailyViewModel> pieChart;
 
   DailyViewState({required this.timestamp});
 
   get macroPieChart {
       return Consumer<DailyViewModel>(builder: (context, viewModel, child) {
-        log('Updating pie chart... ${data.calories}');
-        return MacroPieChart(
+                return MacroPieChart(
           Theme
               .of(context)
               .colorScheme
@@ -58,6 +57,7 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     init();
+    needsRebuildChart = true;
   }
 
   @override
@@ -67,16 +67,19 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
-    log('Dependencies Changed!');
+        if (viewModel.timestamp != timestamp) {
+      viewModel.timestamp = timestamp;
+      await mealListViewModel.load();
+      await viewModel.init();
+    }
     init(forceUpdate: false);
-    updateMacroPieChart();
+    
   }
 
   void updateMacroPieChart() async {
-    log('Maybe the correct value is here? ${data.calories}');
-    if(needsRebuildChart){
+        if(needsRebuildChart){
       setState(() {
         pieChart = this.macroPieChart;
         needsRebuildChart = false;
@@ -85,13 +88,8 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
   }
 
   void init({bool forceUpdate = false}) async {
-    if (viewModel.timestamp != timestamp) {
-      viewModel.timestamp = timestamp;
-      await mealListViewModel.load();
-      await viewModel.init();
-    }
-    log('Data refreshed!');
-    if(forceUpdate){
+
+        if(forceUpdate){
       await mealListViewModel.load();
       await viewModel.init();
       updateMacroPieChart();
@@ -140,10 +138,11 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
       ),
       body: FutureProvider(
         create: (BuildContext context) async {
-          // await Provider.of<MealListViewModel>(context, listen: false).load();
-          // var model = Provider.of<DailyViewModel>(context, listen: false);
-          // await model.init();
-          // return model;
+          
+          
+          
+          
+          initState();
         },
         builder: (context, snapshot) {
           if (viewModel.isLoading) {

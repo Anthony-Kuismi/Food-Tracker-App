@@ -53,8 +53,7 @@ class NotificationService extends ChangeNotifier{
   void startWaterTimer() {
      waterTimer = Timer.periodic(const Duration(hours: 2), (Timer timer) async {
        DateTime? lastWater = await firestore.getMostRecentWaterForUser();
-       log(DateTime.now().difference(lastWater??DateTime.now()).toString());
-       var timeSinceWater = DateTime.now().difference(lastWater??DateTime.now());
+              var timeSinceWater = DateTime.now().difference(lastWater??DateTime.now());
        if(timeSinceWater > Duration(hours:2)){
          print("Notification should fire here");
          NotificationService().showNotification(
