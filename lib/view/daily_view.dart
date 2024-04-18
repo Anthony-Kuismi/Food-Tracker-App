@@ -22,7 +22,7 @@ class DailyView extends StatefulWidget {
 
 class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
   DateTime timestamp;
-
+  bool needsRebuildChart = false;
   late DailyViewModel viewModel = Provider.of<DailyViewModel>(context, listen: true);
   late MealListViewModel mealListViewModel = Provider.of<MealListViewModel>(context, listen: false);
   get data => Meal.fromFoodList((mealListViewModel.mealsByDay[timestamp]??[]).expand((meal) => meal.foods.values).toList());
@@ -76,10 +76,12 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
 
   void updateMacroPieChart() async {
     log('Maybe the correct value is here? ${data.calories}');
-    // log('Or maybe here? ${Meal.fromFoodList(mealListViewModel.mealsByDay[timestamp]!.expand((meal) => meal.foods.values).toList()).calories}');
-    setState(() {
-      pieChart = this.macroPieChart;
-    });
+    if(needsRebuildChart){
+      setState(() {
+        pieChart = this.macroPieChart;
+        needsRebuildChart = false;
+      });
+    }
   }
 
   void init({bool forceUpdate = false}) async {
@@ -94,6 +96,7 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
       await viewModel.init();
       updateMacroPieChart();
     }
+    needsRebuildChart = true;
   }
 
   @override
