@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/view/meal_view.dart';
 import 'package:food_tracker_app/view/settings_view.dart';
@@ -8,26 +10,106 @@ import 'package:provider/provider.dart';
 import '../viewmodel/daily_viewmodel.dart';
 import 'component/macro_pie_chart.dart';
 
-class DailyView extends StatelessWidget {
+class DailyView extends StatefulWidget {
   DateTime timestamp;
 
   DailyView({required this.timestamp});
 
   @override
-  Widget build(BuildContext context) {
-    final viewModel = Provider.of<DailyViewModel>(context);
-    final mealListViewModel = Provider.of<MealListViewModel>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (viewModel.timestamp != timestamp) {
-        viewModel.timestamp = timestamp;
-        viewModel.init();
-      }
-    });
+  State<StatefulWidget> createState() => DailyViewState(timestamp: timestamp);
+}
 
+class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
+  DateTime timestamp;
+
+  late DailyViewModel viewModel = Provider.of<DailyViewModel>(context, listen: true);
+  late MealListViewModel mealListViewModel = Provider.of<MealListViewModel>(context, listen: false);
+
+  late Consumer<DailyViewModel> pieChart = this.macroPieChart;
+
+  DailyViewState({required this.timestamp});
+
+  get macroPieChart {
+      return Consumer<DailyViewModel>(builder: (context, viewModel, child) {
+        log('Updating pie chart... ${viewModel.data.calories}');
+        return MacroPieChart(
+          Theme
+              .of(context)
+              .colorScheme
+              .primaryContainer,
+          Theme
+              .of(context)
+              .colorScheme
+              .primary,
+          Theme
+              .of(context)
+              .colorScheme
+              .tertiary,
+          viewModel.data.calories,
+          viewModel.data.proteinG,
+          viewModel.data.carbohydratesTotalG,
+          viewModel.data.fatTotalG,
+        );
+      });
+  }
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    init();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    log('Dependencies Changed!');
+    init(forceUpdate: false);
+    updateMacroPieChart();
+  }
+
+  void updateMacroPieChart() async {
+    log('Maybe the correct value is here? ${viewModel.data.calories}');
+    setState(() {
+      pieChart = this.macroPieChart;
+    });
+  }
+
+  void init({bool forceUpdate = false}) async {
+    if (viewModel.timestamp != timestamp) {
+      viewModel.timestamp = timestamp;
+      await mealListViewModel.load();
+      await viewModel.init();
+    }
+    log('Data refreshed!');
+    if(forceUpdate){
+      await mealListViewModel.load();
+      await viewModel.init();
+      updateMacroPieChart();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    DailyViewModel viewModel = Provider.of<DailyViewModel>(context);
+    final mealListViewModel =
+    Provider.of<MealListViewModel>(context, listen: true);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      updateMacroPieChart();
+    });
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Daily Summary', style: TextStyle(color: Colors.black)),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        title:
+        const Text('Daily Summary', style: TextStyle(color: Colors.black)),
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .primary,
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [
           Container(
@@ -38,26 +120,36 @@ class DailyView extends StatelessWidget {
             child: IconButton(
               icon: const Icon(Icons.person, color: Colors.white),
               onPressed: () {
-                Navigator.push(context,MaterialPageRoute(builder: (context)=> SettingsView(username: '',)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SettingsView(
+                              username: '',
+                            )));
               },
               iconSize: 30,
             ),
           ),
         ],
-
       ),
       body: FutureProvider(
-        create: (BuildContext context) {
-          return viewModel.init(); 
+        create: (BuildContext context) async {
+          // await Provider.of<MealListViewModel>(context, listen: false).load();
+          // var model = Provider.of<DailyViewModel>(context, listen: false);
+          // await model.init();
+          // return model;
         },
         builder: (context, snapshot) {
           if (viewModel.isLoading) {
             return Center(child: CircularProgressIndicator());
           }
+          viewModel = Provider.of<DailyViewModel>(context);
           return ListView(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+                padding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -70,7 +162,10 @@ class DailyView extends StatelessWidget {
                     ),
                     Text(
                       DateFormat('yyyy-MM-dd').format(viewModel.timestamp),
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .headline6,
                     ),
                     IconButton(
                       icon: Icon(Icons.arrow_right),
@@ -82,15 +177,7 @@ class DailyView extends StatelessWidget {
                   ],
                 ),
               ),
-              MacroPieChart(
-                Theme.of(context).colorScheme.primaryContainer,
-                Theme.of(context).colorScheme.primary,
-                Theme.of(context).colorScheme.tertiary,
-                viewModel.data.calories,
-                viewModel.data.proteinG,
-                viewModel.data.carbohydratesTotalG,
-                viewModel.data.fatTotalG,
-              ),
+              pieChart,
               ...List.generate(viewModel.meals.length, (index) {
                 final meal = viewModel.meals[index];
                 return ListTile(
@@ -102,16 +189,27 @@ class DailyView extends StatelessWidget {
                           width: 50,
                           height: 50,
                           child: MacroPieChart(
-                            Theme.of(context).colorScheme.primaryContainer,
-                            Theme.of(context).colorScheme.primary,
-                            Theme.of(context).colorScheme.tertiary,
+                            Theme
+                                .of(context)
+                                .colorScheme
+                                .primaryContainer,
+                            Theme
+                                .of(context)
+                                .colorScheme
+                                .primary,
+                            Theme
+                                .of(context)
+                                .colorScheme
+                                .tertiary,
                             meal.calories,
                             meal.proteinG,
                             meal.carbohydratesTotalG,
                             meal.fatTotalG,
                             chartRadius: 50,
-                            chartValuesOptions: const ChartValuesOptions(showChartValues: false),
-                            legendOptions: const LegendOptions(showLegends: false),
+                            chartValuesOptions: const ChartValuesOptions(
+                                showChartValues: false),
+                            legendOptions:
+                            const LegendOptions(showLegends: false),
                             centerText: '',
                             ringStrokeWidth: 8,
                           ),
@@ -132,14 +230,15 @@ class DailyView extends StatelessWidget {
                   ),
                   onTap: () {
                     mealListViewModel.editMeal(meal);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => MealView(currentMeal: meal)));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => MealView(currentMeal: meal)));
                   },
                 );
               }),
             ],
           );
         },
-        initialData: null, 
+        initialData: null,
       ),
     );
   }

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../service/food_selection_service.dart';
 import '../service/local_notification_service.dart';
 import '../service/navigator_service.dart';
-import '../Service/auth_service.dart';
+import '../service/auth_service.dart';
 import '../viewmodel/homepage_viewmodel.dart';
 import '../viewmodel/meal_list_viewmodel.dart';
 import '../viewmodel/search_viewmodel.dart';

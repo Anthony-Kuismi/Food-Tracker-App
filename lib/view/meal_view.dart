@@ -20,7 +20,7 @@ class MealView extends StatefulWidget {
 class MealViewState extends State<MealView> {
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<MealListViewModel>(context, listen: false);
+    final viewModel = Provider.of<MealListViewModel>(context, listen: true);
     final searchViewModel = Provider.of<SearchViewModel>(context, listen: false);
     final foodSelectionService = searchViewModel.foodSelectionService;
     return PopScope(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:food_tracker_app/Service/firestore_service.dart';
 import 'package:intl/intl.dart';
 
@@ -34,7 +36,8 @@ class Charts {
 
   Future<void> init() async {
     await fetchData();
-    print("Firestore called!!!");
+    log("Firestore called!!!");
+    log("FIRESTORE CALLED I SAID!");
   }
 
   Future<void> fetchData() async {
