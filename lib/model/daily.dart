@@ -7,6 +7,8 @@ import 'meal.dart';
 class Daily {
   List<Meal> meals = [];
   Meal? data;
+
+
   FirestoreService firestoreService = FirestoreService();
 
   DateTime timestamp;

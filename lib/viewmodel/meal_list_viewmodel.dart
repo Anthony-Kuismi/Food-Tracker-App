@@ -75,5 +75,6 @@ class MealListViewModel extends ChangeNotifier {
 
   update() {
     _model.fetch();
+    _model.updateId2Idx();
   }
 }

@@ -7,13 +7,14 @@ import 'package:food_tracker_app/viewmodel/meal_list_viewmodel.dart';
 import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
+import '../model/meal.dart';
 import '../viewmodel/daily_viewmodel.dart';
 import 'component/macro_pie_chart.dart';
 
 class DailyView extends StatefulWidget {
   DateTime timestamp;
 
-  DailyView({required this.timestamp});
+  DailyView({required timestamp}):timestamp=DateTime(timestamp.year,timestamp.month,timestamp.day);
 
   @override
   State<StatefulWidget> createState() => DailyViewState(timestamp: timestamp);
@@ -24,14 +25,14 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
 
   late DailyViewModel viewModel = Provider.of<DailyViewModel>(context, listen: true);
   late MealListViewModel mealListViewModel = Provider.of<MealListViewModel>(context, listen: false);
-
+  get data => Meal.fromFoodList((mealListViewModel.mealsByDay[timestamp]??[]).expand((meal) => meal.foods.values).toList());
   late Consumer<DailyViewModel> pieChart = this.macroPieChart;
 
   DailyViewState({required this.timestamp});
 
   get macroPieChart {
       return Consumer<DailyViewModel>(builder: (context, viewModel, child) {
-        log('Updating pie chart... ${viewModel.data.calories}');
+        log('Updating pie chart... ${data.calories}');
         return MacroPieChart(
           Theme
               .of(context)
@@ -45,10 +46,10 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
               .of(context)
               .colorScheme
               .tertiary,
-          viewModel.data.calories,
-          viewModel.data.proteinG,
-          viewModel.data.carbohydratesTotalG,
-          viewModel.data.fatTotalG,
+          data.calories,
+          data.proteinG,
+          data.carbohydratesTotalG,
+          data.fatTotalG,
         );
       });
   }
@@ -74,7 +75,8 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
   }
 
   void updateMacroPieChart() async {
-    log('Maybe the correct value is here? ${viewModel.data.calories}');
+    log('Maybe the correct value is here? ${data.calories}');
+    // log('Or maybe here? ${Meal.fromFoodList(mealListViewModel.mealsByDay[timestamp]!.expand((meal) => meal.foods.values).toList()).calories}');
     setState(() {
       pieChart = this.macroPieChart;
     });
