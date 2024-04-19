@@ -453,7 +453,7 @@ GestureDetector waterContainer(BuildContext context, viewModel, Function refresh
 InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel) {
   return InkWell(
     onTap: (){
-      Navigator.push(context,MaterialPageRoute(builder: (context)=>DailyView(timestamp: DateTime.now(),)));
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>DailyView(timestamp: DateTime.now(),calories: viewModel.calories, proteinG: viewModel.proteinG, carbohydratesTotalG: viewModel.carbohydratesTotalG, fatTotalG:viewModel.fatTotalG)));
     },
     child: Container(
       decoration: BoxDecoration(

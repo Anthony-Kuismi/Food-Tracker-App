@@ -11,6 +11,7 @@ import 'component/nutrition_oval.dart';
 class MealView extends StatefulWidget {
   final Meal currentMeal;
 
+
   const MealView({super.key, required this.currentMeal});
 
   @override
