@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:food_tracker_app/model/meal.dart';
 import 'package:food_tracker_app/model/water.dart';
@@ -19,13 +21,13 @@ class HomePageViewModel extends ChangeNotifier {
   double percentChange = 0;
 
   get calories => _model.calories;
-  set calories(newValue) => calories = newValue;
+  set calories(newValue) => _model.calories = newValue;
   get carbohydratesTotalG => _model.carbohydratesTotalG;
-  set carbohydratesTotalG(newValue) => carbohydratesTotalG = newValue;
+  set carbohydratesTotalG(newValue) => _model.carbohydratesTotalG = newValue;
   get proteinG => _model.proteinG;
-  set proteinG(newValue) => proteinG = newValue;
+  set proteinG(newValue) => _model.proteinG = newValue;
   get fatTotalG => _model.fatTotalG;
-  set fatTotalG(newValue) => fatTotalG = newValue;
+  set fatTotalG(newValue) => _model.fatTotalG = newValue;
 
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
@@ -113,6 +115,14 @@ class HomePageViewModel extends ChangeNotifier {
 
     calcWeightChange();
     notifyListeners();
+  }
+
+  updateData(Meal data){
+    calories = data.calories;
+    proteinG = data.proteinG;
+    carbohydratesTotalG = data.carbohydratesTotalG;
+    fatTotalG = data.fatTotalG;
+        notifyListeners();
   }
 }
 

@@ -10,10 +10,10 @@ import '../Service/basal_metabolic_rate_service.dart';
 import '../viewmodel/settings_viewmodel.dart';
 
 class MyHomePage extends StatefulWidget {
+  HomePageViewModel viewModel;
   final NavigatorService navigatorService = NavigatorService();
-  MyHomePage({super.key, required this.title, required String username});
+  MyHomePage({super.key, required this.title, required String username, required this.viewModel});
 
-  final HomePageViewModel viewModel = HomePageViewModel();
   final String title;
 
   @override
@@ -21,6 +21,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+
 
   void refresh() {
     setState(() {});
@@ -36,7 +38,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<HomePageViewModel>(context, listen: true);
+    
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -453,7 +456,7 @@ GestureDetector waterContainer(BuildContext context, viewModel, Function refresh
 InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel) {
   return InkWell(
     onTap: (){
-      Navigator.push(context,MaterialPageRoute(builder: (context)=>DailyView(timestamp: DateTime.now(),calories: viewModel.calories, proteinG: viewModel.proteinG, carbohydratesTotalG: viewModel.carbohydratesTotalG, fatTotalG:viewModel.fatTotalG)));
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>DailyView(timestamp: DateTime.now(),homePageViewModel: viewModel,)));
     },
     child: Container(
       decoration: BoxDecoration(

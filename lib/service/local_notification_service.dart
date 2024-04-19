@@ -55,8 +55,7 @@ class NotificationService extends ChangeNotifier{
        DateTime? lastWater = await firestore.getMostRecentWaterForUser();
               var timeSinceWater = DateTime.now().difference(lastWater??DateTime.now());
        if(timeSinceWater > Duration(hours:2)){
-         print("Notification should fire here");
-         NotificationService().showNotification(
+                  NotificationService().showNotification(
              title: 'Drink Some Water', body: 'Stay Hydrated its been $timeSinceWater since you drank water');
        }
      });

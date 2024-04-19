@@ -194,14 +194,9 @@ class FirestoreService {
   }
   Future<List<Meal>> getMealsFromUserByTimestamp(DateTime day) async {
     List<Meal> out = await getMealsFromUser();
-    print(out);
-    print(out[0].timestamp.year == day.year);
-    print(out[0].timestamp.month == day.month);
-    print(out[0].timestamp.day == day.day);
-    out = out.where((meal) => meal.timestamp.year == day.year && meal.timestamp.month == day.month &&
+                    out = out.where((meal) => meal.timestamp.year == day.year && meal.timestamp.month == day.month &&
         meal.timestamp.day == day.day).toList();
-    print(out);
-    return out;
+        return out;
 
   }
 
@@ -274,8 +269,7 @@ class FirestoreService {
     final username = prefs.getString('username');
     final docRef = FirebaseFirestore.instance.doc('Users/$username/Weight Entries/entry${num}');
     final docSnapshot = await docRef.get();
-    print('num $num');
-    return (docSnapshot.data()!['weight']).toDouble();
+        return (docSnapshot.data()!['weight']).toDouble();
   }
 
   Future<void> setUserWeightGoal(double num) async {

@@ -5,6 +5,7 @@ import 'package:food_tracker_app/Service/navigator_service.dart';
 import 'package:food_tracker_app/model/home_page.dart';
 import 'package:food_tracker_app/view/meal_view.dart';
 import 'package:food_tracker_app/view/settings_view.dart';
+import 'package:food_tracker_app/viewmodel/homepage_viewmodel.dart';
 import 'package:food_tracker_app/viewmodel/meal_list_viewmodel.dart';
 import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -16,26 +17,28 @@ import 'component/macro_pie_chart.dart';
 class DailyView extends StatefulWidget {
   DateTime timestamp;
 
-  final double calories;
-  final double proteinG;
-  final double carbohydratesTotalG;
-  final double fatTotalG;
+  final HomePageViewModel homePageViewModel;
+  
+  
+  
+  
 
-  DailyView({required timestamp, required this.calories, required this.proteinG, required this.carbohydratesTotalG,required this.fatTotalG}):timestamp=DateTime(timestamp.year,timestamp.month,timestamp.day);
+  DailyView({required timestamp, required this.homePageViewModel}):timestamp=DateTime(timestamp.year,timestamp.month,timestamp.day);
 
   @override
-  State<StatefulWidget> createState() => DailyViewState(timestamp: timestamp, calories: calories, proteinG: proteinG, carbohydratesTotalG: carbohydratesTotalG, fatTotalG: fatTotalG);
+  State<StatefulWidget> createState() => DailyViewState(timestamp: timestamp, homePageViewModel: homePageViewModel);
 }
 
 class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
   DateTime timestamp;
   bool needsRebuildChart = true;
+  HomePageViewModel homePageViewModel;
   late DailyViewModel viewModel = Provider.of<DailyViewModel>(context, listen: true);
   late MealListViewModel mealListViewModel = Provider.of<MealListViewModel>(context, listen: false);
   get data => Meal.fromFoodList((mealListViewModel.mealsByDay[timestamp]??[]).expand((meal) => meal.foods.values).toList());
   late Consumer<DailyViewModel> pieChart;
 
-  DailyViewState({required this.timestamp, required double calories, required double proteinG, required double carbohydratesTotalG, required double fatTotalG}):
+  DailyViewState({required this.timestamp, required this.homePageViewModel}):
     pieChart = Consumer<DailyViewModel>(builder: (context, viewModel, child) {
       return MacroPieChart(
         Theme
@@ -50,10 +53,10 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
             .of(context)
             .colorScheme
             .tertiary,
-        calories,
-        proteinG,
-        carbohydratesTotalG,
-        fatTotalG,
+        homePageViewModel.calories,
+        homePageViewModel.proteinG,
+        homePageViewModel.carbohydratesTotalG,
+        homePageViewModel.fatTotalG,
       );
     });
 
@@ -106,11 +109,12 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
   }
 
   void updateMacroPieChart() async {
-        if(needsRebuildChart){
+    if(needsRebuildChart){
       setState(() {
         pieChart = this.macroPieChart;
         needsRebuildChart = false;
       });
+      homePageViewModel.updateData(data);
     }
   }
 
@@ -136,7 +140,7 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
       onPopInvoked: (didPop){
         if(didPop){
           needsRebuildChart = true;
-          // navigatorService.pushReplace('MyHomePage');
+          
 
         }
       },
