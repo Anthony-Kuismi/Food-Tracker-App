@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/food.dart';
 import '../model/meal.dart';
@@ -192,14 +194,9 @@ class FirestoreService {
   }
   Future<List<Meal>> getMealsFromUserByTimestamp(DateTime day) async {
     List<Meal> out = await getMealsFromUser();
-    print(out);
-    print(out[0].timestamp.year == day.year);
-    print(out[0].timestamp.month == day.month);
-    print(out[0].timestamp.day == day.day);
-    out = out.where((meal) => meal.timestamp.year == day.year && meal.timestamp.month == day.month &&
+                    out = out.where((meal) => meal.timestamp.year == day.year && meal.timestamp.month == day.month &&
         meal.timestamp.day == day.day).toList();
-    print(out);
-    return out;
+        return out;
 
   }
 
@@ -272,8 +269,7 @@ class FirestoreService {
     final username = prefs.getString('username');
     final docRef = FirebaseFirestore.instance.doc('Users/$username/Weight Entries/entry${num}');
     final docSnapshot = await docRef.get();
-    print('num $num');
-    return (docSnapshot.data()!['weight']).toDouble();
+        return (docSnapshot.data()!['weight']).toDouble();
   }
 
   Future<void> setUserWeightGoal(double num) async {
@@ -297,5 +293,25 @@ class FirestoreService {
     final user = FirebaseFirestore.instance.collection('Users/$username/Weight Entries');
     user.doc('entry${num}').set(weight.toJson());
   }
-
+  Future<Map<DateTime, List<Meal>>> getMealsFromUserByTimestampRange(
+      DateTime start,
+      DateTime end) async {
+    List<Meal> mealData = await getMealsFromUser();
+    Map<DateTime, List<Meal>> out = {};
+    var day = DateTime(start.year,start.month, start.day);
+    end = DateTime(end.year,end.month,end.day);
+        
+    if(start.millisecondsSinceEpoch > end.millisecondsSinceEpoch) throw Error();
+    while(day.year != end.year || day.month != end.month || day.day != end.day+1){
+      out[day] = [];
+            day = day.add(Duration(days: 1));
+    }
+        for (Meal meal in mealData) {
+      if(out.keys.contains(meal.day)){
+        out[meal.day]!.add(meal);
+              }else{
+              }
+    }
+    return out;
+  }
 }

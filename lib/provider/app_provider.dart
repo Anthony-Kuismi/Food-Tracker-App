@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/viewmodel/charts_viewmodel.dart';
 import 'package:food_tracker_app/viewmodel/daily_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../service/food_selection_service.dart';
 import '../service/local_notification_service.dart';
 import '../service/navigator_service.dart';
-import '../Service/auth_service.dart';
+import '../service/auth_service.dart';
 import '../viewmodel/homepage_viewmodel.dart';
 import '../viewmodel/meal_list_viewmodel.dart';
 import '../viewmodel/search_viewmodel.dart';
@@ -48,6 +49,7 @@ class AppProvider extends StatelessWidget {
           create: (context) => SettingsViewModel(),
         ),
         ChangeNotifierProvider<DailyViewModel>(create:(context)=>DailyViewModel(null)),
+        ChangeNotifierProvider<ChartsViewModel>(create: (context)=>ChartsViewModel(start: DateTime.now().subtract(Duration(days:182)),end: DateTime.now()))
       ],
       child: child,
     );

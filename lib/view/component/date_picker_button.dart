@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../viewmodel/homepage_viewmodel.dart';
 import '../daily_view.dart';
 
 class DatePickerButton extends StatefulWidget {
+  HomePageViewModel homePageViewModel;
+  DatePickerButton({required this.homePageViewModel});
   @override
   _DatePickerButtonState createState() => _DatePickerButtonState();
 }
@@ -19,7 +22,7 @@ class _DatePickerButtonState extends State<DatePickerButton> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DailyView(timestamp: pickedDate),
+          builder: (context) => DailyView(timestamp: pickedDate, homePageViewModel: widget.homePageViewModel,),
         ),
       );
     }

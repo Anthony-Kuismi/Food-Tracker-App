@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/view/search_view.dart';
+import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:food_tracker_app/viewmodel/search_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../model/meal.dart';
@@ -10,6 +11,7 @@ import 'component/nutrition_oval.dart';
 class MealView extends StatefulWidget {
   final Meal currentMeal;
 
+
   const MealView({super.key, required this.currentMeal});
 
   @override
@@ -19,7 +21,7 @@ class MealView extends StatefulWidget {
 class MealViewState extends State<MealView> {
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<MealListViewModel>(context, listen: false);
+    final viewModel = Provider.of<MealListViewModel>(context, listen: true);
     final searchViewModel = Provider.of<SearchViewModel>(context, listen: false);
     final foodSelectionService = searchViewModel.foodSelectionService;
     return PopScope(
@@ -39,6 +41,22 @@ class MealViewState extends State<MealView> {
               color: Colors.black,
             ),
           ),
+          actions: [
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.person, color: Colors.white),
+                onPressed: () {
+                  Navigator.push(context,MaterialPageRoute(builder: (context)=> SettingsView(username: '',)));
+                },
+                iconSize: 30,
+              ),
+            ),
+          ],
+
         ),
         body: Stack(
             children: [

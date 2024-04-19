@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:food_tracker_app/model/meal.dart';
 import 'package:food_tracker_app/service/food_selection_service.dart';
 import 'package:food_tracker_app/view/search_view.dart';
+import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:food_tracker_app/viewmodel/meal_list_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../model/food.dart';
@@ -96,6 +97,22 @@ class FoodFormState extends State<FoodForm> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Add Custom Food'),
+          actions: [
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.person, color: Colors.white),
+                onPressed: () {
+                  Navigator.push(context,MaterialPageRoute(builder: (context)=> SettingsView(username: '',)));
+                },
+                iconSize: 30,
+              ),
+            ),
+          ],
+
         ),
         body: SingleChildScrollView(
           child: Padding(

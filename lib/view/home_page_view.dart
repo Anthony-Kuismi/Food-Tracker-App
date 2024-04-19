@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/Service/navigator_service.dart';
 import 'package:food_tracker_app/view/daily_view.dart';
 import 'package:food_tracker_app/viewmodel/daily_viewmodel.dart';
+import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:provider/provider.dart';
 import 'component/date_picker_button.dart';
 import 'component/navbar.dart';
@@ -10,9 +12,10 @@ import '../Service/basal_metabolic_rate_service.dart';
 import '../viewmodel/settings_viewmodel.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key, required this.title, required String username});
+  HomePageViewModel viewModel;
+  final NavigatorService navigatorService = NavigatorService();
+  MyHomePage({super.key, required this.title, required String username, required this.viewModel});
 
-  final HomePageViewModel viewModel = HomePageViewModel();
   final String title;
 
   @override
@@ -20,6 +23,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+
 
   void refresh() {
     setState(() {});
@@ -35,7 +40,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<HomePageViewModel>(context, listen: true);
+    
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -46,6 +52,21 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.black,
           ),
         ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.person, color: Colors.white),
+              onPressed: () {
+                Navigator.push(context,MaterialPageRoute(builder: (context)=> SettingsView(username: '',)));
+              },
+              iconSize: 30,
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: const NavBar(key: Key('navBar'), currentPage: 'MyHomePage'),
       body: FutureBuilder(
@@ -395,7 +416,7 @@ GestureDetector waterContainer(BuildContext context, viewModel, Function refresh
             right: 10,
             child: ClipOval(
               child: FloatingActionButton(
-                heroTag: 'addButton',
+                
                 mini: true,
                 onPressed: () {
                   viewModel.addWater();
@@ -438,7 +459,7 @@ InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel)
   final dailyViewModel = Provider.of<DailyViewModel>(context);
   return InkWell(
     onTap: (){
-      Navigator.push(context,MaterialPageRoute(builder: (context)=>DailyView(timestamp: DateTime.now(),)));
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>DailyView(timestamp: DateTime.now(),homePageViewModel: viewModel,)));
     },
     child: Container(
       decoration: BoxDecoration(
@@ -464,7 +485,7 @@ InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel)
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  Flexible(child: DatePickerButton()),
+                  Flexible(child: DatePickerButton(homePageViewModel: viewModel,)),
                 ],
               ),
             ),
