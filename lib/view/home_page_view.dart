@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/Service/navigator_service.dart';
 import 'package:food_tracker_app/view/daily_view.dart';
+import 'package:food_tracker_app/viewmodel/daily_viewmodel.dart';
 import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:provider/provider.dart';
+import 'component/date_picker_button.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../viewmodel/homepage_viewmodel.dart';
@@ -10,11 +12,10 @@ import '../Service/basal_metabolic_rate_service.dart';
 import '../viewmodel/settings_viewmodel.dart';
 
 class MyHomePage extends StatefulWidget {
+  HomePageViewModel viewModel;
   final NavigatorService navigatorService = NavigatorService();
+  MyHomePage({super.key, required this.title, required String username, required this.viewModel});
 
-  MyHomePage({super.key, required this.title, required String username});
-
-  final HomePageViewModel viewModel = HomePageViewModel();
   final String title;
 
   @override
@@ -36,7 +37,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<HomePageViewModel>(context, listen: true);
+    
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -469,7 +471,7 @@ GestureDetector waterContainer(
             right: 10,
             child: ClipOval(
               child: FloatingActionButton(
-                // heroTag: 'addButton',
+                
                 mini: true,
                 onPressed: () {
                   viewModel.addWater();
@@ -511,16 +513,12 @@ GestureDetector waterContainer(
   );
 }
 
-InkWell dailySummaryContainer(
-    BuildContext context, HomePageViewModel viewModel) {
+
+InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel) {
+  final dailyViewModel = Provider.of<DailyViewModel>(context);
   return InkWell(
-    onTap: () {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => DailyView(
-                    timestamp: DateTime.now(),
-                  )));
+    onTap: (){
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>DailyView(timestamp: DateTime.now(),homePageViewModel: viewModel,)));
     },
     child: Container(
       decoration: BoxDecoration(
@@ -529,12 +527,12 @@ InkWell dailySummaryContainer(
       ),
       margin: const EdgeInsets.all(4),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(right:9),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: const EdgeInsets.only(bottom: 10),
+
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -546,10 +544,7 @@ InkWell dailySummaryContainer(
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 9),
-                    child: const Icon(Icons.today),
-                  ),
+                  Flexible(child: DatePickerButton(homePageViewModel: viewModel,)),
                 ],
               ),
             ),
@@ -562,13 +557,12 @@ InkWell dailySummaryContainer(
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 9),
-                      child: Text(
-                        '${viewModel.calories.toStringAsFixed(0)}',
-                        style:
-                            Theme.of(context).textTheme.displayLarge?.copyWith(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.w900,
-                                ),
+                      child:                   Text(
+                        '${dailyViewModel.calories.toStringAsFixed(0)}',
+                        style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                     ),
                     LinearPercentIndicator(
@@ -609,25 +603,38 @@ InkWell dailySummaryContainer(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(color: Colors.black),
+// <<<<<<< HEAD
+                          'Protein: ${dailyViewModel.proteinG.toStringAsFixed(1)}g',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
                         ),
                         Text(
-                          'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(color: Colors.black),
+                          'Carbs: ${dailyViewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
                         ),
                         Text(
-                          'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(color: Colors.black),
+                          'Fat: ${dailyViewModel.fatTotalG.toStringAsFixed(1)}g',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
+// =======
+//                           'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
+//                           style: Theme.of(context)
+//                               .textTheme
+//                               .titleMedium
+//                               ?.copyWith(color: Colors.black),
+//                         ),
+//                         Text(
+//                           'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
+//                           style: Theme.of(context)
+//                               .textTheme
+//                               .titleMedium
+//                               ?.copyWith(color: Colors.black),
+//                         ),
+//                         Text(
+//                           'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
+//                           style: Theme.of(context)
+//                               .textTheme
+//                               .titleMedium
+//                               ?.copyWith(color: Colors.black),
+// >>>>>>> origin/dev
                         ),
                       ],
                     ),

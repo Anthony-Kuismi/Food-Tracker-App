@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:food_tracker_app/model/meal.dart';
 import 'package:food_tracker_app/model/water.dart';
@@ -28,15 +30,16 @@ class HomePageViewModel extends ChangeNotifier {
   double get calorieGoal => _calorieGoal;
 
   get calories => _model.calories;
-  set calories(newValue) => calories = newValue;
+  set calories(newValue) => _model.calories = newValue;
   get carbohydratesTotalG => _model.carbohydratesTotalG;
-  set carbohydratesTotalG(newValue) => carbohydratesTotalG = newValue;
+  set carbohydratesTotalG(newValue) => _model.carbohydratesTotalG = newValue;
   get proteinG => _model.proteinG;
-  set proteinG(newValue) => proteinG = newValue;
+  set proteinG(newValue) => _model.proteinG = newValue;
   get fatTotalG => _model.fatTotalG;
-  set fatTotalG(newValue) => fatTotalG = newValue;
-
-  String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  set fatTotalG(newValue) => _model.fatTotalG = newValue;
+  DateTime now = DateTime.now();
+  DateTime get date => DateTime(now.year,now.month,now.day);
+  String get dateStr => DateFormat('yyyy-MM-dd').format(date);
 
   final HomePage _model = HomePage();
 
@@ -47,10 +50,11 @@ class HomePageViewModel extends ChangeNotifier {
 
 
   Future<void> load() async {
-    date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    await _model.fetchWaterEntry(date);
+    now =DateTime.now();
+    // date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    await _model.fetchWaterEntry(dateStr);
     await fetchDailyData();
-    await _model.fetchWeightEntry(date);
+    await _model.fetchWeightEntry(dateStr);
     await _model.fetchUserInfo();
     calcWeightChange();
     updateCalorieGoal();
@@ -76,13 +80,13 @@ class HomePageViewModel extends ChangeNotifier {
 
   void addWater() {
     _model.addWater();
-    firestore.updateWaterEntryFromUser(Water(date: date, amount: _model.getWaterAmount(), timestamps:_model.getTimestamps()));
+    firestore.updateWaterEntryFromUser(Water(date: dateStr, amount: _model.getWaterAmount(), timestamps:_model.getTimestamps()));
     updateWaterPercentage();
   }
 
   void removeWater() {
     _model.removeWater();
-    firestore.updateWaterEntryFromUser(Water(date: date, amount: _model.getWaterAmount(), timestamps:_model.getTimestamps()));
+    firestore.updateWaterEntryFromUser(Water(date: dateStr, amount: _model.getWaterAmount(), timestamps:_model.getTimestamps()));
     updateWaterPercentage();
   }
 
@@ -134,7 +138,7 @@ class HomePageViewModel extends ChangeNotifier {
 
   void setWeightInPounds(double weight) {
     _model.weight = weight;
-    Weight obj = Weight(date: date, weight: weight);
+    Weight obj = Weight(date: dateStr, weight: weight);
     firestore.setUserWeightInPounds(weight);
     firestore.addWeightEntry(obj, (lastEntryNumber + 2).toString());
     firestore.setUserLastWeightEntry(lastEntryNumber + 1);
@@ -145,13 +149,18 @@ class HomePageViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  updateData(Meal data){
+    calories = data.calories;
+    proteinG = data.proteinG;
+    carbohydratesTotalG = data.carbohydratesTotalG;
+    fatTotalG = data.fatTotalG;
+        notifyListeners();
+  }
   void addNotes(String newNotes) {
     notes = newNotes;
     firestore.addCustomNotesForUser(notes!, DateTime.now());
     notifyListeners();
   }
-
-
 }
 
 

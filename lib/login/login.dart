@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/viewmodel/homepage_viewmodel.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../view/home_page_view.dart';
 import 'signup.dart';
@@ -93,6 +95,7 @@ class _MyLoginPage extends State<MyLoginPage> {
             builder: (context) => MyHomePage(
                   username: _usernameController.text,
                   title: '',
+                  viewModel: Provider.of<HomePageViewModel>(context),
                 )),
       );
     } else {

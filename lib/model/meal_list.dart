@@ -4,6 +4,7 @@ import '../Service/firestore_service.dart';
 class MealList {
   FirestoreService firestore = FirestoreService();
   List<Meal> meals = [];
+  Map<String,int>? _id2Idx;
 
   Map<DateTime, List<Meal>> get mealsByDay {
     Map<DateTime,List<Meal>> out = {};
@@ -15,6 +16,19 @@ class MealList {
       }
     }
     return out;
+  }
+
+  void updateId2Idx() {
+    _id2Idx = {
+      for (int i = 0; i < meals.length; i++) meals[i].id: i
+    };
+  }
+
+  get id2idx {
+    if (_id2Idx == null){
+      updateId2Idx();
+    };
+    return _id2Idx;
   }
 
   Future<void> fetch() async {

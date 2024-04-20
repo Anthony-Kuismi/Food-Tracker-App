@@ -220,8 +220,6 @@ class AddMealButton extends StatelessWidget {
                 mealListViewModel.addMeal(
                     searchViewModel.query, searchViewModel.timestamp);
               }
-
-
             },
             icon: const Icon(Icons.add, size: 18),
             label: const Text('Update Meal'),

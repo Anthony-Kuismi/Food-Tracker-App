@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import '../model/meal.dart';
@@ -15,6 +17,7 @@ class MealListViewModel extends ChangeNotifier {
   final MealList _model = MealList();
 
   List<Meal> get meals => _model.meals;
+  Map<String,int> get id2Idx => _model.id2idx;
   Map<DateTime,List<Meal>> get mealsByDay {
     return _model.mealsByDay;
   }
@@ -22,6 +25,7 @@ class MealListViewModel extends ChangeNotifier {
 
   Future<void> load() async {
     await _model.fetch();
+    _model.updateId2Idx();
     notifyListeners();
   }
 
@@ -32,6 +36,7 @@ class MealListViewModel extends ChangeNotifier {
     newMeal.id = const Uuid().v4();
     newMeal.timestamp = timestamp;
     _model.meals.add(newMeal);
+    _model.updateId2Idx();
     await firestore.addMealToUser(newMeal.toJson());
     await load();
     notifyListeners();
@@ -40,22 +45,24 @@ class MealListViewModel extends ChangeNotifier {
   void addMealFromMeal(Meal newMeal) async {
     meals.insert(0,newMeal);
     await firestore.addMealToUser(newMeal.toJson());
-
+    _model.updateId2Idx();
     notifyListeners();
   }
 
   void removeMeal(Meal meal) {
     firestore.removeMealFromUser(meal.id);
     meals.remove(meal);
+    _model.updateId2Idx();
     notifyListeners();
   }
 
   void updateMeal(Meal oldMeal, Meal newMeal) {
-
-    final index = meals.indexOf(oldMeal);
+    
+    
+    final index = id2Idx[oldMeal.id]??-1;
     meals[index] = newMeal;
     firestore.updateMealForUser(oldMeal.id, newMeal);
-    notifyListeners();
+        notifyListeners();
   }
 
   void editMeal(Meal meal) {
@@ -67,5 +74,6 @@ class MealListViewModel extends ChangeNotifier {
 
   update() {
     _model.fetch();
+    _model.updateId2Idx();
   }
 }

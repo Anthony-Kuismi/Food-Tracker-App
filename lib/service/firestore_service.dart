@@ -178,34 +178,33 @@ class FirestoreService {
     return userDoc.data()!['Gender'];
   }
 
-
-
   Future<DateTime?> getMostRecentWaterForUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
-    final waterEntries =
-    FirebaseFirestore.instance.collection('Users/$username/Water Entries').orderBy('date',descending: true).limit(1);
+    final waterEntries = FirebaseFirestore.instance
+        .collection('Users/$username/Water Entries')
+        .orderBy('date', descending: true)
+        .limit(1);
     final waterEntriesSnapshot = await waterEntries.get();
     final waterEntry = waterEntriesSnapshot.docs.first;
 
     if (waterEntry.exists) {
-      return DateTime.fromMillisecondsSinceEpoch(Water.fromJson(waterEntry.data() ?? {}).timestamps.last);
-    }else{
+      return DateTime.fromMillisecondsSinceEpoch(
+          Water.fromJson(waterEntry.data() ?? {}).timestamps.last);
+    } else {
       return null;
     }
-
   }
+
   Future<List<Meal>> getMealsFromUserByTimestamp(DateTime day) async {
     List<Meal> out = await getMealsFromUser();
-    print(out);
-    print(out[0].timestamp.year == day.year);
-    print(out[0].timestamp.month == day.month);
-    print(out[0].timestamp.day == day.day);
-    out = out.where((meal) => meal.timestamp.year == day.year && meal.timestamp.month == day.month &&
-        meal.timestamp.day == day.day).toList();
-    print(out);
+    out = out
+        .where((meal) =>
+            meal.timestamp.year == day.year &&
+            meal.timestamp.month == day.month &&
+            meal.timestamp.day == day.day)
+        .toList();
     return out;
-
   }
 
   Future<void> setUserFirstName(firstName) async {
@@ -268,16 +267,17 @@ class FirestoreService {
   Future<void> addUserWeightEntry(Weight weight, int entry) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
-    final user = FirebaseFirestore.instance.collection('Users/$username/Weight Entries');
+    final user =
+        FirebaseFirestore.instance.collection('Users/$username/Weight Entries');
     user.doc('entry' + (entry).toString()).set(weight.toJson());
   }
 
   Future<double> getUserWeightByEntry(int num) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
-    final docRef = FirebaseFirestore.instance.doc('Users/$username/Weight Entries/entry${num}');
+    final docRef = FirebaseFirestore.instance
+        .doc('Users/$username/Weight Entries/entry${num}');
     final docSnapshot = await docRef.get();
-    print('num $num');
     return (docSnapshot.data()!['weight']).toDouble();
   }
 
@@ -296,13 +296,13 @@ class FirestoreService {
     return (userDoc.data()!['Weight Goal'] as num).toDouble();
   }
 
-  Future<Lifestyle> getUserLifestyle() async{
+  Future<Lifestyle> getUserLifestyle() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
     final user = FirebaseFirestore.instance.collection('Users');
     final userDoc = await user.doc('$username').get();
     final data = userDoc.data()!['Lifestyle'];
-    switch(data){
+    switch (data) {
       case 'Sedentary':
         return Lifestyle.SEDENTARY;
       case 'Slightly Active':
@@ -328,7 +328,8 @@ class FirestoreService {
   Future<void> addWeightEntry(Weight weight, String num) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
-    final user = FirebaseFirestore.instance.collection('Users/$username/Weight Entries');
+    final user =
+        FirebaseFirestore.instance.collection('Users/$username/Weight Entries');
     user.doc('entry${num}').set(weight.toJson());
   }
 
@@ -336,35 +337,30 @@ class FirestoreService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
     final dailynotes =
-    FirebaseFirestore.instance.collection('Users/$username/Daily Notes');
-    dailynotes.doc(DateFormat('MM dd yy').format(now)).set({'Daily Notes': dailyNotes});
+        FirebaseFirestore.instance.collection('Users/$username/Daily Notes');
+    dailynotes
+        .doc(DateFormat('MM dd yy').format(now))
+        .set({'Daily Notes': dailyNotes});
   }
 
   Future<Map<DateTime, List<Meal>>> getMealsFromUserByTimestampRange(
-      DateTime start,
-      DateTime end) async {
+      DateTime start, DateTime end) async {
     List<Meal> mealData = await getMealsFromUser();
     Map<DateTime, List<Meal>> out = {};
     var day = DateTime(start.year, start.month, start.day);
     end = DateTime(end.year, end.month, end.day);
-    log(day.toString());
-    log(end.toString());
 
-    if (start.millisecondsSinceEpoch >
-        end.millisecondsSinceEpoch) throw Error();
-    while (day.year != end.year || day.month != end.month ||
+    if (start.millisecondsSinceEpoch > end.millisecondsSinceEpoch)
+      throw Error();
+    while (day.year != end.year ||
+        day.month != end.month ||
         day.day != end.day + 1) {
       out[day] = [];
-      log(out.entries.length.toString());
       day = day.add(Duration(days: 1));
     }
-    log(out.toString());
     for (Meal meal in mealData) {
       if (out.keys.contains(meal.day)) {
         out[meal.day]!.add(meal);
-        log("True!");
-      } else {
-        log("False");
       }
     }
     return out;
