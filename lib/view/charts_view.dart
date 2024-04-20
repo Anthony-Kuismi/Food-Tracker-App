@@ -129,6 +129,44 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   _ChartsTabViewState({required this.viewModel});
 
+  get weightChart {
+    if (viewModel.isLoading) {
+      return Text("Loading!");
+    } else {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
+        child: Column(
+          children: [
+            Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              child: Padding(
+                padding: const EdgeInsets.all(0),
+                child: SizedBox(
+                  height: 250,
+                  child: SfCartesianChart(
+                    primaryXAxis: DateTimeAxis(),
+                    series: <CartesianSeries>[
+                      LineSeries<DataPoint,dynamic>(
+                          dataSource: viewModel.weight,
+                          xValueMapper: (DataPoint item, _) => item.timestamp,
+                          yValueMapper: (DataPoint item, idx) {
+                            return item.value;
+                          },
+                          color: Theme.of(context).colorScheme.primaryContainer
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
   get caloriesChart {
     if (viewModel.isLoading) {
       return Text("Loading!");
@@ -458,6 +496,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
   void updateCharts() {
     setState(() {
       charts = TabBarView(controller: tabController, children: [
+        weightChart,
         caloriesChart,
         proteinTotalGChart,
         carbohydratesTotalGChart,

@@ -50,8 +50,7 @@ class HomePageViewModel extends ChangeNotifier {
 
 
   Future<void> load() async {
-    log("LOADING HOMEPAGE");
-    now =DateTime.now();
+        now =DateTime.now();
     labelDisplayMode: SparkChartLabelDisplayMode.none;
     await _model.fetchWaterEntry(dateStr);
     await fetchDailyData();
@@ -111,8 +110,7 @@ class HomePageViewModel extends ChangeNotifier {
   }
 
   void calcWeightChange() {
-    log("CALC WEIGHT CHANGE: ${lastWeightEntry} - $weight / $lastWeightEntry");
-    percentChange = -((lastWeightEntry - weight) / lastWeightEntry) * 100;
+        percentChange = -((lastWeightEntry - weight) / lastWeightEntry) * 100;
     notifyListeners();
   }
 

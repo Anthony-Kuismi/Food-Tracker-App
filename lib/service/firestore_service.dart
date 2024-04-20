@@ -276,27 +276,18 @@ class FirestoreService {
   }
 
   Future<Map<DateTime,double>> getUserWeightEntries() async{
-    log('FETCHING ALL WEIGHT ENTRIES...');
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
     final entries =
     FirebaseFirestore.instance.collection('Users/$username/Weight Entries').orderBy('date');
     final entriesSnapshot = await entries.get();
     final entriesDocuments = entriesSnapshot.docs;
     Map<DateTime,double> out = {};
-    log('...DOCUMENT COUNT: ${entriesDocuments.length}');
-    entriesDocuments.forEach((entry) {
+        entriesDocuments.forEach((entry) {
       var data = entry.data();
-      log('Marko....');
-      log('${data.length}');
-      log('${data['date']}');
-      log('${data['weight']}');
-      out[DateTime.fromMillisecondsSinceEpoch(data['date'])] = data['weight'];
-      log('Polo!!!');
-    });
-    log('HELLO???');
-    log('...ENTRY COUNT: ${out.length}');
-    return out;
+                              out[DateTime.fromMillisecondsSinceEpoch(data['date'])] = data['weight'];
+          });
+            return out;
   }
 
   Future<Map<DateTime,double>> getUserWeightEntriesByTimestampRange(DateTime start, DateTime end) async {
@@ -316,11 +307,8 @@ class FirestoreService {
   }
 
   Future<double> getLastWeightEntryForUser() async {
-    log('FETCHING LAST WEIGHT ENTRY...');
-    final entries = await getUserWeightEntries();
-    log('${entries}');
-    log('${entries.values}');
-    return entries.values.last;
+        final entries = await getUserWeightEntries();
+            return entries.values.last;
   }
 
   Future<double> getUserWeightByEntry(DateTime timestamp) async {
