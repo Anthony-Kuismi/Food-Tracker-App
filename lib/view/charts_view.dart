@@ -338,7 +338,13 @@ class _ChartsTabViewState extends State<ChartsTabView>
         viewModel.dateModifier = 0;
       }
     });
+    tabController.addListener(() {
+      if(tabController.indexIsChanging){
+        viewModel.currentTabIndex = tabController.index;
+      }
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -381,8 +387,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
                   icon: Icon(Icons.arrow_left, color: Colors.white),
                   onPressed: () {
                     viewModel.dateModifier++;
-                    _pickStartDate(context, viewModel, selectedOption, modifier);
-                    _pickEndDate(context, viewModel, selectedOption, modifier);
+                    _pickStartDate(context, viewModel, selectedOption, viewModel.dateModifier);
+                    _pickEndDate(context, viewModel, selectedOption, viewModel.dateModifier);
                   },
                 ),
               ),
@@ -395,10 +401,10 @@ class _ChartsTabViewState extends State<ChartsTabView>
                 child: IconButton(
                   icon: Icon(Icons.arrow_right, color: Colors.white),
                   onPressed: () {
-                    if (modifier > 0) {
+                    if (viewModel.dateModifier > 0) {
                       viewModel.dateModifier--;
                     }
-                    _pickStartDate(context, viewModel, selectedOption, modifier);
+                    _pickStartDate(context, viewModel, selectedOption, viewModel.dateModifier);
                     // _pickEndDate(context, viewModel, selectedOption, modifier);
                   },
                 ),

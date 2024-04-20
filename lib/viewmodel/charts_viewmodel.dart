@@ -22,10 +22,11 @@ class ChartsViewModel extends ChangeNotifier {
   get dateModifier => _model.dateModifier;
   set dateModifier(newValue){
     _model.dateModifier = newValue;
+    // notifyListeners();
   }
   set currentTabIndex(newValue){
-    _model.currentDateTabIndex = newValue;
-    notifyListeners();
+    _model.currentTabIndex = newValue;
+    // notifyListeners();
   }
 
   get currentDateTabIndex => _model.currentDateTabIndex;

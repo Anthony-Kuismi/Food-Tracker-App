@@ -454,33 +454,38 @@ GestureDetector waterContainer(
           Positioned(
             bottom: 10,
             left: 10,
-            child: ClipOval(
-              child: FloatingActionButton(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                mini: true,
-                heroTag: 'subtractButton',
+            child: Material(
+              color: Theme.of(context).colorScheme.primary, // Circle color
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              clipBehavior: Clip.antiAlias, // Necessary for circular clipping
+              child: IconButton(
+                icon: Icon(Icons.remove, size: 20, color: Colors.black),
                 onPressed: () {
                   viewModel.removeWater();
                 },
-                child: const Icon(Icons.remove, size: 20, color: Colors.black),
               ),
             ),
           ),
           Positioned(
             bottom: 10,
             right: 10,
-            child: ClipOval(
-              child: FloatingActionButton(
-                
-                mini: true,
+            child: Material(
+              color: Theme.of(context).colorScheme.primary, // Circle color
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              clipBehavior: Clip.antiAlias, // Necessary for circular clipping
+              child: IconButton(
+                icon: Icon(Icons.add, size: 20, color: Colors.black),
                 onPressed: () {
                   viewModel.addWater();
                 },
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                child: const Icon(Icons.add, size: 20, color: Colors.black),
               ),
             ),
           ),
+
           Positioned(
             bottom: 25,
             child: Text(
