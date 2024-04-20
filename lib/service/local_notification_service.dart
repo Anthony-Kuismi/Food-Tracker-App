@@ -70,7 +70,6 @@ class NotificationService extends ChangeNotifier{
           title: 'Forgot to add a meal',
           body: 'Have you consumed anything lately? -> add a meal!');
     }
-    log('the value of mealListForToday is: $mealListForToday');
-  }
+      }
 
 }

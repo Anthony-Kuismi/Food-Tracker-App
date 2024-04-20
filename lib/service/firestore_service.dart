@@ -345,7 +345,7 @@ class FirestoreService {
 
   Future<Map<DateTime, List<Meal>>> getMealsFromUserByTimestampRange(
       DateTime start, DateTime end) async {
-    List<Meal> mealData = await getMealsFromUser();
+        List<Meal> mealData = await getMealsFromUser();
     Map<DateTime, List<Meal>> out = {};
     var day = DateTime(start.year, start.month, start.day);
     end = DateTime(end.year, end.month, end.day);
@@ -354,14 +354,14 @@ class FirestoreService {
       throw Error();
     while (day.year != end.year ||
         day.month != end.month ||
-        day.day != end.day + 1) {
-      out[day] = [];
-      day = day.add(Duration(days: 1));
+        day.day != end.day ) {
+            out[day] = [];
+      day = DateTime(day.year,day.month,day.day+1);
     }
     for (Meal meal in mealData) {
       if (out.keys.contains(meal.day)) {
         out[meal.day]!.add(meal);
-      }
+              }
     }
     return out;
   }

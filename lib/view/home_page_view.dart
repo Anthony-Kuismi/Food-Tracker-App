@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: CircleAvatar(
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               child: Padding(
-                padding: EdgeInsets.only(right: 10.0), // Add padding to the right
+                padding: EdgeInsets.only(right: 10.0), 
                 child: IconButton(
                   icon: const Icon(Icons.person, color: Colors.white, size: 25),
                   onPressed: () {
@@ -558,7 +558,7 @@ InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel)
                     Padding(
                       padding: const EdgeInsets.only(left: 9),
                       child:                   Text(
-                        '${dailyViewModel.calories.toStringAsFixed(0)}',
+                        '${viewModel.calories.toStringAsFixed(0)}',
                         style: Theme.of(context).textTheme.displayLarge?.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w900,
@@ -603,38 +603,17 @@ InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel)
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-// <<<<<<< HEAD
-                          'Protein: ${dailyViewModel.proteinG.toStringAsFixed(1)}g',
+
+                          'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
                         ),
                         Text(
-                          'Carbs: ${dailyViewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
+                          'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
                         ),
                         Text(
-                          'Fat: ${dailyViewModel.fatTotalG.toStringAsFixed(1)}g',
+                          'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
-// =======
-//                           'Protein: ${viewModel.proteinG.toStringAsFixed(1)}g',
-//                           style: Theme.of(context)
-//                               .textTheme
-//                               .titleMedium
-//                               ?.copyWith(color: Colors.black),
-//                         ),
-//                         Text(
-//                           'Carbs: ${viewModel.carbohydratesTotalG.toStringAsFixed(1)}g',
-//                           style: Theme.of(context)
-//                               .textTheme
-//                               .titleMedium
-//                               ?.copyWith(color: Colors.black),
-//                         ),
-//                         Text(
-//                           'Fat: ${viewModel.fatTotalG.toStringAsFixed(1)}g',
-//                           style: Theme.of(context)
-//                               .textTheme
-//                               .titleMedium
-//                               ?.copyWith(color: Colors.black),
-// >>>>>>> origin/dev
                         ),
                       ],
                     ),
@@ -672,8 +651,8 @@ Widget dailyNotes(BuildContext context) {
                 TextButton(
                   onPressed: () {
                     String notes = controller.text;
-                    viewModel.addNotes(notes); // Add notes to ViewModel
-                    Navigator.of(context).pop(); // Close the dialog
+                    viewModel.addNotes(notes); 
+                    Navigator.of(context).pop(); 
                   },
                   child: const Text('Save'),
                 ),
@@ -710,9 +689,9 @@ Widget dailyNotes(BuildContext context) {
                   ],
                 ),
               ),
-              // Show custom notes here
+              
               Positioned(
-                top: 40, // Adjust position as needed
+                top: 40, 
                 left: 10,
                 right: 10,
                 child: GestureDetector(
@@ -732,7 +711,7 @@ Widget dailyNotes(BuildContext context) {
                           actions: <Widget>[
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).pop(); // Close the dialog
+                                Navigator.of(context).pop(); 
                               },
                               child: const Text('Close'),
                             ),

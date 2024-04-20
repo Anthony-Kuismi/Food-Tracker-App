@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
@@ -39,7 +40,7 @@ class ChartsView extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 child: Padding(
-                  padding: EdgeInsets.only(right: 10.0), // Add padding to the right
+                  padding: EdgeInsets.only(right: 10.0), 
                   child: IconButton(
                     icon: const Icon(Icons.person, color: Colors.white, size: 25),
                     onPressed: () {
@@ -150,7 +151,9 @@ class _ChartsTabViewState extends State<ChartsTabView>
                       LineSeries<DataPoint,dynamic>(
                           dataSource: viewModel.calories,
                           xValueMapper: (DataPoint item, _) => item.timestamp,
-                          yValueMapper: (DataPoint item, _) => item.value,
+                          yValueMapper: (DataPoint item, idx) {
+                                                        return item.value;
+                          },
                           color: Theme.of(context).colorScheme.primaryContainer
                       )
                     ],
@@ -285,7 +288,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
         await viewModel.updateStart(DateTime.now().subtract(Duration(days: 28 * (modifier + 1))));
         break;
       case '3m':
-        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 90 * (modifier + 1))));
+        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 91 * (modifier + 1))));
         break;
       case '1y':
         await viewModel.updateStart(DateTime.now().subtract(Duration(days: 365 * (modifier + 1))));
@@ -298,20 +301,21 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   Future<void> _pickEndDate(BuildContext context, ChartsViewModel viewModel,
       String selectedOption, int modifier) async {
-    switch (selectedOption) {
-      case '1w':
-        await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 7 * modifier)));
-        break;
-      case '4w':
-        await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 28 * modifier)));
-        break;
-      case '3m':
-        await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 90 * modifier)));
-        break;
-      case '1y':
-        await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 365 * modifier)));
-        break;
-    }
+    // switch (selectedOption) {
+    //   case '1w':
+    //     await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 7 * modifier)));
+    //     break;
+    //   case '4w':
+    //     await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 28 * modifier)));
+    //     break;
+    //   case '3m':
+    //     await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 90 * modifier)));
+    //     break;
+    //   case '1y':
+    //     await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 365 * modifier)));
+    //     break;
+    // }
+        await viewModel.updateEnd(DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day));
     print('End Date: ${viewModel.end}');
   }
 
@@ -392,8 +396,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
                     if (modifier > 0) {
                       modifier--;
                     }
-                    _pickEndDate(context, viewModel, selectedOption, modifier);
                     _pickStartDate(context, viewModel, selectedOption, modifier);
+                    // _pickEndDate(context, viewModel, selectedOption, modifier);
                   },
                 ),
               ),

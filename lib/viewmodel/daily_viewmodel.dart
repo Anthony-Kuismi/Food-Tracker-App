@@ -7,6 +7,7 @@ import '../model/meal.dart';
 class DailyViewModel extends ChangeNotifier {
   final Daily _model;
   bool isLoading = false;
+  bool isDisposed = false;
 
   DailyViewModel(timestamp) : _model = Daily(timestamp ?? DateTime.now()) {
     init();
@@ -113,6 +114,14 @@ class DailyViewModel extends ChangeNotifier {
     isLoading = true;
     await _model.init();
     isLoading = false;
-    notifyListeners();
+    if (!isDisposed) {
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    isDisposed = true;
+    super.dispose();
   }
 }
