@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:food_tracker_app/model/water.dart';
 import 'package:intl/intl.dart';
 import '../service/firestore_service.dart';
@@ -63,8 +65,10 @@ class HomePage {
       
       weight = await FirestoreService().getUserWeightInPounds();
       weightGoal = await FirestoreService().getUserWeightGoal();
-      
-      lastWeight = await FirestoreService().getUserWeightByEntry(lastEntryNumber);
+      var lastWeight =  await FirestoreService().getLastWeightEntryForUser();
+      log('Setting last weight entry to $lastWeight');
+
+      this.lastWeight = lastWeight;
                 } catch (e) {
           }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_tracker_app/Service/firestore_service.dart';
 import 'package:food_tracker_app/service/navigator_service.dart';
 import 'package:food_tracker_app/view/daily_view.dart';
 import 'package:food_tracker_app/viewmodel/daily_viewmodel.dart';
@@ -132,6 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 GestureDetector weightContainer(
     BuildContext context, viewModel, Function refresh) {
+  final FirestoreService firestoreService = FirestoreService();
   return GestureDetector(
     onTap: () {
       showDialog(
@@ -238,6 +240,7 @@ GestureDetector weightContainer(
                                     double.tryParse(controller.text);
                                 if (newValue != null) {
                                   viewModel.setWeightInPounds(newValue);
+                                  firestoreService.addUserWeightEntry(newValue,DateTime.now());
                                 }
                                 Navigator.of(context).pop();
                                 refresh();
@@ -455,11 +458,11 @@ GestureDetector waterContainer(
             bottom: 10,
             left: 10,
             child: Material(
-              color: Theme.of(context).colorScheme.primary, // Circle color
+              color: Theme.of(context).colorScheme.primary, 
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              clipBehavior: Clip.antiAlias, // Necessary for circular clipping
+              clipBehavior: Clip.antiAlias, 
               child: IconButton(
                 icon: Icon(Icons.remove, size: 20, color: Colors.black),
                 onPressed: () {
@@ -472,11 +475,11 @@ GestureDetector waterContainer(
             bottom: 10,
             right: 10,
             child: Material(
-              color: Theme.of(context).colorScheme.primary, // Circle color
+              color: Theme.of(context).colorScheme.primary, 
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              clipBehavior: Clip.antiAlias, // Necessary for circular clipping
+              clipBehavior: Clip.antiAlias, 
               child: IconButton(
                 icon: Icon(Icons.add, size: 20, color: Colors.black),
                 onPressed: () {

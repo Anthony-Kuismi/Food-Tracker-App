@@ -301,20 +301,20 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   Future<void> _pickEndDate(BuildContext context, ChartsViewModel viewModel,
       String selectedOption, int modifier) async {
-    // switch (selectedOption) {
-    //   case '1w':
-    //     await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 7 * modifier)));
-    //     break;
-    //   case '4w':
-    //     await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 28 * modifier)));
-    //     break;
-    //   case '3m':
-    //     await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 90 * modifier)));
-    //     break;
-    //   case '1y':
-    //     await viewModel.updateEnd(DateTime.now().subtract(Duration(days: 365 * modifier)));
-    //     break;
-    // }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
         await viewModel.updateEnd(DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day));
     print('End Date: ${viewModel.end}');
   }
@@ -405,7 +405,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
                       viewModel.dateModifier--;
                     }
                     _pickStartDate(context, viewModel, selectedOption, viewModel.dateModifier);
-                    // _pickEndDate(context, viewModel, selectedOption, modifier);
+                    
                   },
                 ),
               ),

@@ -50,6 +50,7 @@ class HomePageViewModel extends ChangeNotifier {
 
 
   Future<void> load() async {
+    log("LOADING HOMEPAGE");
     now =DateTime.now();
     labelDisplayMode: SparkChartLabelDisplayMode.none;
     await _model.fetchWaterEntry(dateStr);
@@ -110,6 +111,7 @@ class HomePageViewModel extends ChangeNotifier {
   }
 
   void calcWeightChange() {
+    log("CALC WEIGHT CHANGE: ${lastWeightEntry} - $weight / $lastWeightEntry");
     percentChange = -((lastWeightEntry - weight) / lastWeightEntry) * 100;
     notifyListeners();
   }
@@ -140,9 +142,9 @@ class HomePageViewModel extends ChangeNotifier {
     _model.weight = weight;
     Weight obj = Weight(timestamp: date, weight: weight);
     firestore.setUserWeightInPounds(weight);
-    firestore.addWeightEntry(obj, (lastEntryNumber + 2).toString());
-    firestore.setUserLastWeightEntry(lastEntryNumber + 1);
-
+    
+    
+    firestore.addUserWeightEntry(weight, DateTime.now());
     calcWeightChange();
     updateCalorieGoal();
     updateCaloriePercentage();

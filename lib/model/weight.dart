@@ -16,7 +16,7 @@ class Weight {
 
   Map<String, dynamic> toJson() {
     return {
-      'date': dateStr,
+      'date': date.millisecondsSinceEpoch,
       'weight': weight,
     };
   }
