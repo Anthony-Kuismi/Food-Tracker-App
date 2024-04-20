@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:food_tracker_app/Service/firestore_service.dart';
+import 'package:food_tracker_app/service/firestore_service.dart';
 
 import 'meal.dart';
 

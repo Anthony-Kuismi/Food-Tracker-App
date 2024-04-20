@@ -1,7 +1,7 @@
 import 'package:food_tracker_app/model/water.dart';
 import 'package:intl/intl.dart';
-import '../Service/firestore_service.dart';
-import '../Service/basal_metabolic_rate_service.dart';
+import '../service/firestore_service.dart';
+import '../service/basal_metabolic_rate_service.dart';
 
 class HomePage {
   FirestoreService firestore = FirestoreService();

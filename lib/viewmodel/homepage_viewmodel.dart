@@ -4,8 +4,8 @@ import 'package:food_tracker_app/model/meal.dart';
 import 'package:food_tracker_app/model/water.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
-import '../Service/firestore_service.dart';
-import '../Service/navigator_service.dart';
+import '../service/firestore_service.dart';
+import '../service/navigator_service.dart';
 import '../model/home_page.dart';
 import '../model/weight.dart';
 
