@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:food_tracker_app/Service/basal_metabolic_rate_service.dart';
 import 'package:food_tracker_app/model/settings.dart';
 import '../Service/firestore_service.dart';
 import '../Service/navigator_service.dart';
@@ -15,6 +16,7 @@ class SettingsViewModel extends ChangeNotifier {
   double get weightInPounds => _model.weightInPounds;
   String get birthDate => _model.birthDate;
   String get gender => _model.gender;
+  Lifestyle get lifestyle => _model.lifestyle;
 
   Future<void> load() async {
     await _model.fetchSettings();
@@ -75,5 +77,47 @@ class SettingsViewModel extends ChangeNotifier {
     _model.gender = gender;
     firestore.setUserGender(gender);
     notifyListeners();
+  }
+
+  void setLifestyle(Lifestyle lifestyle){
+    _model.lifestyle = lifestyle;
+    print(_model.lifestyle);
+    firestore.setUserLifestyle(getLifestyleAsString());
+    notifyListeners();
+  }
+
+  String getLifestyleAsString(){
+    switch(_model.lifestyle){
+      case Lifestyle.SEDENTARY:
+        return 'Sedentary';
+      case Lifestyle.SLIGHTLY_ACTIVE:
+        return 'Slightly Active';
+      case Lifestyle.MODERATELY_ACTIVE:
+        return 'Moderately Active';
+      case Lifestyle.VERY_ACTIVE:
+        return 'Very Active';
+      case Lifestyle.EXTREMELY_ACTIVE:
+        return 'Extremely Active';
+    }
+  }
+
+  void setLifestyleByString(String s) {
+    switch(s){
+      case 'Sedentary':
+        setLifestyle(Lifestyle.SEDENTARY);
+        break;
+      case 'Slightly Active':
+        setLifestyle(Lifestyle.SLIGHTLY_ACTIVE);
+        break;
+      case 'Moderately Active':
+        setLifestyle(Lifestyle.MODERATELY_ACTIVE);
+        break;
+      case 'Very Active':
+        setLifestyle(Lifestyle.VERY_ACTIVE);
+        break;
+      case 'Extremely Active':
+        setLifestyle(Lifestyle.EXTREMELY_ACTIVE);
+        break;
+    }
   }
 }

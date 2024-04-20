@@ -20,6 +20,15 @@ class HomePageViewModel extends ChangeNotifier {
   int get waterCupsGoal => _model.getWaterGoal();
   double percentChange = 0;
 
+  String? notes;
+  String? get newNotes => notes;
+
+  double _caloriePercentage = 0.0;
+  double get caloriePercentage => _caloriePercentage;
+
+  double _calorieGoal = 0.0;
+  double get calorieGoal => _calorieGoal;
+
   get calories => _model.calories;
   set calories(newValue) => _model.calories = newValue;
   get carbohydratesTotalG => _model.carbohydratesTotalG;
@@ -46,7 +55,10 @@ class HomePageViewModel extends ChangeNotifier {
     await _model.fetchWaterEntry(dateStr);
     await fetchDailyData();
     await _model.fetchWeightEntry(dateStr);
+    await _model.fetchUserInfo();
     calcWeightChange();
+    updateCalorieGoal();
+    updateCaloriePercentage();
     updateWaterPercentage();
     notifyListeners();
   }
@@ -105,7 +117,23 @@ class HomePageViewModel extends ChangeNotifier {
   void setWeightGoal(double goal) {
     _model.weightGoal = goal;
     firestore.setUserWeightGoal(goal);
+    updateCaloriePercentage();
+    updateCalorieGoal();
     notifyListeners();
+  }
+
+  void updateCalorieGoal(){
+    _calorieGoal = _model.getDailyCalorieGoal();
+    notifyListeners();
+  }
+
+  void updateCaloriePercentage() {
+    _caloriePercentage = _model.calories / _model.getDailyCalorieGoal();
+    if(_caloriePercentage < 0){
+      _caloriePercentage = 0;
+    }else if(_caloriePercentage > 1){
+      _caloriePercentage = 1;
+    }
   }
 
   void setWeightInPounds(double weight) {
@@ -116,6 +144,8 @@ class HomePageViewModel extends ChangeNotifier {
     firestore.setUserLastWeightEntry(lastEntryNumber + 1);
 
     calcWeightChange();
+    updateCalorieGoal();
+    updateCaloriePercentage();
     notifyListeners();
   }
 
@@ -125,6 +155,11 @@ class HomePageViewModel extends ChangeNotifier {
     carbohydratesTotalG = data.carbohydratesTotalG;
     fatTotalG = data.fatTotalG;
         notifyListeners();
+  }
+  void addNotes(String newNotes) {
+    notes = newNotes;
+    firestore.addCustomNotesForUser(notes!, DateTime.now());
+    notifyListeners();
   }
 }
 

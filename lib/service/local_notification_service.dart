@@ -55,11 +55,22 @@ class NotificationService extends ChangeNotifier{
        DateTime? lastWater = await firestore.getMostRecentWaterForUser();
               var timeSinceWater = DateTime.now().difference(lastWater??DateTime.now());
        if(timeSinceWater > Duration(hours:2)){
-                  NotificationService().showNotification(
+         NotificationService().showNotification(
              title: 'Drink Some Water', body: 'Stay Hydrated its been $timeSinceWater since you drank water');
        }
      });
   }
 
+  //notfiy if a meal is missed
+  //currently sends  this notification if no meal is adde for the current date in the diet log
+  void lateMealNotification() async {
+    final mealListForToday = await firestore.getMealsFromUserByTimestamp(DateTime.now());
+    if(mealListForToday.isEmpty) {
+      NotificationService().showNotification(
+          title: 'Forgot to add a meal',
+          body: 'Have you consumed anything lately? -> add a meal!');
+    }
+    log('the value of mealListForToday is: $mealListForToday');
+  }
 
 }

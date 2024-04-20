@@ -15,7 +15,7 @@ enum Gender {
 class BMRService {
   
   double calculateDailyCalorieGoal(double weight, double height, Gender gender,
-      double age, Lifestyle lifestyle) {
+      double age, Lifestyle lifestyle, double weightChange) {
     double BMR;
 
     switch (gender) {
@@ -50,7 +50,9 @@ class BMRService {
         break;
     }
 
-    return BMR;
+    final calorieChange = weightChange*500;
+
+    return BMR+calorieChange;
   }
 
   

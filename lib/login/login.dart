@@ -124,7 +124,7 @@ class _MyLoginPage extends State<MyLoginPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text(
-          'Food Tracking: Hot dog Version',
+          'Food Tracking',
           style: TextStyle(
             color: Colors.black,
           ),
