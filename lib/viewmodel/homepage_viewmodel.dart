@@ -28,8 +28,9 @@ class HomePageViewModel extends ChangeNotifier {
   set proteinG(newValue) => _model.proteinG = newValue;
   get fatTotalG => _model.fatTotalG;
   set fatTotalG(newValue) => _model.fatTotalG = newValue;
-
-  String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  DateTime now = DateTime.now();
+  DateTime get date => DateTime(now.year,now.month,now.day);
+  String get dateStr => DateFormat('yyyy-MM-dd').format(date);
 
   final HomePage _model = HomePage();
 
@@ -40,10 +41,11 @@ class HomePageViewModel extends ChangeNotifier {
 
 
   Future<void> load() async {
-    date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    await _model.fetchWaterEntry(date);
+    now =DateTime.now();
+    // date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    await _model.fetchWaterEntry(dateStr);
     await fetchDailyData();
-    await _model.fetchWeightEntry(date);
+    await _model.fetchWeightEntry(dateStr);
     calcWeightChange();
     updateWaterPercentage();
     notifyListeners();
@@ -66,13 +68,13 @@ class HomePageViewModel extends ChangeNotifier {
 
   void addWater() {
     _model.addWater();
-    firestore.updateWaterEntryFromUser(Water(date: date, amount: _model.getWaterAmount(), timestamps:_model.getTimestamps()));
+    firestore.updateWaterEntryFromUser(Water(date: dateStr, amount: _model.getWaterAmount(), timestamps:_model.getTimestamps()));
     updateWaterPercentage();
   }
 
   void removeWater() {
     _model.removeWater();
-    firestore.updateWaterEntryFromUser(Water(date: date, amount: _model.getWaterAmount(), timestamps:_model.getTimestamps()));
+    firestore.updateWaterEntryFromUser(Water(date: dateStr, amount: _model.getWaterAmount(), timestamps:_model.getTimestamps()));
     updateWaterPercentage();
   }
 
@@ -108,7 +110,7 @@ class HomePageViewModel extends ChangeNotifier {
 
   void setWeightInPounds(double weight) {
     _model.weight = weight;
-    Weight obj = Weight(date: date, weight: weight);
+    Weight obj = Weight(date: dateStr, weight: weight);
     firestore.setUserWeightInPounds(weight);
     firestore.addWeightEntry(obj, (lastEntryNumber + 2).toString());
     firestore.setUserLastWeightEntry(lastEntryNumber + 1);

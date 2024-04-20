@@ -18,70 +18,57 @@ class DailyView extends StatefulWidget {
   DateTime timestamp;
 
   final HomePageViewModel homePageViewModel;
-  
-  
-  
-  
 
-  DailyView({required timestamp, required this.homePageViewModel}):timestamp=DateTime(timestamp.year,timestamp.month,timestamp.day);
+  DailyView({required timestamp, required this.homePageViewModel})
+      : timestamp = DateTime(timestamp.year, timestamp.month, timestamp.day);
 
   @override
-  State<StatefulWidget> createState() => DailyViewState(timestamp: timestamp, homePageViewModel: homePageViewModel);
+  State<StatefulWidget> createState() => DailyViewState(
+      timestamp: timestamp, homePageViewModel: homePageViewModel);
 }
 
 class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
   DateTime timestamp;
   bool needsRebuildChart = true;
   HomePageViewModel homePageViewModel;
-  late DailyViewModel viewModel = Provider.of<DailyViewModel>(context, listen: true);
-  late MealListViewModel mealListViewModel = Provider.of<MealListViewModel>(context, listen: false);
-  get data => Meal.fromFoodList((mealListViewModel.mealsByDay[timestamp]??[]).expand((meal) => meal.foods.values).toList());
+  late DailyViewModel viewModel =
+      Provider.of<DailyViewModel>(context, listen: true);
+  late MealListViewModel mealListViewModel =
+      Provider.of<MealListViewModel>(context, listen: false);
+
+  get data => Meal.fromFoodList((mealListViewModel.mealsByDay[timestamp] ?? [])
+      .expand((meal) => meal.foods.values)
+      .toList());
   late Consumer<DailyViewModel> pieChart;
 
-  DailyViewState({required this.timestamp, required this.homePageViewModel}):
-    pieChart = Consumer<DailyViewModel>(builder: (context, viewModel, child) {
-      return MacroPieChart(
-        Theme
-            .of(context)
-            .colorScheme
-            .primaryContainer,
-        Theme
-            .of(context)
-            .colorScheme
-            .primary,
-        Theme
-            .of(context)
-            .colorScheme
-            .tertiary,
-        homePageViewModel.calories,
-        homePageViewModel.proteinG,
-        homePageViewModel.carbohydratesTotalG,
-        homePageViewModel.fatTotalG,
-      );
-    });
+  DailyViewState({required this.timestamp, required this.homePageViewModel})
+      : pieChart =
+            Consumer<DailyViewModel>(builder: (context, viewModel, child) {
+          return MacroPieChart(
+            Theme.of(context).colorScheme.primaryContainer,
+            Theme.of(context).colorScheme.primary,
+            Theme.of(context).colorScheme.tertiary,
+            homePageViewModel.calories,
+            homePageViewModel.proteinG,
+            homePageViewModel.carbohydratesTotalG,
+            homePageViewModel.fatTotalG,
+          );
+        });
 
   get macroPieChart {
-      return Consumer<DailyViewModel>(builder: (context, viewModel, child) {
-                return MacroPieChart(
-          Theme
-              .of(context)
-              .colorScheme
-              .primaryContainer,
-          Theme
-              .of(context)
-              .colorScheme
-              .primary,
-          Theme
-              .of(context)
-              .colorScheme
-              .tertiary,
-          data.calories,
-          data.proteinG,
-          data.carbohydratesTotalG,
-          data.fatTotalG,
-        );
-      });
+    return Consumer<DailyViewModel>(builder: (context, viewModel, child) {
+      return MacroPieChart(
+        Theme.of(context).colorScheme.primaryContainer,
+        Theme.of(context).colorScheme.primary,
+        Theme.of(context).colorScheme.tertiary,
+        data.calories,
+        data.proteinG,
+        data.carbohydratesTotalG,
+        data.fatTotalG,
+      );
+    });
   }
+
   @override
   void initState() {
     super.initState();
@@ -99,32 +86,35 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
-        if (viewModel.timestamp != timestamp) {
+    if (viewModel.timestamp != timestamp) {
       viewModel.timestamp = timestamp;
       await mealListViewModel.load();
       await viewModel.init();
     }
     init(forceUpdate: false);
-    
   }
 
   void updateMacroPieChart() async {
-    if(needsRebuildChart){
+    if (needsRebuildChart) {
       setState(() {
         pieChart = this.macroPieChart;
         needsRebuildChart = false;
       });
-      homePageViewModel.updateData(data);
+      if (timestamp.millisecondsSinceEpoch -
+              homePageViewModel.date.millisecondsSinceEpoch ==
+          0) {
+        homePageViewModel.updateData(data);
+      }
     }
   }
 
   void init({bool forceUpdate = false}) async {
+    // // if (forceUpdate) {
+    //   await mealListViewModel.load();
+    //   await viewModel.init();
+    //   updateMacroPieChart();
+    // // }
 
-        if(forceUpdate){
-      await mealListViewModel.load();
-      await viewModel.init();
-      updateMacroPieChart();
-    }
     needsRebuildChart = true;
   }
 
@@ -132,26 +122,21 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     DailyViewModel viewModel = Provider.of<DailyViewModel>(context);
     final mealListViewModel =
-    Provider.of<MealListViewModel>(context, listen: true);
+        Provider.of<MealListViewModel>(context, listen: true);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       updateMacroPieChart();
     });
     return PopScope(
-      onPopInvoked: (didPop){
-        if(didPop){
+      onPopInvoked: (didPop) {
+        if (didPop) {
           needsRebuildChart = true;
-          
-
         }
       },
       child: Scaffold(
         appBar: AppBar(
-          title:
-          const Text('Daily Summary', style: TextStyle(color: Colors.black)),
-          backgroundColor: Theme
-              .of(context)
-              .colorScheme
-              .primary,
+          title: const Text('Daily Summary',
+              style: TextStyle(color: Colors.black)),
+          backgroundColor: Theme.of(context).colorScheme.primary,
           iconTheme: const IconThemeData(color: Colors.black),
           actions: [
             Container(
@@ -165,8 +150,7 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              SettingsView(
+                          builder: (context) => SettingsView(
                                 username: '',
                               )));
                 },
@@ -177,10 +161,6 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
         ),
         body: FutureProvider(
           create: (BuildContext context) async {
-
-
-
-
             initState();
           },
           builder: (context, snapshot) {
@@ -191,8 +171,8 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
             return ListView(
               children: [
                 Padding(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -205,10 +185,7 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
                       ),
                       Text(
                         DateFormat('yyyy-MM-dd').format(viewModel.timestamp),
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .headline6,
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                       IconButton(
                         icon: Icon(Icons.arrow_right),
@@ -221,8 +198,8 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
                   ),
                 ),
                 pieChart,
-                ...List.generate(viewModel.meals.length, (index) {
-                  final meal = viewModel.meals[index];
+                ...List.generate((mealListViewModel.mealsByDay[timestamp]??[]).length, (index) {
+                  final meal = (mealListViewModel.mealsByDay[timestamp]??[])[index];
                   return ListTile(
                     title: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -232,18 +209,9 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
                             width: 50,
                             height: 50,
                             child: MacroPieChart(
-                              Theme
-                                  .of(context)
-                                  .colorScheme
-                                  .primaryContainer,
-                              Theme
-                                  .of(context)
-                                  .colorScheme
-                                  .primary,
-                              Theme
-                                  .of(context)
-                                  .colorScheme
-                                  .tertiary,
+                              Theme.of(context).colorScheme.primaryContainer,
+                              Theme.of(context).colorScheme.primary,
+                              Theme.of(context).colorScheme.tertiary,
                               meal.calories,
                               meal.proteinG,
                               meal.carbohydratesTotalG,
@@ -252,7 +220,7 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
                               chartValuesOptions: const ChartValuesOptions(
                                   showChartValues: false),
                               legendOptions:
-                              const LegendOptions(showLegends: false),
+                                  const LegendOptions(showLegends: false),
                               centerText: '',
                               ringStrokeWidth: 8,
                             ),
