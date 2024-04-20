@@ -109,11 +109,11 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
   }
 
   void init({bool forceUpdate = false}) async {
-    // // if (forceUpdate) {
-    //   await mealListViewModel.load();
-    //   await viewModel.init();
-    //   updateMacroPieChart();
-    // // }
+    
+    
+    
+    
+    
 
     needsRebuildChart = true;
   }
@@ -126,7 +126,7 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       updateMacroPieChart();
     });
-// <<<<<<< HEAD
+
     return PopScope(
       onPopInvoked: (didPop) {
         if (didPop) {
@@ -144,78 +144,78 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
               margin: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
-// =======
-//
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Daily Summary', style: TextStyle(color: Colors.black)),
-//         backgroundColor: Theme.of(context).colorScheme.primary,
-//         iconTheme: const IconThemeData(color: Colors.black),
-//         actions: [
-//           Container(
-//             margin: const EdgeInsets.symmetric(horizontal: 10),
-//             decoration: BoxDecoration(
-//               borderRadius: BorderRadius.circular(25),
-//               color: Theme.of(context).colorScheme.primary,
-//             ),
-//             child: CircleAvatar(
-//               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-//               child: Padding(
-//                 padding: EdgeInsets.only(right: 10.0), // Add padding to the right
-//                 child: IconButton(
-//                   icon: const Icon(Icons.person, color: Colors.white, size: 25),
-//                   onPressed: () {
-//                     Navigator.push(
-//                         context,
-//                         MaterialPageRoute(
-//                             builder: (context) => SettingsView(
-//                               username: '',
-//                             )));
-//                   },
-//                   iconSize: 30,
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ],
-//
-//       ),
-//       body: FutureProvider(
-//         create: (BuildContext context) {
-//           return viewModel.init();
-//         },
-//         builder: (context, snapshot) {
-//           if (viewModel.isLoading) {
-//             return Center(child: CircularProgressIndicator());
-//           }
-//           return ListView(
-//             children: [
-//               Padding(
-//                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-//                 child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   children: [
-//                     IconButton(
-//                       icon: Icon(Icons.arrow_left),
-//                       onPressed: () {
-//                         timestamp = timestamp.subtract(Duration(days: 1));
-//                         viewModel.previousDay();
-//                       },
-//                     ),
-//                     Text(
-//                       DateFormat('yyyy-MM-dd').format(viewModel.timestamp),
-//                       style: Theme.of(context).textTheme.headline6,
-//                     ),
-//                     IconButton(
-//                       icon: Icon(Icons.arrow_right),
-//                       onPressed: () {
-//                         timestamp = timestamp.add(Duration(days: 1));
-//                         viewModel.nextDay();
-//                       },
-//                     ),
-//                   ],
-//                 ),
-// >>>>>>> origin/dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               ),
               child: IconButton(
                 icon: const Icon(Icons.person, color: Colors.white),

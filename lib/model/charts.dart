@@ -39,7 +39,7 @@ class Charts {
           }
 
   Future<void> fetchData() async {
-    calories = [];
+            calories = [];
     proteinTotalG = [];
     carbohydratesTotalG = [];
     fatTotalG = [];
@@ -53,10 +53,10 @@ class Charts {
     }
     for(var item in data.entries){
       mukbangs[item.key] = Meal.fromFoodList((item.value.expand((meal) => meal.foods.values).toList()));
-    }
+          }
     calories.addAll(mukbangs.entries.map<DataPoint>((mukbang)=>DataPoint(timestamp: mukbang.key, value: mukbang.value.calories)));
     proteinTotalG.addAll(mukbangs.entries.map<DataPoint>((mukbang)=>DataPoint(timestamp: mukbang.key, value: mukbang.value.proteinG)));
     carbohydratesTotalG.addAll(mukbangs.entries.map<DataPoint>((mukbang)=>DataPoint(timestamp: mukbang.key, value: mukbang.value.carbohydratesTotalG)));
     fatTotalG.addAll(mukbangs.entries.map<DataPoint>((mukbang)=>DataPoint(timestamp: mukbang.key, value: mukbang.value.fatTotalG)));
-  }
+      }
 }

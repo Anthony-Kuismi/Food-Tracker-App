@@ -64,7 +64,7 @@ class FoodViewState extends State<FoodView> {
             child: CircleAvatar(
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               child: Padding(
-                padding: EdgeInsets.only(right: 10.0), // Add padding to the right
+                padding: EdgeInsets.only(right: 10.0), 
                 child: IconButton(
                   icon: const Icon(Icons.person, color: Colors.white, size: 25),
                   onPressed: () {

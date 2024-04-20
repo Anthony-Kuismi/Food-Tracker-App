@@ -35,8 +35,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.navigatorService, required this.isLoggedIn, required this.notificationService});
   @override
   Widget build(BuildContext context) {
-  log("Main is building rn :) ");
-  //starts notifications
+    //starts notifications
     notificationService.startWaterTimer();
     notificationService.lateMealNotification();
     return FutureBuilder(
