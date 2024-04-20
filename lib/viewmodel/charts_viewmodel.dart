@@ -17,6 +17,24 @@ class ChartsViewModel extends ChangeNotifier {
     initializeChartsModel();
   }
 
+  get currentTabIndex => _model.currentTabIndex;
+
+  get dateModifier => _model.dateModifier;
+  set dateModifier(newValue){
+    _model.dateModifier = newValue;
+  }
+  set currentTabIndex(newValue){
+    _model.currentDateTabIndex = newValue;
+    notifyListeners();
+  }
+
+  get currentDateTabIndex => _model.currentDateTabIndex;
+  set currentDateTabIndex(newValue){
+    _model.currentDateTabIndex = newValue;
+    notifyListeners();
+  }
+
+
   Future<void> initializeChartsModel() async {
     isLoading = true;
     await _model.init();

@@ -19,6 +19,14 @@ class DataPoint {
 class Charts {
   DateTime start;
   DateTime end;
+
+  int currentTabIndex = 0;
+
+  int currentDateTabIndex = 0;
+
+  int dateModifier = 0;
+
+
   Charts({required this.start, required this.end});
   List<DataPoint> calories = [];
   List<DataPoint> proteinTotalG = [];

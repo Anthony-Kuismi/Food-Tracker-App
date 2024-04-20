@@ -279,19 +279,19 @@ class _ChartsTabViewState extends State<ChartsTabView>
   DateTime endDate = DateTime.now();
 
   Future<void> _pickStartDate(BuildContext context, ChartsViewModel viewModel,
-      String selectedOption, int modifier) async {
+      String selectedOption, int dateModifier) async {
     switch (selectedOption) {
       case '1w':
-        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 7 * (modifier + 1))));
+        await viewModel.updateStart(DateTime.now().subtract(Duration(days: (7 * (viewModel.dateModifier + 1))as int)));
         break;
       case '4w':
-        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 28 * (modifier + 1))));
+        await viewModel.updateStart(DateTime.now().subtract(Duration(days: (28 * (viewModel.dateModifier + 1))as int)));
         break;
       case '3m':
-        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 91 * (modifier + 1))));
+        await viewModel.updateStart(DateTime.now().subtract(Duration(days: (90 * (viewModel.dateModifier + 1))as int)));
         break;
       case '1y':
-        await viewModel.updateStart(DateTime.now().subtract(Duration(days: 365 * (modifier + 1))));
+        await viewModel.updateStart(DateTime.now().subtract(Duration(days: (365 * (viewModel.dateModifier + 1))as int)));
         break;
     }
     print('Start Date: ${viewModel.start}');
@@ -319,21 +319,23 @@ class _ChartsTabViewState extends State<ChartsTabView>
     print('End Date: ${viewModel.end}');
   }
 
-  String selectedOption = '1w';
-  int modifier = 0;
+  late String selectedOption = viewModel.periods[viewModel.currentDateTabIndex];
+  late int modifier = viewModel.dateModifier;
 
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: viewModel.labels.length, vsync: this);
-    dateController = TabController(length: viewModel.periods.length, vsync: this);
+    tabController = TabController(length: viewModel.labels.length, vsync: this, initialIndex: viewModel.currentTabIndex);
+    dateController = TabController(length: viewModel.periods.length, vsync: this, initialIndex: viewModel.currentDateTabIndex);
 
     dateController.addListener(() {
       if (!dateController.indexIsChanging) {
-        modifier = 0;
+        viewModel.currentDateTabIndex = dateController.index;
         int selectedIndex = dateController.index;
          selectedOption = viewModel.periods[selectedIndex];
         _pickStartDate(context, viewModel, selectedOption, modifier);
+      }else{
+        viewModel.dateModifier = 0;
       }
     });
   }
@@ -378,7 +380,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
                 child: IconButton(
                   icon: Icon(Icons.arrow_left, color: Colors.white),
                   onPressed: () {
-                    modifier++;
+                    viewModel.dateModifier++;
                     _pickStartDate(context, viewModel, selectedOption, modifier);
                     _pickEndDate(context, viewModel, selectedOption, modifier);
                   },
@@ -394,7 +396,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
                   icon: Icon(Icons.arrow_right, color: Colors.white),
                   onPressed: () {
                     if (modifier > 0) {
-                      modifier--;
+                      viewModel.dateModifier--;
                     }
                     _pickStartDate(context, viewModel, selectedOption, modifier);
                     // _pickEndDate(context, viewModel, selectedOption, modifier);
