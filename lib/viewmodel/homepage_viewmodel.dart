@@ -138,7 +138,7 @@ class HomePageViewModel extends ChangeNotifier {
 
   void setWeightInPounds(double weight) {
     _model.weight = weight;
-    Weight obj = Weight(date: dateStr, weight: weight);
+    Weight obj = Weight(timestamp: date, weight: weight);
     firestore.setUserWeightInPounds(weight);
     firestore.addWeightEntry(obj, (lastEntryNumber + 2).toString());
     firestore.setUserLastWeightEntry(lastEntryNumber + 1);
