@@ -117,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     childAspectRatio: MediaQuery.of(context).size.width /
                         (MediaQuery.of(context).size.height / 4.5),
                     children: <Widget>[
-                      dailyNotes(context),
+                      DailyNotes(),
                     ],
                   ),
                 ),
@@ -635,40 +635,44 @@ InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel)
     ),
   );
 }
+class DailyNotes extends StatelessWidget{
+  DailyNotes();
+  @override
+  Widget build(BuildContext context) {
+    final dailyViewModel = Provider.of<DailyViewModel>(context);
+    final viewModel = Provider.of<HomePageViewModel>(context);
+    String displayedNotes = viewModel.dailyNote ?? 'No notes added';
+    final controller = TextEditingController(text: viewModel.dailyNote);
 
-Widget dailyNotes(BuildContext context) {
-  final viewModel = Provider.of<HomePageViewModel>(context);
-  String displayedNotes = viewModel.notes ?? 'No notes added';
-  final controller = TextEditingController(text: viewModel.notes);
-
-  return Consumer<HomePageViewModel>(
-    builder: (context, viewModel, child) => GestureDetector(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Edit Notes'),
-              content: TextField(
-                controller: controller,
-                decoration: const InputDecoration(
-                  hintText: 'Enter Notes',
+    return Consumer<HomePageViewModel>(
+      builder: (context, viewModel, child) => GestureDetector(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Edit Notes'),
+                content: TextField(
+                  controller: controller,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter Notes',
+                  ),
                 ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    String notes = controller.text;
-                    viewModel.addNotes(notes); 
-                    Navigator.of(context).pop(); 
-                  },
-                  child: const Text('Save'),
-                ),
-              ],
-            );
-          },
-        );
-      },
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      String notes = controller.text;
+                      viewModel.addNotes(notes);
+                      dailyViewModel.dailyNote = notes;
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Save'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -697,9 +701,9 @@ Widget dailyNotes(BuildContext context) {
                   ],
                 ),
               ),
-              
+
               Positioned(
-                top: 40, 
+                top: 40,
                 left: 10,
                 right: 10,
                 child: GestureDetector(
@@ -719,7 +723,7 @@ Widget dailyNotes(BuildContext context) {
                           actions: <Widget>[
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).pop(); 
+                                Navigator.of(context).pop();
                               },
                               child: const Text('Close'),
                             ),
@@ -740,6 +744,7 @@ Widget dailyNotes(BuildContext context) {
             ],
           ),
         ),
-    ),
-  );
+      ),
+    );
+  }
 }

@@ -28,6 +28,8 @@ class HomePage {
   int lastEntryNumber = 0;
   double lastWeight = 0;
 
+  String dailyNote = '';
+
   Future<void> fetchWaterEntry(String date) async {
     water = await FirestoreService().getWaterEntryForUser(date);
     waterGoal = await FirestoreService().getWaterGoalForUser();
@@ -106,5 +108,10 @@ class HomePage {
         lifestyle,
         weightGoal
     );
+  }
+
+  Future<void >fetchNotes({DateTime? timestamp=null}) async {
+    timestamp ??= DateTime.now();
+    dailyNote = await firestore.getDailyNote(timestamp);
   }
 }

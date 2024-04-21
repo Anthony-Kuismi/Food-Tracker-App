@@ -110,6 +110,10 @@ class DailyViewModel extends ChangeNotifier {
   }
 
   String get dailyNote => _model.dailyNote;
+  set dailyNote(newvalue){
+    _model.dailyNote = newvalue;
+    notifyListeners();
+  }
 
 
   Future<void> init() async {

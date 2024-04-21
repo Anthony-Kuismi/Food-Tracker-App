@@ -20,8 +20,12 @@ class HomePageViewModel extends ChangeNotifier {
   int get waterCupsGoal => _model.getWaterGoal();
   double percentChange = 0;
 
-  String? notes;
-  String? get newNotes => notes;
+  String get dailyNote=>_model.dailyNote;
+  set dailyNote(newValue){
+    _model.dailyNote = newValue;
+    notifyListeners();
+  }
+  String? get newNotes => dailyNote;
 
   double _caloriePercentage = 0.0;
   double get caloriePercentage => _caloriePercentage;
@@ -56,6 +60,7 @@ class HomePageViewModel extends ChangeNotifier {
     await fetchDailyData();
     await _model.fetchWeightEntry(dateStr);
     await _model.fetchUserInfo();
+    await _model.fetchNotes();
     calcWeightChange();
     updateCalorieGoal();
     updateCaloriePercentage();
@@ -157,8 +162,8 @@ class HomePageViewModel extends ChangeNotifier {
         notifyListeners();
   }
   void addNotes(String newNotes) {
-    notes = newNotes;
-    firestore.addCustomNotesForUser(notes!, DateTime.now());
+    dailyNote = newNotes;
+    firestore.addCustomNotesForUser(dailyNote!, DateTime.now());
     notifyListeners();
   }
 }
