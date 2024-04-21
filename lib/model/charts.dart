@@ -77,7 +77,7 @@ class Charts {
             DataPoint(timestamp: mukbang.key, value: mukbang.value.fatTotalG))
         .toList();
 
-    weight.addAll(weightData.entries.map<DataPoint>(
-        (entry) => DataPoint(timestamp: entry.key, value: entry.value)));
+    weight = weightData.entries.map<DataPoint>(
+        (entry) => DataPoint(timestamp: entry.key, value: entry.value)).toList();
   }
 }
