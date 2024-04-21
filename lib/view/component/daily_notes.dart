@@ -71,7 +71,8 @@ class DailyNotes extends StatelessWidget {
                                     timestamp.millisecondsSinceEpoch ==
                                 0) {
                               log('YOU ARE HERE');
-                              viewModel.dailyNote = notes;
+                              // viewModel.dailyNote = notes;
+                              viewModel.addNotes(notes);
                             }
                             if (timestamp.millisecondsSinceEpoch ==
                                 dailyViewModel

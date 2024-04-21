@@ -23,6 +23,7 @@ class HomePageViewModel extends ChangeNotifier {
   String get dailyNote=>_model.dailyNote;
   set dailyNote(newValue){
     _model.dailyNote = newValue;
+    log('set daily note to $newValue');
     notifyListeners();
   }
   String? get newNotes => dailyNote;
@@ -161,9 +162,10 @@ class HomePageViewModel extends ChangeNotifier {
     fatTotalG = data.fatTotalG;
         notifyListeners();
   }
-  void addNotes(String newNotes) {
+  void addNotes(String newNotes) async {
     dailyNote = newNotes;
-    firestore.addCustomNotesForUser(dailyNote!, DateTime.now());
+    log('_model: ${_model.dailyNote}');
+    await firestore.addCustomNotesForUser(dailyNote!, DateTime.now());
     notifyListeners();
   }
 }
