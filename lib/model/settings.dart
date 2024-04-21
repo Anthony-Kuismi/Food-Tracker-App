@@ -1,6 +1,5 @@
-import 'package:food_tracker_app/Service/basal_metabolic_rate_service.dart';
-
-import '../Service/firestore_service.dart';
+import 'package:food_tracker_app/service/basal_metabolic_rate_service.dart';
+import '../service/firestore_service.dart';
 
 class Settings {
   FirestoreService firestore = FirestoreService();

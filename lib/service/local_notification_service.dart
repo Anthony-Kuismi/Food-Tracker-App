@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:food_tracker_app/Service/firestore_service.dart';
+import 'package:food_tracker_app/service/firestore_service.dart';
 
 class NotificationService extends ChangeNotifier{
   static final NotificationService _notificationService = NotificationService._internal();

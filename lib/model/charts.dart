@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:food_tracker_app/Service/firestore_service.dart';
+import 'package:food_tracker_app/service/firestore_service.dart';
 import 'package:intl/intl.dart';
 
 import 'meal.dart';
@@ -44,10 +44,10 @@ class Charts {
 
   Future<void> init() async {
     await fetchData();
-          }
+  }
 
   Future<void> fetchData() async {
-            calories = [];
+    calories = [];
     proteinTotalG = [];
     carbohydratesTotalG = [];
     fatTotalG = [];
@@ -57,14 +57,15 @@ class Charts {
     var endDate = DateTime(end.year,end.month,end.day);
     while(date.millisecondsSinceEpoch <= endDate.millisecondsSinceEpoch){
       mukbangs[date] = Meal.fromFoodList([]);
-      date = date.add(Duration(days:1));
+      date = DateTime(date.year,date.month,date.day+1);
     }
     for(var item in data.entries){
-      mukbangs[item.key] = Meal.fromFoodList((item.value.expand((meal) => meal.foods.values).toList()));
-          }
-    calories.addAll(mukbangs.entries.map<DataPoint>((mukbang)=>DataPoint(timestamp: mukbang.key, value: mukbang.value.calories)));
-    proteinTotalG.addAll(mukbangs.entries.map<DataPoint>((mukbang)=>DataPoint(timestamp: mukbang.key, value: mukbang.value.proteinG)));
-    carbohydratesTotalG.addAll(mukbangs.entries.map<DataPoint>((mukbang)=>DataPoint(timestamp: mukbang.key, value: mukbang.value.carbohydratesTotalG)));
-    fatTotalG.addAll(mukbangs.entries.map<DataPoint>((mukbang)=>DataPoint(timestamp: mukbang.key, value: mukbang.value.fatTotalG)));
+      log('Item ${item.key}');
+        if(mukbangs[item.key]!=null)mukbangs[item.key] = Meal.fromFoodList((item.value.expand((meal) => meal.foods.values).toList()));
       }
+    calories = mukbangs.entries.map<DataPoint>((mukbang)=>DataPoint(timestamp: mukbang.key, value: mukbang.value.calories)).toList();
+    proteinTotalG = mukbangs.entries.map<DataPoint>((mukbang)=>DataPoint(timestamp: mukbang.key, value: mukbang.value.proteinG)).toList();
+    carbohydratesTotalG = mukbangs.entries.map<DataPoint>((mukbang)=>DataPoint(timestamp: mukbang.key, value: mukbang.value.carbohydratesTotalG)).toList();
+    fatTotalG = mukbangs.entries.map<DataPoint>((mukbang)=>DataPoint(timestamp: mukbang.key, value: mukbang.value.fatTotalG)).toList();
+  }
 }

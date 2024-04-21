@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_tracker_app/Service/navigator_service.dart';
+import 'package:food_tracker_app/service/navigator_service.dart';
 import 'package:food_tracker_app/view/daily_view.dart';
 import 'package:food_tracker_app/viewmodel/daily_viewmodel.dart';
 import 'package:food_tracker_app/view/settings_view.dart';
@@ -8,7 +8,7 @@ import 'component/date_picker_button.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../viewmodel/homepage_viewmodel.dart';
-import '../Service/basal_metabolic_rate_service.dart';
+import '../service/basal_metabolic_rate_service.dart';
 import '../viewmodel/settings_viewmodel.dart';
 
 class MyHomePage extends StatefulWidget {

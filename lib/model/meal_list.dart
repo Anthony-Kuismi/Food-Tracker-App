@@ -1,5 +1,5 @@
 import 'meal.dart';
-import '../Service/firestore_service.dart';
+import '../service/firestore_service.dart';
 
 class MealList {
   FirestoreService firestore = FirestoreService();

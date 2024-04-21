@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:food_tracker_app/Service/basal_metabolic_rate_service.dart';
+import 'package:food_tracker_app/service/basal_metabolic_rate_service.dart';
 import 'package:food_tracker_app/model/settings.dart';
-import '../Service/firestore_service.dart';
-import '../Service/navigator_service.dart';
+import '../service/firestore_service.dart';
+import '../service/navigator_service.dart';
 
 class SettingsViewModel extends ChangeNotifier {
   late final NavigatorService navigatorService;

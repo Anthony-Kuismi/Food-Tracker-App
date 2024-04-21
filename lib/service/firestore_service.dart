@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:food_tracker_app/Service/basal_metabolic_rate_service.dart';
+import 'package:food_tracker_app/service/basal_metabolic_rate_service.dart';
 import 'package:food_tracker_app/view/home_page_view.dart';
 import 'package:intl/intl.dart';
 import '../model/food.dart';
