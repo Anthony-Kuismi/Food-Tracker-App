@@ -109,6 +109,8 @@ class DailyViewModel extends ChangeNotifier {
     return out;
   }
 
+  String get dailyNote => _model.dailyNote;
+
 
   Future<void> init() async {
     isLoading = true;

@@ -271,6 +271,7 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
                   ),
                 ),
                 pieChart,
+                Text(viewModel.dailyNote),
                 ...List.generate((mealListViewModel.mealsByDay[timestamp]??[]).length, (index) {
                   final meal = (mealListViewModel.mealsByDay[timestamp]??[])[index];
                   return ListTile(

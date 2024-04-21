@@ -389,6 +389,16 @@ class FirestoreService {
         .set({'Daily Notes': dailyNotes});
   }
 
+  Future<String> getDailyNote(DateTime date) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+    final dailynotes =
+    FirebaseFirestore.instance.collection('Users/$username/Daily Notes');
+    var snapshot = await dailynotes
+        .doc(DateFormat('MM dd yy').format(date)).get();
+    return snapshot.data()?['Daily Notes']??'';
+  }
+
   Future<Map<DateTime, List<Meal>>> getMealsFromUserByTimestampRange(
       DateTime start, DateTime end) async {
         List<Meal> mealData = await getMealsFromUser();
