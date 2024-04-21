@@ -111,6 +111,7 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
 
   void init({bool forceUpdate = false}) async {
     needsRebuildChart = true;
+    homePageViewModel.fetchDailyData();
   }
 
   @override
@@ -250,7 +251,7 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
                     );
                   })
                 ]),
-                DailyNotes(color: Colors.transparent),
+                DailyNotes(viewModel: homePageViewModel, color: Colors.transparent,timestamp: viewModel.timestamp,),
               ],
             );
           },

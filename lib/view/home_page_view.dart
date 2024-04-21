@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 ),
-                DailyNotes(),
+                DailyNotes(viewModel: widget.viewModel,timestamp: DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day),),
               ],
             ),
 
