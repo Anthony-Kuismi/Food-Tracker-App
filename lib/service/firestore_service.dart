@@ -311,6 +311,13 @@ class FirestoreService {
             return entries.values.last;
   }
 
+  Future<double> getSecondLastWeightEntryForUser() async {
+    final entries = await getUserWeightEntries();
+    if(entries.values.isEmpty) return 0;
+    if (entries.values.length>1) return entries.values.toList()[entries.values.length-2];
+    return entries.values.toList()[1];
+  }
+
   Future<double> getUserWeightByEntry(DateTime timestamp) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');

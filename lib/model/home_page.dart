@@ -65,7 +65,7 @@ class HomePage {
       
       weight = await FirestoreService().getUserWeightInPounds();
       weightGoal = await FirestoreService().getUserWeightGoal();
-      var lastWeight =  await FirestoreService().getLastWeightEntryForUser();
+      var lastWeight =  await FirestoreService().getSecondLastWeightEntryForUser();
       
       this.lastWeight = lastWeight;
                 } catch (e) {
