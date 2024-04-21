@@ -1,7 +1,3 @@
-import 'dart:developer';
-import 'dart:typed_data';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:food_tracker_app/viewmodel/charts_viewmodel.dart';
@@ -42,14 +38,15 @@ class ChartsView extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(right: 10.0),
                   child: IconButton(
-                    icon: const Icon(Icons.person, color: Colors.white, size: 25),
+                    icon:
+                        const Icon(Icons.person, color: Colors.white, size: 25),
                     onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => SettingsView(
-                                username: '',
-                              )));
+                                    username: '',
+                                  )));
                     },
                     iconSize: 30,
                   ),
@@ -70,7 +67,6 @@ class ChartsView extends StatelessWidget {
         ));
   }
 }
-
 
 class ChartsTabView extends StatefulWidget {
   ChartsViewModel viewModel;
@@ -116,7 +112,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get weightChart {
     if (viewModel.isLoading) {
-      return Text("Loading!");
+      return Text('Loading!');
     } else {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
@@ -133,14 +129,13 @@ class _ChartsTabViewState extends State<ChartsTabView>
                   child: SfCartesianChart(
                     primaryXAxis: DateTimeAxis(),
                     series: <CartesianSeries>[
-                      LineSeries<DataPoint,dynamic>(
+                      LineSeries<DataPoint, dynamic>(
                           dataSource: viewModel.weight,
                           xValueMapper: (DataPoint item, _) => item.timestamp,
                           yValueMapper: (DataPoint item, idx) {
                             return item.value;
                           },
-                          color: Theme.of(context).colorScheme.primaryContainer
-                      )
+                          color: Theme.of(context).colorScheme.primaryContainer)
                     ],
                   ),
                 ),
@@ -154,7 +149,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get caloriesChart {
     if (viewModel.isLoading) {
-      return Text("Loading!");
+      return Text('Loading!');
     } else {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
@@ -171,14 +166,13 @@ class _ChartsTabViewState extends State<ChartsTabView>
                   child: SfCartesianChart(
                     primaryXAxis: DateTimeAxis(),
                     series: <CartesianSeries>[
-                      LineSeries<DataPoint,dynamic>(
+                      LineSeries<DataPoint, dynamic>(
                           dataSource: viewModel.calories,
                           xValueMapper: (DataPoint item, _) => item.timestamp,
                           yValueMapper: (DataPoint item, idx) {
-                                                        return item.value;
+                            return item.value;
                           },
-                          color: Theme.of(context).colorScheme.primaryContainer
-                      )
+                          color: Theme.of(context).colorScheme.primaryContainer)
                     ],
                   ),
                 ),
@@ -192,7 +186,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get proteinTotalGChart {
     if (viewModel.isLoading) {
-      return Text("Loading!");
+      return Text('Loading!');
     } else {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
@@ -209,12 +203,11 @@ class _ChartsTabViewState extends State<ChartsTabView>
                   child: SfCartesianChart(
                     primaryXAxis: DateTimeAxis(),
                     series: <CartesianSeries>[
-                      LineSeries<DataPoint,dynamic>(
+                      LineSeries<DataPoint, dynamic>(
                           dataSource: viewModel.proteinTotalG,
                           xValueMapper: (DataPoint item, _) => item.timestamp,
                           yValueMapper: (DataPoint item, _) => item.value,
-                          color: Theme.of(context).colorScheme.primaryContainer
-                      )
+                          color: Theme.of(context).colorScheme.primaryContainer)
                     ],
                   ),
                 ),
@@ -228,7 +221,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get carbohydratesTotalGChart {
     if (viewModel.isLoading) {
-      return Text("Loading!");
+      return Text('Loading!');
     } else {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
@@ -245,12 +238,11 @@ class _ChartsTabViewState extends State<ChartsTabView>
                   child: SfCartesianChart(
                     primaryXAxis: DateTimeAxis(),
                     series: <CartesianSeries>[
-                      LineSeries<DataPoint,dynamic>(
+                      LineSeries<DataPoint, dynamic>(
                           dataSource: viewModel.carbohydratesTotalG,
                           xValueMapper: (DataPoint item, _) => item.timestamp,
                           yValueMapper: (DataPoint item, _) => item.value,
-                          color: Theme.of(context).colorScheme.primaryContainer
-                      )
+                          color: Theme.of(context).colorScheme.primaryContainer)
                     ],
                   ),
                 ),
@@ -264,7 +256,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get fatsTotalGChart {
     if (viewModel.isLoading) {
-      return Text("Loading!");
+      return Text('Loading!');
     } else {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
@@ -281,12 +273,11 @@ class _ChartsTabViewState extends State<ChartsTabView>
                   child: SfCartesianChart(
                     primaryXAxis: DateTimeAxis(),
                     series: <CartesianSeries>[
-                      LineSeries<DataPoint,dynamic>(
+                      LineSeries<DataPoint, dynamic>(
                           dataSource: viewModel.fatTotalG,
                           xValueMapper: (DataPoint item, _) => item.timestamp,
                           yValueMapper: (DataPoint item, _) => item.value,
-                          color: Theme.of(context).colorScheme.primaryContainer
-                      )
+                          color: Theme.of(context).colorScheme.primaryContainer)
                     ],
                   ),
                 ),
@@ -305,27 +296,30 @@ class _ChartsTabViewState extends State<ChartsTabView>
       String selectedOption, int dateModifier) async {
     switch (selectedOption) {
       case '1w':
-        await viewModel.updateStart(DateTime.now().subtract(Duration(days: (7 * (viewModel.dateModifier + 1))as int)));
+        await viewModel.updateStart(DateTime.now().subtract(
+            Duration(days: (7 * (viewModel.dateModifier + 1)) as int)));
         break;
       case '4w':
-        await viewModel.updateStart(DateTime.now().subtract(Duration(days: (28 * (viewModel.dateModifier + 1))as int)));
+        await viewModel.updateStart(DateTime.now().subtract(
+            Duration(days: (28 * (viewModel.dateModifier + 1)) as int)));
         break;
       case '3m':
-        await viewModel.updateStart(DateTime.now().subtract(Duration(days: (90 * (viewModel.dateModifier + 1))as int)));
+        await viewModel.updateStart(DateTime.now().subtract(
+            Duration(days: (90 * (viewModel.dateModifier + 1)) as int)));
         break;
       case '1y':
-        await viewModel.updateStart(DateTime.now().subtract(Duration(days: (365 * (viewModel.dateModifier + 1))as int)));
+        await viewModel.updateStart(DateTime.now().subtract(
+            Duration(days: (365 * (viewModel.dateModifier + 1)) as int)));
         break;
     }
     print('Start Date: ${viewModel.start}');
     setState(() {});
-
   }
 
   Future<void> _pickEndDate(BuildContext context, ChartsViewModel viewModel,
       String selectedOption, int modifier) async {
-
-        await viewModel.updateEnd(DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day));
+    await viewModel.updateEnd(DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day));
     print('End Date: ${viewModel.end}');
   }
 
@@ -335,30 +329,34 @@ class _ChartsTabViewState extends State<ChartsTabView>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: viewModel.labels.length, vsync: this, initialIndex: viewModel.currentTabIndex);
-    dateController = TabController(length: viewModel.periods.length, vsync: this, initialIndex: viewModel.currentDateTabIndex);
+    tabController = TabController(
+        length: viewModel.labels.length,
+        vsync: this,
+        initialIndex: viewModel.currentTabIndex);
+    dateController = TabController(
+        length: viewModel.periods.length,
+        vsync: this,
+        initialIndex: viewModel.currentDateTabIndex);
 
     dateController.addListener(() {
       if (!dateController.indexIsChanging) {
         viewModel.currentDateTabIndex = dateController.index;
         int selectedIndex = dateController.index;
-         selectedOption = viewModel.periods[selectedIndex];
+        selectedOption = viewModel.periods[selectedIndex];
         _pickStartDate(context, viewModel, selectedOption, modifier);
-      }else{
+      } else {
         viewModel.dateModifier = 0;
       }
     });
     tabController.addListener(() {
-      if(tabController.indexIsChanging){
+      if (tabController.indexIsChanging) {
         viewModel.currentTabIndex = tabController.index;
       }
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     updateCharts();
     return FutureProvider(
       create: (BuildContext context) {
@@ -381,7 +379,9 @@ class _ChartsTabViewState extends State<ChartsTabView>
                 dividerColor: Colors.transparent,
                 labelColor: Theme.of(context).colorScheme.primary,
                 unselectedLabelColor: Colors.grey,
-                tabs: viewModel.periods.map<Tab>((periods) => Tab(text: periods)).toList(),
+                tabs: viewModel.periods
+                    .map<Tab>((periods) => Tab(text: periods))
+                    .toList(),
               ),
             ),
           ),
@@ -397,14 +397,19 @@ class _ChartsTabViewState extends State<ChartsTabView>
                   icon: Icon(Icons.arrow_left, color: Colors.white),
                   onPressed: () {
                     viewModel.dateModifier++;
-                    _pickStartDate(context, viewModel, selectedOption, viewModel.dateModifier);
-                    _pickEndDate(context, viewModel, selectedOption, viewModel.dateModifier);
+                    _pickStartDate(context, viewModel, selectedOption,
+                        viewModel.dateModifier);
+                    _pickEndDate(context, viewModel, selectedOption,
+                        viewModel.dateModifier);
                   },
                 ),
               ),
               Text(
                 '${viewModel.start.month}/${viewModel.start.day}/${viewModel.start.year} - ${viewModel.end.month}/${viewModel.end.day}/${viewModel.end.year}',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
               CircleAvatar(
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,
@@ -414,8 +419,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
                     if (viewModel.dateModifier > 0) {
                       viewModel.dateModifier--;
                     }
-                    _pickStartDate(context, viewModel, selectedOption, viewModel.dateModifier);
-
+                    _pickStartDate(context, viewModel, selectedOption,
+                        viewModel.dateModifier);
                   },
                 ),
               ),
@@ -428,7 +433,6 @@ class _ChartsTabViewState extends State<ChartsTabView>
             child: charts,
             height: 270,
           ),
-
           Padding(
             padding: const EdgeInsets.all(8.0),
           ),
@@ -445,12 +449,14 @@ class _ChartsTabViewState extends State<ChartsTabView>
                 indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
                 dividerColor: Colors.transparent,
                 labelColor: Theme.of(context).colorScheme.primary,
-                labelStyle: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold
-                ),
+                labelStyle:
+                    TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                 unselectedLabelColor: Colors.grey,
-                tabs: viewModel.labels.map<Tab>((labels) => Tab(text: labels,)).toList(),
+                tabs: viewModel.labels
+                    .map<Tab>((labels) => Tab(
+                          text: labels,
+                        ))
+                    .toList(),
                 tabAlignment: TabAlignment.fill,
               ),
             ),

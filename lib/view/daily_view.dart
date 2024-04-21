@@ -1,8 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:food_tracker_app/service/navigator_service.dart';
-import 'package:food_tracker_app/model/home_page.dart';
 import 'package:food_tracker_app/view/meal_view.dart';
 import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:food_tracker_app/viewmodel/homepage_viewmodel.dart';
@@ -109,12 +105,6 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
   }
 
   void init({bool forceUpdate = false}) async {
-    
-    
-    
-    
-    
-
     needsRebuildChart = true;
   }
 
@@ -144,78 +134,6 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
               margin: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
               ),
               child: IconButton(
                 icon: const Icon(Icons.person, color: Colors.white),
@@ -271,8 +189,11 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
                   ),
                 ),
                 pieChart,
-                ...List.generate((mealListViewModel.mealsByDay[timestamp]??[]).length, (index) {
-                  final meal = (mealListViewModel.mealsByDay[timestamp]??[])[index];
+                ...List.generate(
+                    (mealListViewModel.mealsByDay[timestamp] ?? []).length,
+                    (index) {
+                  final meal =
+                      (mealListViewModel.mealsByDay[timestamp] ?? [])[index];
                   return ListTile(
                     title: Padding(
                       padding: const EdgeInsets.all(8.0),

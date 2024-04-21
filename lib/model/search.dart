@@ -22,7 +22,7 @@ class Search {
 
   Future<void> initialize() async {
     await fetchCustomData();
-      }
+  }
 
   Future<void> fetchCustomData() async {
     customData = Meal.fromFoodList(await firestore.getCustomFoodsFromUser());
@@ -32,8 +32,3 @@ class Search {
     return data.titles;
   }
 }
-
-
-
-
-

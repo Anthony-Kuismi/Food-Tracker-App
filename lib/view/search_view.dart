@@ -16,16 +16,18 @@ class SearchView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final searchViewModel = Provider.of<SearchViewModel>(context, listen: true);
-    final mealListViewModel = Provider.of<MealListViewModel>(context, listen: true);
-    final foodSelectionService = Provider.of<FoodSelectionService>(context, listen: true);
-    final navigatorService = Provider.of<NavigatorService>(context, listen: false);
+    final mealListViewModel =
+        Provider.of<MealListViewModel>(context, listen: true);
+    final foodSelectionService =
+        Provider.of<FoodSelectionService>(context, listen: true);
+    final navigatorService =
+        Provider.of<NavigatorService>(context, listen: false);
 
     return PopScope(
       onPopInvoked: (bool didPop) {
-        if(didPop) searchViewModel.reset();
+        if (didPop) searchViewModel.reset();
         foodSelectionService.update(foodSelectionService.editingMeal!);
       },
-
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -47,16 +49,17 @@ class SearchView extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 child: Padding(
-                  padding: EdgeInsets.only(right: 10.0), 
+                  padding: EdgeInsets.only(right: 10.0),
                   child: IconButton(
-                    icon: const Icon(Icons.person, color: Colors.white, size: 25),
+                    icon:
+                        const Icon(Icons.person, color: Colors.white, size: 25),
                     onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => SettingsView(
-                                username: '',
-                              )));
+                                    username: '',
+                                  )));
                     },
                     iconSize: 30,
                   ),
@@ -64,7 +67,6 @@ class SearchView extends StatelessWidget {
               ),
             ),
           ],
-
         ),
         body: Column(
           children: [
@@ -85,6 +87,7 @@ class SearchView extends StatelessWidget {
     );
   }
 }
+
 class SearchBar extends StatelessWidget {
   final SearchViewModel viewmodel;
 
@@ -204,38 +207,41 @@ class AddMealButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ElevatedButton.icon(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => MealView(currentMeal: foodSelectionService.editingMeal!,),
-              ));
-              if (foodSelectionService.mode == FoodSelectionMode.edit) {
-                Meal oldMeal = foodSelectionService.editingMeal as Meal;
-                mealListViewModel.updateMeal(oldMeal, foodSelectionService.data);
-              } else {
-                mealListViewModel.addMeal(
-                    searchViewModel.query, searchViewModel.timestamp);
-              }
-            },
-            icon: const Icon(Icons.add, size: 18),
-            label: const Text('Update Meal'),
-          ),
-          ElevatedButton.icon(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => CustomFoodView(foodSelectionService: foodSelectionService,), 
-              ));
-            },
-            icon: const Icon(Icons.dashboard_customize, size: 18),
-            label: const Text('Add Custom Food'),
-          ),
-        ],
-      )
-    );
-
+        margin: const EdgeInsets.all(16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => MealView(
+                    currentMeal: foodSelectionService.editingMeal!,
+                  ),
+                ));
+                if (foodSelectionService.mode == FoodSelectionMode.edit) {
+                  Meal oldMeal = foodSelectionService.editingMeal as Meal;
+                  mealListViewModel.updateMeal(
+                      oldMeal, foodSelectionService.data);
+                } else {
+                  mealListViewModel.addMeal(
+                      searchViewModel.query, searchViewModel.timestamp);
+                }
+              },
+              icon: const Icon(Icons.add, size: 18),
+              label: const Text('Update Meal'),
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => CustomFoodView(
+                    foodSelectionService: foodSelectionService,
+                  ),
+                ));
+              },
+              icon: const Icon(Icons.dashboard_customize, size: 18),
+              label: const Text('Add Custom Food'),
+            ),
+          ],
+        ));
   }
 }

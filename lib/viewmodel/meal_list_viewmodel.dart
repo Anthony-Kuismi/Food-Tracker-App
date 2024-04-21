@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import '../model/meal.dart';
@@ -17,10 +15,13 @@ class MealListViewModel extends ChangeNotifier {
   final MealList _model = MealList();
 
   List<Meal> get meals => _model.meals;
-  Map<String,int> get id2Idx => _model.id2idx;
-  Map<DateTime,List<Meal>> get mealsByDay {
+
+  Map<String, int> get id2Idx => _model.id2idx;
+
+  Map<DateTime, List<Meal>> get mealsByDay {
     return _model.mealsByDay;
   }
+
   var firestore = FirestoreService();
 
   Future<void> load() async {
@@ -43,7 +44,7 @@ class MealListViewModel extends ChangeNotifier {
   }
 
   void addMealFromMeal(Meal newMeal) async {
-    meals.insert(0,newMeal);
+    meals.insert(0, newMeal);
     await firestore.addMealToUser(newMeal.toJson());
     _model.updateId2Idx();
     notifyListeners();
@@ -57,12 +58,10 @@ class MealListViewModel extends ChangeNotifier {
   }
 
   void updateMeal(Meal oldMeal, Meal newMeal) {
-    
-    
-    final index = id2Idx[oldMeal.id]??-1;
+    final index = id2Idx[oldMeal.id] ?? -1;
     meals[index] = newMeal;
     firestore.updateMealForUser(oldMeal.id, newMeal);
-        notifyListeners();
+    notifyListeners();
   }
 
   void editMeal(Meal meal) {

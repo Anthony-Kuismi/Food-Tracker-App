@@ -33,7 +33,7 @@ class MealListView extends StatelessWidget {
             child: CircleAvatar(
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               child: Padding(
-                padding: EdgeInsets.only(right: 10.0), 
+                padding: EdgeInsets.only(right: 10.0),
                 child: IconButton(
                   icon: const Icon(Icons.person, color: Colors.white, size: 25),
                   onPressed: () {
@@ -41,8 +41,8 @@ class MealListView extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => SettingsView(
-                              username: '',
-                            )));
+                                  username: '',
+                                )));
                   },
                   iconSize: 30,
                 ),
@@ -50,7 +50,6 @@ class MealListView extends StatelessWidget {
             ),
           ),
         ],
-
       ),
       body: FutureBuilder(
         future: viewModel.load(),
@@ -67,7 +66,7 @@ class MealListView extends StatelessWidget {
                   double proteinG = 0;
                   double carbohydratesTotalG = 0;
                   double fatTotalG = 0;
-                  dayMeals.forEach((meal){
+                  dayMeals.forEach((meal) {
                     calories += meal.calories;
                     proteinG += meal.proteinG;
                     carbohydratesTotalG += meal.carbohydratesTotalG;
@@ -87,7 +86,7 @@ class MealListView extends StatelessWidget {
                         fatTotalG,
                         chartRadius: 50,
                         chartValuesOptions:
-                        const ChartValuesOptions(showChartValues: false),
+                            const ChartValuesOptions(showChartValues: false),
                         legendOptions: const LegendOptions(showLegends: false),
                         centerText: '',
                         ringStrokeWidth: 8,
@@ -96,57 +95,59 @@ class MealListView extends StatelessWidget {
                     title: Text(DateFormat('yyyy-MM-dd').format(date)),
                     children: dayMeals
                         .map((meal) => ListTile(
-                      title: Row(
-                        children: [
-                          SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: MacroPieChart(
-                              Theme.of(context).colorScheme.primaryContainer,
-                              Theme.of(context).colorScheme.primary,
-                              Theme.of(context).colorScheme.tertiary,
-                              meal.calories,
-                              meal.proteinG,
-                              meal.carbohydratesTotalG,
-                              meal.fatTotalG,
-                              chartRadius: 50,
-                              chartValuesOptions:
-                              const ChartValuesOptions(
-                                  showChartValues: false),
-                              legendOptions: const LegendOptions(
-                                  showLegends: false),
-                              centerText: '',
-                              ringStrokeWidth: 8,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.center,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                Text(meal.title),
-                                Text(meal.timestampString),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () => viewModel.removeMeal(meal),
-                        padding: const EdgeInsets.only(left:0),
-                      ),
-                      onTap: () {
-                        viewModel.editMeal(meal);
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              MealView(currentMeal: meal),
-                        ));
-                      },
-                    ))
+                              title: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: MacroPieChart(
+                                      Theme.of(context)
+                                          .colorScheme
+                                          .primaryContainer,
+                                      Theme.of(context).colorScheme.primary,
+                                      Theme.of(context).colorScheme.tertiary,
+                                      meal.calories,
+                                      meal.proteinG,
+                                      meal.carbohydratesTotalG,
+                                      meal.fatTotalG,
+                                      chartRadius: 50,
+                                      chartValuesOptions:
+                                          const ChartValuesOptions(
+                                              showChartValues: false),
+                                      legendOptions: const LegendOptions(
+                                          showLegends: false),
+                                      centerText: '',
+                                      ringStrokeWidth: 8,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(meal.title),
+                                        Text(meal.timestampString),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () => viewModel.removeMeal(meal),
+                                padding: const EdgeInsets.only(left: 0),
+                              ),
+                              onTap: () {
+                                viewModel.editMeal(meal);
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      MealView(currentMeal: meal),
+                                ));
+                              },
+                            ))
                         .toList(),
                   );
                 },
@@ -160,7 +161,8 @@ class MealListView extends StatelessWidget {
         onPressed: () => _showAddMealDialog(context, viewModel),
         child: const Icon(Icons.add),
       ),
-      bottomNavigationBar: const NavBar(key: Key('customNavBar'), currentPage: 'MealListView'),
+      bottomNavigationBar:
+          const NavBar(key: Key('customNavBar'), currentPage: 'MealListView'),
     );
   }
 

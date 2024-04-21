@@ -11,8 +11,9 @@ class FoodView extends StatefulWidget {
   final Food currentFood;
   final Meal currentMeal;
   FirestoreService firestoreService = FirestoreService();
-  FoodView(
-      {super.key, required this.currentFood, required this.currentMeal});
+
+  FoodView({super.key, required this.currentFood, required this.currentMeal});
+
   @override
   FoodViewState createState() => FoodViewState();
 }
@@ -27,8 +28,7 @@ class FoodViewState extends State<FoodView> {
           widget.currentFood.calories,
           widget.currentFood.proteinG,
           widget.currentFood.carbohydratesTotalG,
-          widget.currentFood.fatTotalG
-      );
+          widget.currentFood.fatTotalG);
     });
   }
 
@@ -64,7 +64,7 @@ class FoodViewState extends State<FoodView> {
             child: CircleAvatar(
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               child: Padding(
-                padding: EdgeInsets.only(right: 10.0), 
+                padding: EdgeInsets.only(right: 10.0),
                 child: IconButton(
                   icon: const Icon(Icons.person, color: Colors.white, size: 25),
                   onPressed: () {
@@ -72,8 +72,8 @@ class FoodViewState extends State<FoodView> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => SettingsView(
-                              username: '',
-                            )));
+                                  username: '',
+                                )));
                   },
                   iconSize: 30,
                 ),
@@ -81,7 +81,6 @@ class FoodViewState extends State<FoodView> {
             ),
           ),
         ],
-
       ),
       body: SingleChildScrollView(
           child: Padding(
@@ -94,9 +93,9 @@ class FoodViewState extends State<FoodView> {
             Text(
               '${widget.currentFood.calories.toInt()} Calories',
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                fontWeight: FontWeight.w900,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+                    fontWeight: FontWeight.w900,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -106,11 +105,11 @@ class FoodViewState extends State<FoodView> {
                     margin: const EdgeInsets.all(12.0),
                     child: NutritionOval('Protein', currentFood.proteinG, 'g',
                         setter: (newValue) async {
-                          currentFood.setProteinG = newValue;
-                          updateMacroPieChart(macroPieChart);
-                          await widget.firestoreService.addCustomFoodForUser(currentFood);
-                        },
-                        currentMeal: widget.currentMeal),
+                      currentFood.setProteinG = newValue;
+                      updateMacroPieChart(macroPieChart);
+                      await widget.firestoreService
+                          .addCustomFoodForUser(currentFood);
+                    }, currentMeal: widget.currentMeal),
                   ),
                 ),
                 Expanded(
@@ -123,7 +122,8 @@ class FoodViewState extends State<FoodView> {
                       setter: (newValue) async {
                         currentFood.setCarbohydratesTotalG = newValue;
                         updateMacroPieChart(macroPieChart);
-                        await widget.firestoreService.addCustomFoodForUser(currentFood);
+                        await widget.firestoreService
+                            .addCustomFoodForUser(currentFood);
                       },
                       currentMeal: widget.currentMeal,
                     ),
@@ -139,7 +139,8 @@ class FoodViewState extends State<FoodView> {
                       setter: (newValue) async {
                         currentFood.setFatTotalG = newValue;
                         updateMacroPieChart(macroPieChart);
-                        await widget.firestoreService.addCustomFoodForUser(currentFood);
+                        await widget.firestoreService
+                            .addCustomFoodForUser(currentFood);
                       },
                       currentMeal: widget.currentMeal,
                     ),
@@ -211,9 +212,9 @@ class FoodViewState extends State<FoodView> {
               currentFood.sugarG,
               'g',
               setter: (newValue) async {
-                  currentFood.setSugarG = newValue;
-                  updateMacroPieChart(macroPieChart);
-                  await widget.firestoreService.addCustomFoodForUser(currentFood);
+                currentFood.setSugarG = newValue;
+                updateMacroPieChart(macroPieChart);
+                await widget.firestoreService.addCustomFoodForUser(currentFood);
               },
               currentMeal: widget.currentMeal,
             ),

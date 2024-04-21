@@ -38,7 +38,6 @@ class SearchViewModel extends ChangeNotifier {
 
   List<String> get searchResultTitles {
     return searchResults.titles;
-    
   }
 
   get data => _searchModel.data;
@@ -136,10 +135,10 @@ class SearchViewModel extends ChangeNotifier {
         identifyData(json);
         json.addAll(foodSelectionService.data.foods);
         _searchModel.data.update(json);
-        _searchModel.customData.foods.values.forEach((food){
-            if(_searchModel.query.toLowerCase().contains(food.title)){
-              _searchModel.data.add(food.clone());
-            }
+        _searchModel.customData.foods.values.forEach((food) {
+          if (_searchModel.query.toLowerCase().contains(food.title)) {
+            _searchModel.data.add(food.clone());
+          }
         });
         if (!_disposed) {
           notifyListeners();

@@ -17,10 +17,12 @@ class Meal {
   Meal({required dynamic json})
       : title = json?['title'] ?? 'TITLE',
         id = json?['id'] ?? Uuid().v4(),
-        timestamp = json?['timestamp'] != null? DateTime.fromMillisecondsSinceEpoch(json['timestamp']) : DateTime.now(),
-        foods = json?['items'] != null ?{
-          for (var item in json?['items']) item['id']: Food.fromJson(item)
-        }:{};
+        timestamp = json?['timestamp'] != null
+            ? DateTime.fromMillisecondsSinceEpoch(json['timestamp'])
+            : DateTime.now(),
+        foods = json?['items'] != null
+            ? {for (var item in json?['items']) item['id']: Food.fromJson(item)}
+            : {};
 
   Meal.fromFoodList(List<Food> foodList)
       : title = 'New Meal',
@@ -28,7 +30,7 @@ class Meal {
         timestamp = DateTime.now(),
         foods = {for (var item in foodList) item.id: item};
 
-  get day => DateTime(timestamp.year,timestamp.month,timestamp.day);
+  get day => DateTime(timestamp.year, timestamp.month, timestamp.day);
 
   void add(Food food) {
     foods[food.id] = food;
@@ -77,7 +79,7 @@ class Meal {
 
   Meal operator +(Meal other) {
     var newMeal = Meal.clone(this);
-    
+
     newMeal.foods.addAll(foods);
 
     for (var food in other.foods.values) {
@@ -130,79 +132,89 @@ class Meal {
     return out;
   }
 
-  double get calories{
+  double get calories {
     double out = 0;
-    for(Food food in foods.values){
+    for (Food food in foods.values) {
       out += food.calories;
     }
     return out;
   }
-  double get servingSizeG{
+
+  double get servingSizeG {
     double out = 0;
-    for(Food food in foods.values){
+    for (Food food in foods.values) {
       out += food.servingSizeG;
     }
     return out;
   }
-  double get fatTotalG{
+
+  double get fatTotalG {
     double out = 0;
-    for(Food food in foods.values){
+    for (Food food in foods.values) {
       out += food.fatTotalG;
     }
     return out;
   }
-  double get fatSaturatedG{
+
+  double get fatSaturatedG {
     double out = 0;
-    for(Food food in foods.values){
+    for (Food food in foods.values) {
       out += food.fatSaturatedG;
     }
     return out;
   }
-  double get proteinG{
+
+  double get proteinG {
     double out = 0;
-    for(Food food in foods.values){
+    for (Food food in foods.values) {
       out += food.proteinG;
     }
     return out;
   }
-  int get sodiumMG{
+
+  int get sodiumMG {
     int out = 0;
-    for(Food food in foods.values){
+    for (Food food in foods.values) {
       out += food.sodiumMG;
     }
     return out;
   }
-  int get potassiumMG{
+
+  int get potassiumMG {
     int out = 0;
-    for(Food food in foods.values){
+    for (Food food in foods.values) {
       out += food.potassiumMG;
     }
     return out;
   }
-  int get cholesterolMG{
+
+  int get cholesterolMG {
     int out = 0;
-    for(Food food in foods.values){
+    for (Food food in foods.values) {
       out += food.cholesterolMG;
     }
     return out;
   }
-  double get carbohydratesTotalG{
+
+  double get carbohydratesTotalG {
     double out = 0;
-    for(Food food in foods.values){
+    for (Food food in foods.values) {
       out += food.carbohydratesTotalG;
     }
     return out;
   }
-  double get fiberG{
+
+  double get fiberG {
     double out = 0;
-    for(Food food in foods.values){
+    for (Food food in foods.values) {
       out += food.fiberG;
     }
     return out;
   }
-  double get sugarG{
+
+  double get sugarG {
     double out = 0;
-    for(Food food in foods.values){
+    for (Food food in foods.values) {
       out += food.sugarG;
     }
     return out;

@@ -1,5 +1,3 @@
-import 'dart:developer';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/model/meal.dart';
 import 'package:food_tracker_app/service/food_selection_service.dart';
@@ -9,32 +7,35 @@ import 'package:food_tracker_app/viewmodel/meal_list_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../model/food.dart';
 import '../service/firestore_service.dart';
-import '../service/navigator_service.dart';
 
 class CustomFoodView extends StatelessWidget {
   final Food? editingFood;
-  
+
   late FoodSelectionService? foodSelectionService;
 
-  CustomFoodView({Key? key, this.editingFood, this.foodSelectionService}) : super(key: key);
-
-
+  CustomFoodView({Key? key, this.editingFood, this.foodSelectionService})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final Food editingFood = this.editingFood ?? Food.fromJson({});
     foodSelectionService ??= Provider.of<FoodSelectionService>(context);
-    return FoodForm(editingFood: editingFood, foodSelectionService: this.foodSelectionService!);
+    return FoodForm(
+        editingFood: editingFood,
+        foodSelectionService: this.foodSelectionService!);
   }
 }
 
 class FoodForm extends StatefulWidget {
   final Food editingFood;
-  
+
   final FirestoreService firestore = FirestoreService();
   final FoodSelectionService foodSelectionService;
 
-  FoodForm({super.key, required this.editingFood, required this.foodSelectionService});
+  FoodForm(
+      {super.key,
+      required this.editingFood,
+      required this.foodSelectionService});
 
   @override
   FoodFormState createState() => FoodFormState();
@@ -82,14 +83,12 @@ class FoodFormState extends State<FoodForm> {
         TextEditingController(text: widget.editingFood.fiberG.toString());
     _sugarController =
         TextEditingController(text: widget.editingFood.sugarG.toString());
-    FoodSelectionService foodSelectionService = widget.foodSelectionService;
   }
 
   @override
   Widget build(BuildContext context) {
-    final navigatorService =
-        Provider.of<NavigatorService>(context, listen: false);
-    final mealListViewModel = Provider.of<MealListViewModel>(context,listen:false);
+    final mealListViewModel =
+        Provider.of<MealListViewModel>(context, listen: false);
     editingFood = editingFood ?? Food.fromJson({});
 
     var calories = Text('Calories: ${editingFood!.calories}');
@@ -106,13 +105,17 @@ class FoodFormState extends State<FoodForm> {
               child: IconButton(
                 icon: const Icon(Icons.person, color: Colors.white),
                 onPressed: () {
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=> SettingsView(username: '',)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SettingsView(
+                                username: '',
+                              )));
                 },
                 iconSize: 30,
               ),
             ),
           ],
-
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -123,7 +126,7 @@ class FoodFormState extends State<FoodForm> {
                 TextField(
                   controller: _nameController,
                   decoration: const InputDecoration(labelText: 'Name of Food'),
-                  onChanged: (newValue){
+                  onChanged: (newValue) {
                     editingFood!.setTitle = newValue;
                   },
                 ),
@@ -135,7 +138,7 @@ class FoodFormState extends State<FoodForm> {
                   decoration:
                       const InputDecoration(labelText: 'Protein (Grams)'),
                   keyboardType: TextInputType.number,
-                  onChanged: (newValue){
+                  onChanged: (newValue) {
                     setState(() {
                       editingFood!.setProteinG = double.parse(newValue);
                       calories = Text('Calories: ${editingFood!.calories}');
@@ -147,9 +150,10 @@ class FoodFormState extends State<FoodForm> {
                   controller: _carbsController,
                   decoration: const InputDecoration(labelText: 'Carbs (Grams)'),
                   keyboardType: TextInputType.number,
-                  onChanged: (newValue){
+                  onChanged: (newValue) {
                     setState(() {
-                      editingFood!.setCarbohydratesTotalG = double.parse(newValue);
+                      editingFood!.setCarbohydratesTotalG =
+                          double.parse(newValue);
                       calories = Text('Calories: ${editingFood!.calories}');
                     });
                   },
@@ -164,7 +168,7 @@ class FoodFormState extends State<FoodForm> {
                   decoration:
                       const InputDecoration(labelText: 'Total Fat (Grams)'),
                   keyboardType: TextInputType.number,
-                  onChanged: (newValue){
+                  onChanged: (newValue) {
                     setState(() {
                       editingFood!.setFatTotalG = double.parse(newValue);
                       calories = Text('Calories: ${editingFood!.calories}');
@@ -176,7 +180,7 @@ class FoodFormState extends State<FoodForm> {
                   decoration:
                       const InputDecoration(labelText: 'Saturated Fat (Grams)'),
                   keyboardType: TextInputType.number,
-                  onChanged: (newValue){
+                  onChanged: (newValue) {
                     setState(() {
                       editingFood!.setFatSaturatedG = double.parse(newValue);
                     });
@@ -187,7 +191,7 @@ class FoodFormState extends State<FoodForm> {
                   decoration:
                       const InputDecoration(labelText: 'Sodium (Grams)'),
                   keyboardType: TextInputType.number,
-                  onChanged: (newValue){
+                  onChanged: (newValue) {
                     setState(() {
                       editingFood!.setSodiumMg = double.parse(newValue);
                     });
@@ -198,7 +202,7 @@ class FoodFormState extends State<FoodForm> {
                   decoration:
                       const InputDecoration(labelText: 'Cholesterol (Grams)'),
                   keyboardType: TextInputType.number,
-                  onChanged: (newValue){
+                  onChanged: (newValue) {
                     setState(() {
                       editingFood!.setCholesterolMg = double.parse(newValue);
                     });
@@ -209,7 +213,7 @@ class FoodFormState extends State<FoodForm> {
                   decoration:
                       const InputDecoration(labelText: 'Potassium (Grams)'),
                   keyboardType: TextInputType.number,
-                  onChanged: (newValue){
+                  onChanged: (newValue) {
                     setState(() {
                       editingFood!.setCholesterolMg = double.parse(newValue);
                     });
@@ -219,7 +223,7 @@ class FoodFormState extends State<FoodForm> {
                   controller: _fiberController,
                   decoration: const InputDecoration(labelText: 'Fiber (Grams)'),
                   keyboardType: TextInputType.number,
-                  onChanged: (newValue){
+                  onChanged: (newValue) {
                     setState(() {
                       editingFood!.setFiberG = double.parse(newValue);
                     });
@@ -229,7 +233,7 @@ class FoodFormState extends State<FoodForm> {
                   controller: _sugarController,
                   decoration: const InputDecoration(labelText: 'Sugar (Grams)'),
                   keyboardType: TextInputType.number,
-                  onChanged: (newValue){
+                  onChanged: (newValue) {
                     setState(() {
                       editingFood!.setSugarG = double.parse(newValue);
                     });
@@ -239,11 +243,13 @@ class FoodFormState extends State<FoodForm> {
                 ElevatedButton(
                   onPressed: () async {
                     await widget.firestore.addCustomFoodForUser(editingFood!);
-                    Meal oldMeal = widget.foodSelectionService.editingMeal as Meal;
+                    Meal oldMeal =
+                        widget.foodSelectionService.editingMeal as Meal;
                     widget.foodSelectionService.data.add(editingFood!);
-                    mealListViewModel.updateMeal(oldMeal, widget.foodSelectionService.data);
+                    mealListViewModel.updateMeal(
+                        oldMeal, widget.foodSelectionService.data);
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => SearchView(), 
+                      builder: (context) => SearchView(),
                     ));
                   },
                   child: const Text('Save'),

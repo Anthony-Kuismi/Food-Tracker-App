@@ -32,38 +32,38 @@ class NutritionOvalState extends State<NutritionOval> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              TextEditingController controller = TextEditingController();
-              return AlertDialog(
-                title: Text('Editing ${widget.label}'),
-                content: TextField(
-                  controller: controller,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter New Value',
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                TextEditingController controller = TextEditingController();
+                return AlertDialog(
+                  title: Text('Editing ${widget.label}'),
+                  content: TextField(
+                    controller: controller,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      hintText: 'Enter New Value',
+                    ),
                   ),
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      dynamic newValue = double.tryParse(controller.text);
-                      if (newValue != null) {
-                        if (widget.measurement == 'mg') {
-                          newValue = newValue.round();
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        dynamic newValue = double.tryParse(controller.text);
+                        if (newValue != null) {
+                          if (widget.measurement == 'mg') {
+                            newValue = newValue.round();
+                          }
+                          updateValue(newValue);
                         }
-                        updateValue(newValue);
-                      }
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            });
-      },
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+              });
+        },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5.0),
           child: Container(
@@ -71,7 +71,9 @@ class NutritionOvalState extends State<NutritionOval> {
             width: 30,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: Theme.of(context).colorScheme.primaryContainer, width: 8),
+              border: Border.all(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  width: 8),
             ),
             child: Stack(
               alignment: Alignment.topCenter,
@@ -81,7 +83,10 @@ class NutritionOvalState extends State<NutritionOval> {
                   children: [
                     Text(
                       '${widget.value.toInt()}${widget.measurement}',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(fontWeight: FontWeight.w700),
                     ),
                     Text(
                       '${widget.label}',
@@ -96,7 +101,6 @@ class NutritionOvalState extends State<NutritionOval> {
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 }
