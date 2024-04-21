@@ -101,7 +101,7 @@ class SearchBar extends StatelessWidget {
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
           prefixIcon: Icon(Icons.search),
-          hintText: 'Add Foods',
+          hintText: 'one apple, 1/4 cup almonds, a pb',
         ),
       ),
     );
@@ -113,11 +113,12 @@ class SearchResults extends StatelessWidget {
   final FoodSelectionService foodSelectionService;
   final NavigatorService navigatorService;
 
-  const SearchResults(
-      {super.key,
-      required this.searchViewModel,
-      required this.foodSelectionService,
-      required this.navigatorService});
+  const SearchResults({
+    super.key,
+    required this.searchViewModel,
+    required this.foodSelectionService,
+    required this.navigatorService
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -131,6 +132,8 @@ class SearchResults extends StatelessWidget {
             itemBuilder: (context, index) {
               final food = foods[index];
               final isSelected = foodSelectionService.isSelected(food);
+              bool plural = food.title[food.title.length-1]=='s';
+              var quantity = plural ? 'two' : 'one';
               return Container(
                 margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -140,16 +143,13 @@ class SearchResults extends StatelessWidget {
                 child: ListTile(
                   title: Text(
                     food.title,
-                    style: const TextStyle(
-                      color: Colors.black,
-                    ),
+                    style: const TextStyle(color: Colors.black),
                   ),
-                  subtitle: food.custom == true
-                      ? const Text(
-                          '[Custom]',
-                          style: TextStyle(color: Colors.grey),
-                        )
-                      : null,
+                  subtitle: (food.custom == true
+                      ? Text('[Custom]', style: TextStyle(color: Theme.of(context).dialogBackgroundColor))
+                      : food.servingSizeG == 100
+                      ? Text('Did you mean:\n"$quantity ${food.title}"? "12oz of ${food.title}${plural?'':'s'}?"', style: TextStyle(color: Theme.of(context).dialogBackgroundColor,fontStyle: FontStyle.italic))
+                      : null),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

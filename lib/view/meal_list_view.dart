@@ -20,7 +20,7 @@ class MealListView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Diet Log', style: TextStyle(color: Colors.black)),
+        title: const Text('Nutrition Log', style: TextStyle(color: Colors.black)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [
@@ -93,7 +93,7 @@ class MealListView extends StatelessWidget {
                         ringStrokeWidth: 8,
                       ),
                     ),
-                    title: Text(DateFormat('yyyy-MM-dd').format(date)),
+                    title: Text(DateFormat('EEEE MM-dd-yy').format(date)),
                     children: dayMeals
                         .map((meal) => ListTile(
                       title: Row(

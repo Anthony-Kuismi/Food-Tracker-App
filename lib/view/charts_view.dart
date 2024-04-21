@@ -25,7 +25,7 @@ class ChartsView extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.primary,
           automaticallyImplyLeading: false,
           title: const Text(
-            'Nutrition Data Over Time',
+            'Nutrition Over Time',
             style: TextStyle(
               color: Colors.black,
             ),
@@ -81,7 +81,7 @@ class ChartsTabView extends StatefulWidget {
     return SfSparkLineChart.custom(
       dataCount: data.length,
       xValueMapper: (int index) =>
-          DateFormat('MM dd yy').format(data[index].timestamp),
+          DateFormat('MM-dd-yy').format(data[index].timestamp),
       yValueMapper: (int index) => data[index].value,
       plotBand: SparkChartPlotBand(
         start: 14,
@@ -317,7 +317,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
         await viewModel.updateStart(DateTime.now().subtract(Duration(days: (365 * (viewModel.dateModifier + 1))as int)));
         break;
     }
-    print('Start Date: ${viewModel.start}');
+    print('Start Date: ${DateFormat('MM-dd-yy').format(viewModel.start)}');
     setState(() {});
 
   }
@@ -403,7 +403,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
                 ),
               ),
               Text(
-                '${viewModel.start.month}/${viewModel.start.day}/${viewModel.start.year} - ${viewModel.end.month}/${viewModel.end.day}/${viewModel.end.year}',
+                '${DateFormat('MM-yy-dd').format(viewModel.start)}    —    ${DateFormat('MM-yy-dd').format(viewModel.end)}',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               CircleAvatar(
