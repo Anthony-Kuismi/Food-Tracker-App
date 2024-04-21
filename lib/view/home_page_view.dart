@@ -5,6 +5,7 @@ import 'package:food_tracker_app/view/daily_view.dart';
 import 'package:food_tracker_app/viewmodel/daily_viewmodel.dart';
 import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:provider/provider.dart';
+import 'component/daily_notes.dart';
 import 'component/date_picker_button.dart';
 import 'component/navbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -110,17 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 4.5,
-                  child: GridView.count(
-                    crossAxisCount: 1,
-                    childAspectRatio: MediaQuery.of(context).size.width /
-                        (MediaQuery.of(context).size.height / 4.5),
-                    children: <Widget>[
-                      DailyNotes(),
-                    ],
-                  ),
-                ),
+                DailyNotes(),
               ],
             ),
 
@@ -635,116 +626,4 @@ InkWell dailySummaryContainer(BuildContext context, HomePageViewModel viewModel)
     ),
   );
 }
-class DailyNotes extends StatelessWidget{
-  DailyNotes();
-  @override
-  Widget build(BuildContext context) {
-    final dailyViewModel = Provider.of<DailyViewModel>(context);
-    final viewModel = Provider.of<HomePageViewModel>(context);
-    String displayedNotes = viewModel.dailyNote ?? 'No notes added';
-    final controller = TextEditingController(text: viewModel.dailyNote);
 
-    return Consumer<HomePageViewModel>(
-      builder: (context, viewModel, child) => GestureDetector(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Edit Notes'),
-                content: TextField(
-                  controller: controller,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter Notes',
-                  ),
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      String notes = controller.text;
-                      viewModel.addNotes(notes);
-                      dailyViewModel.dailyNote = notes;
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Save'),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.black45,
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.topCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 9, bottom: 9, right: 19, left: 19),
-                      child: Text(
-                        'Daily Notes',
-                        style: Theme.of(context).textTheme.titleMedium,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 9, bottom: 9, right: 19, left: 19),
-                      child: const Icon(Icons.note_add),
-                    ),
-                  ],
-                ),
-              ),
-
-              Positioned(
-                top: 40,
-                left: 10,
-                right: 10,
-                child: GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Notes'),
-                          content: SingleChildScrollView(
-                            child: Text(
-                              displayedNotes,
-                              style: TextStyle(fontSize: 16),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Close'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: Text(
-                    displayedNotes.length > 20
-                        ? displayedNotes.substring(0, 20) + "..."
-                        : displayedNotes,
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}

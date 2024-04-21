@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/service/navigator_service.dart';
 import 'package:food_tracker_app/model/home_page.dart';
+import 'package:food_tracker_app/view/component/daily_notes.dart';
 import 'package:food_tracker_app/view/meal_view.dart';
 import 'package:food_tracker_app/view/settings_view.dart';
 import 'package:food_tracker_app/viewmodel/homepage_viewmodel.dart';
@@ -109,12 +110,6 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
   }
 
   void init({bool forceUpdate = false}) async {
-    
-    
-    
-    
-    
-
     needsRebuildChart = true;
   }
 
@@ -144,78 +139,6 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
               margin: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
               ),
               child: IconButton(
                 icon: const Icon(Icons.person, color: Colors.white),
@@ -252,7 +175,8 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
                       IconButton(
                         icon: Icon(Icons.arrow_left),
                         onPressed: () {
-                          timestamp = timestamp.subtract(Duration(days: 1));
+                          timestamp = DateTime(timestamp.year, timestamp.month,
+                              timestamp.day -1);
                           viewModel.previousDay();
                         },
                       ),
@@ -263,7 +187,8 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
                       IconButton(
                         icon: Icon(Icons.arrow_right),
                         onPressed: () {
-                          timestamp = timestamp.add(Duration(days: 1));
+                          timestamp = DateTime(timestamp.year, timestamp.month,
+                              timestamp.day + 1);
                           viewModel.nextDay();
                         },
                       ),
@@ -271,55 +196,61 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
                   ),
                 ),
                 pieChart,
-                Text(viewModel.dailyNote),
-                ...List.generate((mealListViewModel.mealsByDay[timestamp]??[]).length, (index) {
-                  final meal = (mealListViewModel.mealsByDay[timestamp]??[])[index];
-                  return ListTile(
-                    title: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: MacroPieChart(
-                              Theme.of(context).colorScheme.primaryContainer,
-                              Theme.of(context).colorScheme.primary,
-                              Theme.of(context).colorScheme.tertiary,
-                              meal.calories,
-                              meal.proteinG,
-                              meal.carbohydratesTotalG,
-                              meal.fatTotalG,
-                              chartRadius: 50,
-                              chartValuesOptions: const ChartValuesOptions(
-                                  showChartValues: false),
-                              legendOptions:
-                                  const LegendOptions(showLegends: false),
-                              centerText: '',
-                              ringStrokeWidth: 8,
+                Padding(padding: EdgeInsets.symmetric(vertical: 12)),
+                ExpansionTile(title: Text('Meals'), children: [
+                  ...List.generate(
+                      (mealListViewModel.mealsByDay[timestamp] ?? []).length,
+                      (index) {
+                    final meal =
+                        (mealListViewModel.mealsByDay[timestamp] ?? [])[index];
+                    return ListTile(
+                      title: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: MacroPieChart(
+                                Theme.of(context).colorScheme.primaryContainer,
+                                Theme.of(context).colorScheme.primary,
+                                Theme.of(context).colorScheme.tertiary,
+                                meal.calories,
+                                meal.proteinG,
+                                meal.carbohydratesTotalG,
+                                meal.fatTotalG,
+                                chartRadius: 50,
+                                chartValuesOptions: const ChartValuesOptions(
+                                    showChartValues: false),
+                                legendOptions:
+                                    const LegendOptions(showLegends: false),
+                                centerText: '',
+                                ringStrokeWidth: 8,
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(meal.title),
-                                Text(meal.timestampString),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(meal.title),
+                                  Text(meal.timestampString),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    onTap: () {
-                      mealListViewModel.editMeal(meal);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MealView(currentMeal: meal)));
-                    },
-                  );
-                }),
+                      onTap: () {
+                        mealListViewModel.editMeal(meal);
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => MealView(currentMeal: meal)));
+                      },
+                    );
+                  })
+                ]),
+                DailyNotes(color: Colors.transparent),
               ],
             );
           },
