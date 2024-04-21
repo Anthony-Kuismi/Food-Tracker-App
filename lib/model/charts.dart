@@ -32,14 +32,6 @@ class Charts {
   List<DataPoint> carbohydratesTotalG = [];
   List<DataPoint> fatTotalG = [];
   List<DataPoint> weight = [];
-  final data = <double>[18, 24, 30, 14, 28];
-  List<List<double>> datasets = [
-    <double>[18, 24, 30, 14, 28],
-    <double>[18, 24, 30, 14, 28],
-    <double>[18, 24, 30, 14, 28],
-    <double>[18, 24, 30, 14, 28],
-    <double>[18, 24, 30, 14, 28],
-  ];
 
   Future<void> init() async {
     await fetchData();
@@ -60,7 +52,8 @@ class Charts {
     var endDate = DateTime(end.year, end.month, end.day);
     while (date.millisecondsSinceEpoch <= endDate.millisecondsSinceEpoch) {
       mukbangs[date] = Meal.fromFoodList([]);
-      date = date.add(Duration(days: 1));
+      date = DateTime(date.year,date.month,date.day+1);
+      // date = date.add(Duration(days: 1));
     }
     for (var item in data.entries) {
       mukbangs[item.key] = Meal.fromFoodList(

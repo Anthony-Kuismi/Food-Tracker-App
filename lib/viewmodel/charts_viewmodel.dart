@@ -43,9 +43,6 @@ class ChartsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  get data =>  _model.data;
-
-  get dataSets => _model.datasets;
 
 
   get weight => _model.weight;

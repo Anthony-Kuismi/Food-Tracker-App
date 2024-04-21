@@ -40,7 +40,7 @@ class ChartsView extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 child: Padding(
-                  padding: EdgeInsets.only(right: 10.0), 
+                  padding: EdgeInsets.only(right: 10.0),
                   child: IconButton(
                     icon: const Icon(Icons.person, color: Colors.white, size: 25),
                     onPressed: () {
@@ -71,21 +71,6 @@ class ChartsView extends StatelessWidget {
   }
 }
 
-class ChartSparkLine extends StatelessWidget {
-  ChartsViewModel viewModel;
-
-  ChartSparkLine({required this.viewModel});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-      child: SfSparkLineChart(
-        data: viewModel.data,
-      ),
-    ));
-  }
-}
 
 class ChartsTabView extends StatefulWidget {
   ChartsViewModel viewModel;
@@ -339,20 +324,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   Future<void> _pickEndDate(BuildContext context, ChartsViewModel viewModel,
       String selectedOption, int modifier) async {
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
         await viewModel.updateEnd(DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day));
     print('End Date: ${viewModel.end}');
   }
@@ -443,7 +415,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
                       viewModel.dateModifier--;
                     }
                     _pickStartDate(context, viewModel, selectedOption, viewModel.dateModifier);
-                    
+
                   },
                 ),
               ),
@@ -462,7 +434,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
           ),
           Center(
             child: Container(
-              width: MediaQuery.of(context).size.width * 6 / 7,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: Colors.black45,
                 borderRadius: BorderRadius.circular(10),
@@ -473,8 +445,13 @@ class _ChartsTabViewState extends State<ChartsTabView>
                 indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
                 dividerColor: Colors.transparent,
                 labelColor: Theme.of(context).colorScheme.primary,
+                labelStyle: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold
+                ),
                 unselectedLabelColor: Colors.grey,
-                tabs: viewModel.labels.map<Tab>((labels) => Tab(text: labels)).toList(),
+                tabs: viewModel.labels.map<Tab>((labels) => Tab(text: labels,)).toList(),
+                tabAlignment: TabAlignment.fill,
               ),
             ),
           ),
@@ -503,42 +480,5 @@ class _ChartsTabViewState extends State<ChartsTabView>
         fatsTotalGChart,
       ]);
     });
-  }
-}
-
-class ChartListNutritionSparkLineDaily extends StatelessWidget {
-  final ChartsViewModel viewModel;
-
-  const ChartListNutritionSparkLineDaily({Key? key, required this.viewModel})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: viewModel.dataSets.length,
-      itemBuilder: (context, index) {
-        var data = viewModel.dataSets[index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-          child: Card(
-            elevation: 1,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            child: Padding(
-              padding: const EdgeInsets.all(0),
-              child: SizedBox(
-                height: 10,
-                child: SfSparkLineChart(
-                  width: 2,
-                  data: data,
-                  axisLineWidth: 2,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
   }
 }
