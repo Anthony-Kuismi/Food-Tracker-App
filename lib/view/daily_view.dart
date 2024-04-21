@@ -17,6 +17,7 @@ import 'component/macro_pie_chart.dart';
 
 class DailyView extends StatefulWidget {
   DateTime timestamp;
+  bool get isToday=>timestamp.millisecondsSinceEpoch==DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day).millisecondsSinceEpoch;
 
   final HomePageViewModel homePageViewModel;
 
@@ -122,7 +123,6 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       updateMacroPieChart();
     });
-
     return PopScope(
       onPopInvoked: (didPop) {
         if (didPop) {
@@ -251,7 +251,7 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
                     );
                   })
                 ]),
-                DailyNotes(viewModel: homePageViewModel, color: Colors.transparent,timestamp: viewModel.timestamp,),
+                DailyNotes(viewModel: homePageViewModel, color: Colors.transparent,timestamp: viewModel.timestamp,isToday: false,),
               ],
             );
           },

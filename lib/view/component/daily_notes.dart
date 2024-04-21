@@ -12,10 +12,13 @@ class DailyNotes extends StatelessWidget {
   Color? color;
   double? height;
 
-  bool get isToday =>
-      DateTime.now().year == timestamp.year &&
-      DateTime.now().month == timestamp.month &&
-      DateTime.now().day == timestamp.day;
+  // bool get isToday =>
+  //     DateTime.now().year == timestamp.year &&
+  //     DateTime.now().month == timestamp.month &&
+  //     DateTime.now().day == timestamp.day;
+
+
+  bool isToday;
 
   HomePageViewModel viewModel;
   late TextEditingController controller =
@@ -24,6 +27,7 @@ class DailyNotes extends StatelessWidget {
   DailyNotes(
       {DateTime? timestamp = null,
       required this.viewModel,
+        this.isToday=true,
       this.color = null,
       this.height = null})
       : timestamp = timestamp ??
@@ -34,7 +38,6 @@ class DailyNotes extends StatelessWidget {
   Widget build(BuildContext context) {
     final dailyViewModel = Provider.of<DailyViewModel>(context);
     String displayedNotes = dailyViewModel.dailyNote;
-
     return SizedBox(
       height: MediaQuery.of(context).size.height / 4.5,
       child: GridView.count(
