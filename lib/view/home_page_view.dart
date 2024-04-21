@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_tracker_app/Service/firestore_service.dart';
+import 'package:food_tracker_app/service/firestore_service.dart';
 import 'package:food_tracker_app/service/navigator_service.dart';
 import 'package:food_tracker_app/view/daily_view.dart';
 import 'package:food_tracker_app/viewmodel/daily_viewmodel.dart';

@@ -1,5 +1,4 @@
 import 'package:food_tracker_app/service/basal_metabolic_rate_service.dart';
-
 import '../service/firestore_service.dart';
 
 class Settings {

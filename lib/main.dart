@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:food_tracker_app/Service/firestore_service.dart';
+import 'package:food_tracker_app/service/firestore_service.dart';
 import 'package:food_tracker_app/service/local_notification_service.dart';
 import 'package:food_tracker_app/view/charts_view.dart';
 import 'package:food_tracker_app/view/settings_view.dart';
