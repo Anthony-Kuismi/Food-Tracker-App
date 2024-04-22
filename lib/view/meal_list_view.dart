@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../model/meal.dart';
 import '../viewmodel/meal_list_viewmodel.dart';
+import 'component/add_meal_button.dart';
 import 'component/navbar.dart';
 import 'meal_view.dart';
 
@@ -156,11 +157,12 @@ class MealListView extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        onPressed: () => _showAddMealDialog(context, viewModel),
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: AddMealToListButton(),
+      
+      
+      
+      
+      
       bottomNavigationBar:
           const NavBar(key: Key('customNavBar'), currentPage: 'MealListView'),
     );
