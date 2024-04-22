@@ -21,7 +21,7 @@ class MealListView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nutrition Log', style: TextStyle(color: Colors.black)),
+        title: const Text(' Meal Log', style: TextStyle(color: Colors.black)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [

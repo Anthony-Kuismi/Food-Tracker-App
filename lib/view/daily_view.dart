@@ -130,7 +130,7 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Daily Summary',
+          title: const Text('Daily Log',
               style: TextStyle(color: Colors.black)),
           backgroundColor: Theme.of(context).colorScheme.primary,
           iconTheme: const IconThemeData(color: Colors.black),

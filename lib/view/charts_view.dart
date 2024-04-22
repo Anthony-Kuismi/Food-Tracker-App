@@ -21,7 +21,7 @@ class ChartsView extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.primary,
           automaticallyImplyLeading: false,
           title: const Text(
-            'Nutrition Analytics',
+            'Analytics',
             style: TextStyle(
               color: Colors.black,
             ),
