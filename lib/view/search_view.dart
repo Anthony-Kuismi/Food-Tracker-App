@@ -101,7 +101,7 @@ class SearchBar extends StatelessWidget {
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
           prefixIcon: Icon(Icons.search),
-          hintText: 'one apple, 1/4 cup almonds, a pb',
+          hintText: 'one apple, 1/4 cup almonds',
         ),
       ),
     );
