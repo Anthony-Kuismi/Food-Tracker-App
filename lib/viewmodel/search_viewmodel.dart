@@ -64,7 +64,7 @@ class SearchViewModel extends ChangeNotifier {
   }
 
   String cleanQuerySegment(String querySegment) {
-    List<String> wordsToRemove = ['also', 'plus', 'another', 'with', 'and'];
+    List<String> wordsToRemove = ['also', 'plus', 'another', 'with', 'and','a','some','several','dozen','couple','of'];
     String pattern = '^(${wordsToRemove.join('|')})\\b|\\b(${wordsToRemove.join('|')})\$';
     pattern += '|,';
     String cleanedSegment = querySegment.replaceAll(RegExp(pattern, caseSensitive: false), '');
