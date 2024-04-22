@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:food_tracker_app/service/firestore_service.dart';
 
 import 'meal.dart';
@@ -9,12 +7,11 @@ class Daily {
   Meal? data;
   String dailyNote='';
 
-
   FirestoreService firestoreService = FirestoreService();
 
   DateTime timestamp;
-  Daily(this.timestamp);
 
+  Daily(this.timestamp);
 
   Future<void> fetchData(DateTime timestamp) async {
         meals = await firestoreService.getMealsFromUserByTimestamp(timestamp);
@@ -23,6 +20,6 @@ class Daily {
       }
 
   Future<void> init() async {
-        await fetchData(timestamp);
+    await fetchData(timestamp);
   }
 }

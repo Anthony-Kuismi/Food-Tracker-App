@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:food_tracker_app/service/navigator_service.dart';
 import 'package:food_tracker_app/model/home_page.dart';

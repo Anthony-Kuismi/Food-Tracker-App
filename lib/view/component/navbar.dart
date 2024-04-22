@@ -11,7 +11,7 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final NavigatorService navigatorService =
-    Provider.of<NavigatorService>(context, listen: false);
+        Provider.of<NavigatorService>(context, listen: false);
 
     return Container(
       height: 70,
@@ -19,13 +19,15 @@ class NavBar extends StatelessWidget {
         color: Theme.of(context).colorScheme.background,
         border: Border(
           top: BorderSide(
-            color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.8),
+            color:
+                Theme.of(context).colorScheme.primaryContainer.withOpacity(0.8),
             width: 1.0,
           ),
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.7),
+            color:
+                Theme.of(context).colorScheme.primaryContainer.withOpacity(0.7),
             spreadRadius: 5.0,
             blurRadius: 15.0,
             offset: const Offset(0, -5),
@@ -38,7 +40,9 @@ class NavBar extends StatelessWidget {
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-              color: currentPage == 'MealListView' ? Theme.of(context).colorScheme.primaryContainer : null,
+              color: currentPage == 'MealListView'
+                  ? Theme.of(context).colorScheme.primaryContainer
+                  : null,
               borderRadius: BorderRadius.circular(25),
             ),
             child: IconButton(
@@ -52,7 +56,9 @@ class NavBar extends StatelessWidget {
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-              color: currentPage == 'MyHomePage' ? Theme.of(context).colorScheme.primaryContainer : null,
+              color: currentPage == 'MyHomePage'
+                  ? Theme.of(context).colorScheme.primaryContainer
+                  : null,
               borderRadius: BorderRadius.circular(25),
             ),
             child: IconButton(
@@ -66,11 +72,14 @@ class NavBar extends StatelessWidget {
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-              color: currentPage == 'ChartsView' ? Theme.of(context).colorScheme.primaryContainer : null,
+              color: currentPage == 'ChartsView'
+                  ? Theme.of(context).colorScheme.primaryContainer
+                  : null,
               borderRadius: BorderRadius.circular(25),
             ),
             child: IconButton(
-              icon: const Icon(Icons.insert_chart_outlined_rounded, color: Colors.white),
+              icon: const Icon(Icons.insert_chart_outlined_rounded,
+                  color: Colors.white),
               onPressed: () {
                 navigatorService.pushReplace('ChartsView');
               },

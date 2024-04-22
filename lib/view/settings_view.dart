@@ -13,7 +13,6 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsView extends State<SettingsView> {
-
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<SettingsViewModel>(context, listen: true);
@@ -44,14 +43,15 @@ class _SettingsView extends State<SettingsView> {
                     ),
                     child: Column(
                       children: [
-
                         GestureDetector(
                           onTap: () {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                TextEditingController firstNameController = TextEditingController();
-                                TextEditingController lastNameController = TextEditingController();
+                                TextEditingController firstNameController =
+                                    TextEditingController();
+                                TextEditingController lastNameController =
+                                    TextEditingController();
                                 return AlertDialog(
                                   title: const Text('Set your name'),
                                   content: Column(
@@ -74,9 +74,12 @@ class _SettingsView extends State<SettingsView> {
                                   actions: <Widget>[
                                     TextButton(
                                       onPressed: () {
-                                        String firstName = firstNameController.text;
-                                        String lastName = lastNameController.text;
-                                        if (firstName.isNotEmpty && lastName.isNotEmpty) {
+                                        String firstName =
+                                            firstNameController.text;
+                                        String lastName =
+                                            lastNameController.text;
+                                        if (firstName.isNotEmpty &&
+                                            lastName.isNotEmpty) {
                                           viewModel.setFirstName(firstName);
                                           viewModel.setLastName(lastName);
                                         }
@@ -94,7 +97,10 @@ class _SettingsView extends State<SettingsView> {
                             child: Text(
                               '${viewModel.firstName} ${viewModel.lastName}',
                               style: TextStyle(
-                                fontSize: Theme.of(context).textTheme.titleLarge?.fontSize,
+                                fontSize: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge
+                                    ?.fontSize,
                                 color: Theme.of(context).colorScheme.primary,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -106,28 +112,32 @@ class _SettingsView extends State<SettingsView> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-
                               GestureDetector(
                                 onTap: () {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      TextEditingController weightController = TextEditingController();
+                                      TextEditingController weightController =
+                                          TextEditingController();
                                       return AlertDialog(
                                         title: const Text('Set your weight'),
                                         content: TextField(
                                           controller: weightController,
                                           keyboardType: TextInputType.number,
                                           decoration: const InputDecoration(
-                                            hintText: 'Enter your weight in pounds',
+                                            hintText:
+                                                'Enter your weight in pounds',
                                           ),
                                         ),
                                         actions: <Widget>[
                                           TextButton(
                                             onPressed: () {
-                                              double? newWeight = double.tryParse(weightController.text);
+                                              double? newWeight =
+                                                  double.tryParse(
+                                                      weightController.text);
                                               if (newWeight != null) {
-                                                viewModel.setWeightInPounds(newWeight);
+                                                viewModel.setWeightInPounds(
+                                                    newWeight);
                                               }
                                               Navigator.of(context).pop();
                                             },
@@ -142,12 +152,17 @@ class _SettingsView extends State<SettingsView> {
                                   padding: const EdgeInsets.all(8.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
                                   ),
                                   child: Text(
                                     'Weight: ${viewModel.weightInPounds}lbs',
                                     style: TextStyle(
-                                      fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
+                                      fontSize: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall
+                                          ?.fontSize,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -158,22 +173,26 @@ class _SettingsView extends State<SettingsView> {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      TextEditingController heightController = TextEditingController();
+                                      TextEditingController heightController =
+                                          TextEditingController();
                                       return AlertDialog(
                                         title: const Text('Set your height'),
                                         content: TextField(
                                           controller: heightController,
                                           keyboardType: TextInputType.number,
                                           decoration: const InputDecoration(
-                                            hintText: 'Enter your height in inches',
+                                            hintText:
+                                                'Enter your height in inches',
                                           ),
                                         ),
                                         actions: <Widget>[
                                           TextButton(
                                             onPressed: () {
-                                              int? newHeight = int.tryParse(heightController.text);
+                                              int? newHeight = int.tryParse(
+                                                  heightController.text);
                                               if (newHeight != null) {
-                                                viewModel.setHeightInInches(newHeight);
+                                                viewModel.setHeightInInches(
+                                                    newHeight);
                                               }
                                               Navigator.of(context).pop();
                                             },
@@ -188,19 +207,22 @@ class _SettingsView extends State<SettingsView> {
                                   padding: const EdgeInsets.all(8.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
                                   ),
                                   child: Text(
                                     'Height: ${viewModel.heightInInches} in',
                                     style: TextStyle(
-                                      fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
+                                      fontSize: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall
+                                          ?.fontSize,
                                       color: Colors.white,
                                     ),
                                   ),
                                 ),
                               ),
-
-
                               GestureDetector(
                                 onTap: () {
                                   showDialog(
@@ -210,7 +232,8 @@ class _SettingsView extends State<SettingsView> {
                                       return StatefulBuilder(
                                         builder: (context, setState) {
                                           return AlertDialog(
-                                            title: const Text('Set your gender'),
+                                            title:
+                                                const Text('Set your gender'),
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: <Widget>[
@@ -235,7 +258,8 @@ class _SettingsView extends State<SettingsView> {
                                                   },
                                                 ),
                                                 RadioListTile<String>(
-                                                  title: const Text('Not specified'),
+                                                  title: const Text(
+                                                      'Not specified'),
                                                   value: 'Not specified',
                                                   groupValue: selectedGender,
                                                   onChanged: (value) {
@@ -250,7 +274,8 @@ class _SettingsView extends State<SettingsView> {
                                               TextButton(
                                                 onPressed: () {
                                                   if (selectedGender != null) {
-                                                    viewModel.setGender(selectedGender!);
+                                                    viewModel.setGender(
+                                                        selectedGender!);
                                                   }
                                                   Navigator.of(context).pop();
                                                 },
@@ -267,18 +292,22 @@ class _SettingsView extends State<SettingsView> {
                                   padding: const EdgeInsets.all(8.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
                                   ),
                                   child: Text(
                                     viewModel.gender,
                                     style: TextStyle(
-                                      fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
+                                      fontSize: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall
+                                          ?.fontSize,
                                       color: Colors.white,
                                     ),
                                   ),
                                 ),
                               ),
-
                             ],
                           ),
                         ),
@@ -295,7 +324,8 @@ class _SettingsView extends State<SettingsView> {
                       lastDate: DateTime.now(),
                     );
                     if (pickedDate != null) {
-                      String formattedDate = DateFormat('MM-dd-yyyy').format(pickedDate);
+                      String formattedDate =
+                          DateFormat('MM-dd-yyyy').format(pickedDate);
                       viewModel.setBirthDate(formattedDate);
                     }
                   },
@@ -319,29 +349,31 @@ class _SettingsView extends State<SettingsView> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        String? selectedLifestyle = viewModel.getLifestyleAsString();
+                        String? selectedLifestyle =
+                            viewModel.getLifestyleAsString();
                         return StatefulBuilder(
                           builder: (context, setState) {
                             return AlertDialog(
-                              title:
-                              const Text('Set your lifestyle'),
+                              title: const Text('Set your lifestyle'),
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   RadioListTile<String>(
                                     title: const Text('Sedentary'),
-                                    subtitle: const Text('Little or no exercise'),
+                                    subtitle:
+                                        const Text('Little or no exercise'),
                                     value: 'Sedentary',
                                     groupValue: selectedLifestyle,
                                     onChanged: (value) {
                                       setState(() {
                                         selectedLifestyle = value;
                                       });
-                                      },
+                                    },
                                   ),
                                   RadioListTile<String>(
                                     title: const Text('Slightly Active'),
-                                    subtitle: const Text('Exercise 1-3 times a week'),
+                                    subtitle:
+                                        const Text('Exercise 1-3 times a week'),
                                     value: 'Slightly Active',
                                     groupValue: selectedLifestyle,
                                     onChanged: (value) {
@@ -352,7 +384,8 @@ class _SettingsView extends State<SettingsView> {
                                   ),
                                   RadioListTile<String>(
                                     title: const Text('Moderately Active'),
-                                    subtitle: const Text('Exercise 3-5 times a week'),
+                                    subtitle:
+                                        const Text('Exercise 3-5 times a week'),
                                     value: 'Moderately Active',
                                     groupValue: selectedLifestyle,
                                     onChanged: (value) {
@@ -363,7 +396,8 @@ class _SettingsView extends State<SettingsView> {
                                   ),
                                   RadioListTile<String>(
                                     title: const Text('Very Active'),
-                                    subtitle: const Text('Exercise 6-7 times a week'),
+                                    subtitle:
+                                        const Text('Exercise 6-7 times a week'),
                                     value: 'Very Active',
                                     groupValue: selectedLifestyle,
                                     onChanged: (value) {
@@ -374,7 +408,8 @@ class _SettingsView extends State<SettingsView> {
                                   ),
                                   RadioListTile<String>(
                                     title: const Text('Extremely Active'),
-                                    subtitle: const Text('Exercise multiple times a day'),
+                                    subtitle: const Text(
+                                        'Exercise multiple times a day'),
                                     value: 'Extremely Active',
                                     groupValue: selectedLifestyle,
                                     onChanged: (value) {
@@ -429,7 +464,8 @@ class _SettingsView extends State<SettingsView> {
                       title: const Text('Logout'),
                       leading: const Icon(Icons.logout),
                       onTap: () {
-                        Provider.of<AuthService>(context, listen: false).logout(context);
+                        Provider.of<AuthService>(context, listen: false)
+                            .logout(context);
                       },
                     ),
                   ),
@@ -439,7 +475,8 @@ class _SettingsView extends State<SettingsView> {
           );
         },
       ),
-      bottomNavigationBar: const NavBar(key: Key('customNavBar'), currentPage: 'SettingsView'),
+      bottomNavigationBar:
+          const NavBar(key: Key('customNavBar'), currentPage: 'SettingsView'),
     );
   }
 }

@@ -29,8 +29,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
     if (userDoc.exists) {
       setState(() {
-        _passwordStatus =
-            'Password: ${userDoc['Password']}'; 
+        _passwordStatus = 'Password: ${userDoc['Password']}';
       });
     } else {
       setState(() {

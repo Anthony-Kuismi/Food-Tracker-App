@@ -10,12 +10,19 @@ class SettingsViewModel extends ChangeNotifier {
   var firestore = FirestoreService();
 
   final Settings _model = Settings();
+
   String get firstName => _model.firstName;
+
   String get lastName => _model.lastName;
+
   int get heightInInches => _model.heightInInches;
+
   double get weightInPounds => _model.weightInPounds;
+
   String get birthDate => _model.birthDate;
+
   String get gender => _model.gender;
+
   Lifestyle get lifestyle => _model.lifestyle;
 
   Future<void> load() async {
@@ -79,15 +86,15 @@ class SettingsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setLifestyle(Lifestyle lifestyle){
+  void setLifestyle(Lifestyle lifestyle) {
     _model.lifestyle = lifestyle;
     print(_model.lifestyle);
     firestore.setUserLifestyle(getLifestyleAsString());
     notifyListeners();
   }
 
-  String getLifestyleAsString(){
-    switch(_model.lifestyle){
+  String getLifestyleAsString() {
+    switch (_model.lifestyle) {
       case Lifestyle.SEDENTARY:
         return 'Sedentary';
       case Lifestyle.SLIGHTLY_ACTIVE:
@@ -102,7 +109,7 @@ class SettingsViewModel extends ChangeNotifier {
   }
 
   void setLifestyleByString(String s) {
-    switch(s){
+    switch (s) {
       case 'Sedentary':
         setLifestyle(Lifestyle.SEDENTARY);
         break;

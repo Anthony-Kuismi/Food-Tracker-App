@@ -16,7 +16,11 @@ class AppProvider extends StatelessWidget {
   final NavigatorService navigatorService;
   final NotificationService notificationService;
 
-  const AppProvider({super.key, required this.child, required this.navigatorService, required this.notificationService});
+  const AppProvider(
+      {super.key,
+      required this.child,
+      required this.navigatorService,
+      required this.notificationService});
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +47,17 @@ class AppProvider extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => HomePageViewModel(),
         ),
-        ChangeNotifierProvider(create: (context)=> notificationService),
+        ChangeNotifierProvider(create: (context) => notificationService),
         Provider<AuthService>(create: (_) => AuthService()),
         ChangeNotifierProvider(
           create: (context) => SettingsViewModel(),
         ),
-        ChangeNotifierProvider<DailyViewModel>(create:(context)=>DailyViewModel(null)),
-        ChangeNotifierProvider<ChartsViewModel>(create: (context)=>ChartsViewModel(start: DateTime.now().subtract(Duration(days:7)),end: DateTime.now()))
+        ChangeNotifierProvider<DailyViewModel>(
+            create: (context) => DailyViewModel(null)),
+        ChangeNotifierProvider<ChartsViewModel>(
+            create: (context) => ChartsViewModel(
+                start: DateTime.now().subtract(Duration(days: 7)),
+                end: DateTime.now()))
       ],
       child: child,
     );

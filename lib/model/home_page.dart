@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:food_tracker_app/model/water.dart';
 import 'package:intl/intl.dart';
 import '../service/firestore_service.dart';
@@ -9,8 +7,10 @@ class HomePage {
   FirestoreService firestore = FirestoreService();
   BMRService bmrService = BMRService();
 
-  Water water =
-      Water(date: DateFormat('yyyy-MM-dd').format(DateTime.now()), amount: 0, timestamps: []);
+  Water water = Water(
+      date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+      amount: 0,
+      timestamps: []);
   int waterGoal = 10;
 
   double calories = 0.0;
@@ -64,22 +64,22 @@ class HomePage {
   Future<void> fetchWeightEntry(String date) async {
     try {
       lastEntryNumber = await FirestoreService().getUserLastWeightEntryNumber();
-      
+
       weight = await FirestoreService().getUserWeightInPounds();
       weightGoal = await FirestoreService().getUserWeightGoal();
-      var lastWeight =  await FirestoreService().getSecondLastWeightEntryForUser();
-      
+      var lastWeight =
+          await FirestoreService().getSecondLastWeightEntryForUser();
+
       this.lastWeight = lastWeight;
-                } catch (e) {
-          }
+    } catch (e) {}
   }
 
-  Future<void> fetchUserInfo() async{
+  Future<void> fetchUserInfo() async {
     String genderString = await firestore.getUserGender();
     String dateString = await firestore.getUserBirthdate();
     height = await firestore.getUserHeightInInches();
 
-    switch(genderString){
+    switch (genderString) {
       case 'Male':
         gender = Gender.MALE;
         break;
@@ -90,24 +90,18 @@ class HomePage {
         gender = Gender.NOT_SPECIFIED;
         break;
     }
-    final month = int.parse(dateString.substring(0,2));
-    final day = int.parse(dateString.substring(3,5));
+    final month = int.parse(dateString.substring(0, 2));
+    final day = int.parse(dateString.substring(3, 5));
     final year = int.parse(dateString.substring(6));
-    final birthdate = DateTime(year,month,day);
+    final birthdate = DateTime(year, month, day);
     final delta = DateTime.now().difference(birthdate);
-    age = delta.inDays/365;
+    age = delta.inDays / 365;
     lifestyle = await firestore.getUserLifestyle();
   }
 
-  double getDailyCalorieGoal(){
+  double getDailyCalorieGoal() {
     return bmrService.calculateDailyCalorieGoal(
-        weight*0.453592,
-        height*2.54,
-        gender,
-        age,
-        lifestyle,
-        weightGoal
-    );
+        weight * 0.453592, height * 2.54, gender, age, lifestyle, weightGoal);
   }
 
   Future<void >fetchNotes({DateTime? timestamp=null}) async {

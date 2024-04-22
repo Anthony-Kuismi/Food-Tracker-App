@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_tracker_app/service/basal_metabolic_rate_service.dart';
-import 'package:food_tracker_app/view/home_page_view.dart';
 import 'package:intl/intl.dart';
 import '../model/food.dart';
 import '../model/meal.dart';
@@ -190,7 +187,7 @@ class FirestoreService {
 
     if (waterEntry.exists) {
       return DateTime.fromMillisecondsSinceEpoch(
-          Water.fromJson(waterEntry.data() ?? {}).timestamps.last);
+          Water.fromJson(waterEntry.data()).timestamps.last);
     } else {
       return null;
     }
@@ -269,36 +266,37 @@ class FirestoreService {
     final username = prefs.getString('username');
     final entries =
         FirebaseFirestore.instance.collection('Users/$username/Weight Entries');
-    final date = DateTime(timestamp.year,timestamp.month,timestamp.day);
+    final date = DateTime(timestamp.year, timestamp.month, timestamp.day);
     final dateStr = DateFormat('yyyy-MM-dd').format(date);
 
-    entries.doc(dateStr).set(Weight(timestamp: date,weight: weight).toJson());
+    entries.doc(dateStr).set(Weight(timestamp: date, weight: weight).toJson());
   }
 
-  Future<Map<DateTime,double>> getUserWeightEntries() async{
-        SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<Map<DateTime, double>> getUserWeightEntries() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
-    final entries =
-    FirebaseFirestore.instance.collection('Users/$username/Weight Entries').orderBy('date');
+    final entries = FirebaseFirestore.instance
+        .collection('Users/$username/Weight Entries')
+        .orderBy('date');
     final entriesSnapshot = await entries.get();
     final entriesDocuments = entriesSnapshot.docs;
-    Map<DateTime,double> out = {};
-        entriesDocuments.forEach((entry) {
+    Map<DateTime, double> out = {};
+    entriesDocuments.forEach((entry) {
       var data = entry.data();
-                              out[DateTime.fromMillisecondsSinceEpoch(data['date'])] = data['weight'];
-          });
-            return out;
+      out[DateTime.fromMillisecondsSinceEpoch(data['date'])] = data['weight'];
+    });
+    return out;
   }
 
-  Future<Map<DateTime,double>> getUserWeightEntriesByTimestampRange(DateTime start, DateTime end) async {
+  Future<Map<DateTime, double>> getUserWeightEntriesByTimestampRange(
+      DateTime start, DateTime end) async {
     start = DateTime(start.year, start.month, start.day);
     end = DateTime(end.year, end.month, end.day);
     final weightEntries = await getUserWeightEntries();
-    Map<DateTime, double> out = {
-    };
-    for (DateTime date = start; date.millisecondsSinceEpoch <=
-        end.millisecondsSinceEpoch;
-    date = DateTime(date.year, date.month, date.day + 1)) {
+    Map<DateTime, double> out = {};
+    for (DateTime date = start;
+        date.millisecondsSinceEpoch <= end.millisecondsSinceEpoch;
+        date = DateTime(date.year, date.month, date.day + 1)) {
       if (weightEntries.keys.contains(date)) {
         out[date] = weightEntries[date]!;
       }
@@ -307,22 +305,23 @@ class FirestoreService {
   }
 
   Future<double> getLastWeightEntryForUser() async {
-        final entries = await getUserWeightEntries();
-            return entries.values.last;
+    final entries = await getUserWeightEntries();
+    return entries.values.last;
   }
 
   Future<double> getSecondLastWeightEntryForUser() async {
     final entries = await getUserWeightEntries();
-    if(entries.values.isEmpty) return 0;
-    if (entries.values.length>1) return entries.values.toList()[entries.values.length-2];
+    if (entries.values.isEmpty) return 0;
+    if (entries.values.length > 1)
+      return entries.values.toList()[entries.values.length - 2];
     return entries.values.toList()[1];
   }
 
   Future<double> getUserWeightByEntry(DateTime timestamp) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final username = prefs.getString('username');
-    final docRef = FirebaseFirestore.instance
-        .doc('Users/$username/Weight Entries/${DateFormat('yyyy-MM-dd').format(timestamp)}');
+    final docRef = FirebaseFirestore.instance.doc(
+        'Users/$username/Weight Entries/${DateFormat('yyyy-MM-dd').format(timestamp)}');
     final docSnapshot = await docRef.get();
     return (docSnapshot.data()!['weight']).toDouble();
   }
@@ -401,23 +400,22 @@ class FirestoreService {
 
   Future<Map<DateTime, List<Meal>>> getMealsFromUserByTimestampRange(
       DateTime start, DateTime end) async {
-        List<Meal> mealData = await getMealsFromUser();
+    List<Meal> mealData = await getMealsFromUser();
     Map<DateTime, List<Meal>> out = {};
     var day = DateTime(start.year, start.month, start.day);
     end = DateTime(end.year, end.month, end.day);
 
     if (start.millisecondsSinceEpoch > end.millisecondsSinceEpoch)
       throw Error();
-    while (day.year != end.year ||
-        day.month != end.month ||
-        day.day != end.day ) {
-            out[day] = [];
-      day = DateTime(day.year,day.month,day.day+1);
+    while (
+        day.year != end.year || day.month != end.month || day.day != end.day) {
+      out[day] = [];
+      day = DateTime(day.year, day.month, day.day + 1);
     }
     for (Meal meal in mealData) {
       if (out.keys.contains(meal.day)) {
         out[meal.day]!.add(meal);
-              }
+      }
     }
     return out;
   }

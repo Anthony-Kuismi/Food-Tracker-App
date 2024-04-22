@@ -12,7 +12,7 @@ class AuthService {
       context,
       MaterialPageRoute(
           builder: (context) => const LoginApp(title: 'Login Page')),
-          (Route<dynamic> route) => false,
+      (Route<dynamic> route) => false,
     );
   }
 }

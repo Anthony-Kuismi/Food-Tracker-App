@@ -4,7 +4,9 @@ import '../daily_view.dart';
 
 class DatePickerButton extends StatefulWidget {
   HomePageViewModel homePageViewModel;
+
   DatePickerButton({required this.homePageViewModel});
+
   @override
   _DatePickerButtonState createState() => _DatePickerButtonState();
 }
@@ -22,7 +24,10 @@ class _DatePickerButtonState extends State<DatePickerButton> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DailyView(timestamp: pickedDate, homePageViewModel: widget.homePageViewModel,),
+          builder: (context) => DailyView(
+            timestamp: pickedDate,
+            homePageViewModel: widget.homePageViewModel,
+          ),
         ),
       );
     }
@@ -37,10 +42,7 @@ class _DatePickerButtonState extends State<DatePickerButton> {
         icon: Icon(Icons.today),
         onPressed: () => _pickDate(context),
         iconSize: 24.0,
-        constraints: BoxConstraints(
-            minWidth: 24,
-            minHeight: 24
-        ),
+        constraints: BoxConstraints(minWidth: 24, minHeight: 24),
         padding: EdgeInsets.zero,
         alignment: Alignment.center,
       ),

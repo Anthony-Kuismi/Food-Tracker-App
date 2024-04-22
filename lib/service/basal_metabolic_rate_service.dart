@@ -13,7 +13,6 @@ enum Gender {
 }
 
 class BMRService {
-  
   double calculateDailyCalorieGoal(double weight, double height, Gender gender,
       double age, Lifestyle lifestyle, double weightChange) {
     double BMR;
@@ -50,17 +49,15 @@ class BMRService {
         break;
     }
 
-    final calorieChange = weightChange*500;
+    final calorieChange = weightChange * 500;
 
-    return BMR+calorieChange;
+    return BMR + calorieChange;
   }
 
-  
   double calculateMaleBMR(double weight, double height, double age) {
     return (10 * weight) + (6.25 * height) - (5 * age) + 5;
   }
 
-  
   double calculateFemaleBMR(double weight, double height, double age) {
     return (10 * weight) + (6.25 * height) - (5 * age) - 161;
   }
