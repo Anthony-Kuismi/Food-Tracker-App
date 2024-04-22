@@ -11,13 +11,6 @@ class DailyNotes extends StatelessWidget {
   DateTime timestamp;
   Color? color;
   double? height;
-
-  
-  
-  
-  
-
-
   bool isToday;
 
   HomePageViewModel viewModel;
@@ -108,7 +101,7 @@ class DailyNotes extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(
-                                top: 9, bottom: 9, right: 19, left: 19),
+                                top: 13, bottom: 9, right: 11, left: 9),
                             child: Text(
                               'Notes',
                               style: Theme.of(context).textTheme.titleMedium,
@@ -117,7 +110,7 @@ class DailyNotes extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
-                                top: 9, bottom: 9, right: 19, left: 19),
+                                top: 13, bottom: 9, right: 19, left: 19),
                             child: const Icon(Icons.note_add),
                           ),
                         ],

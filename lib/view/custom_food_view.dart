@@ -95,27 +95,14 @@ class FoodFormState extends State<FoodForm> {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Add Custom Food'),
-          actions: [
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: IconButton(
-                icon: const Icon(Icons.person, color: Colors.white),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SettingsView(
-                                username: '',
-                              )));
-                },
-                iconSize: 30,
-              ),
+          title: const Text(
+            'Add Custom Food',
+            style: TextStyle(
+              color: Colors.black,
             ),
-          ],
+          ),          backgroundColor: Theme.of(context).colorScheme.primary,
+          iconTheme: const IconThemeData(color: Colors.black),
+
         ),
         body: SingleChildScrollView(
           child: Padding(

@@ -104,6 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisCount: 2,
                     childAspectRatio: MediaQuery.of(context).size.width /
                         (MediaQuery.of(context).size.height / 1.5),
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
                     children: <Widget>[
                       waterContainer(context, widget.viewModel, refresh),
                       weightContainer(context, widget.viewModel, refresh),

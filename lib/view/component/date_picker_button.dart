@@ -45,6 +45,7 @@ class _DatePickerButtonState extends State<DatePickerButton> {
         constraints: BoxConstraints(minWidth: 24, minHeight: 24),
         padding: EdgeInsets.zero,
         alignment: Alignment.center,
+        color: Colors.white,
       ),
     );
   }

@@ -443,7 +443,7 @@ class _SettingsView extends State<SettingsView> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.black26,
+                        color: Colors.black45,
                       ),
                       child: ListTile(
                         title: const Text('Lifestyle'),
