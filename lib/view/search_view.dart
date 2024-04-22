@@ -153,7 +153,7 @@ class SearchResults extends StatelessWidget {
                   ),
                   subtitle: (food.custom == true
                       ? Text('[Custom]', style: TextStyle(color: Theme.of(context).colorScheme.onSurface)) 
-                      : food.servingSizeG == 100
+                      : food.servingSizeG == 100&&!food.title.contains('100g')
                       ? Text('Did you mean:\n"$quantity ${food.title}"? "12oz of ${food.title}${plural?'':'s'}?"', style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.italic))
                       : null),
                   trailing: Row(
@@ -220,10 +220,10 @@ class AddMealButton extends StatelessWidget {
 
   const AddMealButton(
       {super.key,
-      required this.searchViewModel,
-      required this.mealListViewModel,
-      required this.foodSelectionService,
-      required this.navigatorService});
+        required this.searchViewModel,
+        required this.mealListViewModel,
+        required this.foodSelectionService,
+        required this.navigatorService});
 
   @override
   Widget build(BuildContext context) {

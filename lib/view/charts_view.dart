@@ -405,7 +405,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
                 ),
               ),
               Text(
-                '${DateFormat('MM-yy-dd').format(viewModel.start)}    —    ${DateFormat('MM-yy-dd').format(viewModel.end)}',
+                '${DateFormat('MM-dd-yy').format(viewModel.start)}    —    ${DateFormat('MM-dd-yy').format(viewModel.end)}',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               CircleAvatar(
