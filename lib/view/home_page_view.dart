@@ -206,10 +206,13 @@ GestureDetector weightContainer(
             Positioned(
               bottom: 10,
               right: 10,
-              child: ClipOval(
+              child: Container(
+                height: 40,
+                width: 40,
                 child: FloatingActionButton(
                   heroTag: 'addButton',
                   mini: true,
+                  shape: CircleBorder(),
                   onPressed: () {
                     TextEditingController controller = TextEditingController();
                     showDialog(
@@ -250,7 +253,7 @@ GestureDetector weightContainer(
               ),
             ),
             Positioned(
-              bottom: 25,
+              bottom: 20,
               left: 15,
               child: Text(
                 'Log Weight',
@@ -449,39 +452,49 @@ GestureDetector waterContainer(
           Positioned(
             bottom: 10,
             left: 10,
-            child: Material(
-              color: Theme.of(context).colorScheme.primary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: IconButton(
-                icon: Icon(Icons.remove, size: 20, color: Colors.black),
-                onPressed: () {
-                  viewModel.removeWater();
-                },
+            child: Container(
+              height: 40.0,
+              width: 40.0,
+              child: Material(
+                color: Theme.of(context).colorScheme.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: IconButton(
+                  padding: EdgeInsets.all(0),
+                  icon: Icon(Icons.remove, size: 20, color: Colors.black),
+                  onPressed: () {
+                    viewModel.removeWater();
+                  },
+                ),
               ),
             ),
           ),
           Positioned(
             bottom: 10,
             right: 10,
-            child: Material(
-              color: Theme.of(context).colorScheme.primary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: IconButton(
-                icon: Icon(Icons.add, size: 20, color: Colors.black),
-                onPressed: () {
-                  viewModel.addWater();
-                },
+            child: Container(
+              height: 40.0,
+              width: 40.0,
+              child: Material(
+                color: Theme.of(context).colorScheme.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: IconButton(
+                  padding: EdgeInsets.all(0),
+                  icon: Icon(Icons.add, size: 20, color: Colors.black),
+                  onPressed: () {
+                    viewModel.addWater();
+                  },
+                ),
               ),
             ),
           ),
           Positioned(
-            bottom: 25,
+            bottom: 20,
             child: Text(
               'One Cup',
               style: Theme.of(context).textTheme.titleSmall,
