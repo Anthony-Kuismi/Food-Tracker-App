@@ -93,7 +93,7 @@ class MealListView extends StatelessWidget {
                         ringStrokeWidth: 8,
                       ),
                     ),
-                    title: Text(DateFormat('EEEE MM-dd-yy').format(date)),
+                    title: Text(DateFormat('EEEE, MM-dd-yy').format(date)),
                     children: dayMeals
                         .map((meal) => ListTile(
                               title: Row(
