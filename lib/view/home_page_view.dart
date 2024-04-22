@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         automaticallyImplyLeading: false,
         title: const Text(
-          'Food Tracking',
+          'Nutrition Dashboard',
           style: TextStyle(
             color: Colors.black,
           ),

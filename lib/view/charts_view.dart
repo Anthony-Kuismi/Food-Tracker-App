@@ -21,7 +21,7 @@ class ChartsView extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.primary,
           automaticallyImplyLeading: false,
           title: const Text(
-            'Nutrition Over Time',
+            'Nutrition Analytics',
             style: TextStyle(
               color: Colors.black,
             ),
@@ -112,8 +112,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get weightChart {
     if (viewModel.isLoading) {
-      return Text('Loading!');
-    } else {
+      return Center(child: CircularProgressIndicator());
+    }else{
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
         child: Column(
@@ -149,8 +149,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get caloriesChart {
     if (viewModel.isLoading) {
-      return Text('Loading!');
-    } else {
+      return Center(child: CircularProgressIndicator());
+    }else{
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
         child: Column(
@@ -186,8 +186,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get proteinTotalGChart {
     if (viewModel.isLoading) {
-      return Text('Loading!');
-    } else {
+      return Center(child: CircularProgressIndicator());
+    }else{
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         child: Column(
@@ -221,8 +221,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get carbohydratesTotalGChart {
     if (viewModel.isLoading) {
-      return Text('Loading!');
-    } else {
+      return Center(child: CircularProgressIndicator());
+    }else{
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         child: Column(
@@ -256,8 +256,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get fatsTotalGChart {
     if (viewModel.isLoading) {
-      return Text('Loading!');
-    } else {
+      return Center(child: CircularProgressIndicator());
+    }else{
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         child: Column(
