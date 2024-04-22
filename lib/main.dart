@@ -51,13 +51,14 @@ class MyApp extends StatelessWidget {
               navigatorService: navigatorService,
               notificationService: notificationService,
               child: MaterialApp(
-                title: 'Food Tracker App',
+                title: 'Nutrition Tracker App',
                 theme: ThemeData(
                   colorScheme: ColorScheme.fromSeed(
-                    seedColor: Colors.deepPurpleAccent,
+                    seedColor: Colors.deepPurple,
                     brightness: Brightness.dark,
                   ),
-                  primarySwatch: Colors.blue,
+                  primarySwatch: Colors.red,
+
                 ),
                 home: isLoggedIn
                     ? ChangeNotifierProvider<HomePageViewModel>(

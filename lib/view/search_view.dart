@@ -1,4 +1,5 @@
 import 'package:food_tracker_app/view/settings_view.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import '../../service/navigator_service.dart';
@@ -6,6 +7,7 @@ import '../../service/food_selection_service.dart';
 import '../../viewmodel/search_viewmodel.dart';
 import '../../viewmodel/meal_list_viewmodel.dart';
 import '../model/meal.dart';
+import 'component/macro_pie_chart.dart';
 import 'custom_food_view.dart';
 import 'food_view.dart';
 import 'meal_view.dart';
@@ -34,7 +36,7 @@ class SearchView extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.primary,
           iconTheme: const IconThemeData(color: Colors.black),
           title: const Text(
-            'Add Foods to Your Diet',
+            'Add Foods to Meal',
             style: TextStyle(
               color: Colors.black,
             ),
@@ -104,7 +106,7 @@ class SearchBar extends StatelessWidget {
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
           prefixIcon: Icon(Icons.search),
-          hintText: 'Add Foods',
+          hintText: 'one apple, 1/4 cup almonds',
         ),
       ),
     );
@@ -116,11 +118,12 @@ class SearchResults extends StatelessWidget {
   final FoodSelectionService foodSelectionService;
   final NavigatorService navigatorService;
 
-  const SearchResults(
-      {super.key,
-      required this.searchViewModel,
-      required this.foodSelectionService,
-      required this.navigatorService});
+  const SearchResults({
+    super.key,
+    required this.searchViewModel,
+    required this.foodSelectionService,
+    required this.navigatorService
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -134,38 +137,55 @@ class SearchResults extends StatelessWidget {
             itemBuilder: (context, index) {
               final food = foods[index];
               final isSelected = foodSelectionService.isSelected(food);
+              bool plural = food.title[food.title.length-1]=='s';
+              var quantity = plural ? 'two' : 'one';
               return Container(
                 margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).colorScheme.surface, 
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Theme.of(context).dividerColor) 
                 ),
                 child: ListTile(
                   title: Text(
                     food.title,
-                    style: const TextStyle(
-                      color: Colors.black,
-                    ),
+                    style: TextStyle(color: Theme.of(context).textTheme.bodyText1?.color), 
                   ),
-                  subtitle: food.custom == true
-                      ? const Text(
-                          '[Custom]',
-                          style: TextStyle(color: Colors.grey),
-                        )
-                      : null,
+                  subtitle: (food.custom == true
+                      ? Text('[Custom]', style: TextStyle(color: Theme.of(context).colorScheme.onSurface)) 
+                      : food.servingSizeG == 100&&!food.title.contains('100g')
+                      ? Text('Did you mean:\n"$quantity ${food.title}"? "12oz of ${food.title}${plural?'':'s'}?"', style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.italic))
+                      : null),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      IconButton(
-                        icon: const Icon(Icons.info),
-                        color: Colors.black,
-                        onPressed: () {
+                      InkWell(
+                        onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => FoodView(
                                 currentFood: food,
                                 currentMeal: foodSelectionService.editingMeal!),
                           ));
                         },
+                        child: SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: MacroPieChart(
+                            Theme.of(context).colorScheme.primaryContainer,
+                            Theme.of(context).colorScheme.primary,
+                            Theme.of(context).colorScheme.tertiary,
+                            food.calories,
+                            food.proteinG,
+                            food.carbohydratesTotalG,
+                            food.fatTotalG,
+                            chartRadius: 50,
+                            chartValuesOptions:
+                            const ChartValuesOptions(showChartValues: false),
+                            legendOptions: const LegendOptions(showLegends: false),
+                            centerText: '',
+                            ringStrokeWidth: 8,
+                          ),
+                        ),
                       ),
                       Checkbox(
                         checkColor: Colors.black,
@@ -174,8 +194,8 @@ class SearchResults extends StatelessWidget {
                         onChanged: (bool? newValue) {
                           searchViewModel.toggleSelection(newValue, food);
                         },
-                        side: const BorderSide(
-                          color: Colors.grey,
+                        side: BorderSide(
+                          color: Theme.of(context).dividerColor,
                           width: 1.5,
                         ),
                       ),
@@ -191,6 +211,7 @@ class SearchResults extends StatelessWidget {
   }
 }
 
+
 class AddMealButton extends StatelessWidget {
   final SearchViewModel searchViewModel;
   final MealListViewModel mealListViewModel;
@@ -199,10 +220,10 @@ class AddMealButton extends StatelessWidget {
 
   const AddMealButton(
       {super.key,
-      required this.searchViewModel,
-      required this.mealListViewModel,
-      required this.foodSelectionService,
-      required this.navigatorService});
+        required this.searchViewModel,
+        required this.mealListViewModel,
+        required this.foodSelectionService,
+        required this.navigatorService});
 
   @override
   Widget build(BuildContext context) {

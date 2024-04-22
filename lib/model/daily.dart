@@ -5,6 +5,7 @@ import 'meal.dart';
 class Daily {
   List<Meal> meals = [];
   Meal? data;
+  String dailyNote='';
 
   FirestoreService firestoreService = FirestoreService();
 
@@ -13,10 +14,10 @@ class Daily {
   Daily(this.timestamp);
 
   Future<void> fetchData(DateTime timestamp) async {
-    meals = await firestoreService.getMealsFromUserByTimestamp(timestamp);
-    data =
-        Meal.fromFoodList(meals.expand((meal) => meal.foods.values).toList());
-  }
+        meals = await firestoreService.getMealsFromUserByTimestamp(timestamp);
+        data = Meal.fromFoodList(meals.expand((meal) => meal.foods.values).toList());
+        dailyNote = await firestoreService.getDailyNote(timestamp);
+      }
 
   Future<void> init() async {
     await fetchData(timestamp);

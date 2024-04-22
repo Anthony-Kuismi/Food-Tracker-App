@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../model/meal.dart';
 import '../viewmodel/meal_list_viewmodel.dart';
+import 'component/add_meal_button.dart';
 import 'component/navbar.dart';
 import 'meal_view.dart';
 
@@ -20,7 +21,7 @@ class MealListView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Diet Log', style: TextStyle(color: Colors.black)),
+        title: const Text(' Meal Log', style: TextStyle(color: Colors.black)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [
@@ -92,7 +93,7 @@ class MealListView extends StatelessWidget {
                         ringStrokeWidth: 8,
                       ),
                     ),
-                    title: Text(DateFormat('yyyy-MM-dd').format(date)),
+                    title: Text(DateFormat('EEEE, MM-dd-yy').format(date)),
                     children: dayMeals
                         .map((meal) => ListTile(
                               title: Row(
@@ -156,11 +157,12 @@ class MealListView extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        onPressed: () => _showAddMealDialog(context, viewModel),
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: AddMealToListButton(),
+      
+      
+      
+      
+      
       bottomNavigationBar:
           const NavBar(key: Key('customNavBar'), currentPage: 'MealListView'),
     );

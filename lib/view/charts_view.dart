@@ -21,7 +21,7 @@ class ChartsView extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.primary,
           automaticallyImplyLeading: false,
           title: const Text(
-            'Nutrition Data Over Time',
+            'Analytics',
             style: TextStyle(
               color: Colors.black,
             ),
@@ -77,7 +77,7 @@ class ChartsTabView extends StatefulWidget {
     return SfSparkLineChart.custom(
       dataCount: data.length,
       xValueMapper: (int index) =>
-          DateFormat('MM dd yy').format(data[index].timestamp),
+          DateFormat('MM-dd-yy').format(data[index].timestamp),
       yValueMapper: (int index) => data[index].value,
       plotBand: SparkChartPlotBand(
         start: 14,
@@ -112,8 +112,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get weightChart {
     if (viewModel.isLoading) {
-      return Text('Loading!');
-    } else {
+      return Center(child: CircularProgressIndicator());
+    }else{
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
         child: Column(
@@ -149,8 +149,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get caloriesChart {
     if (viewModel.isLoading) {
-      return Text('Loading!');
-    } else {
+      return Center(child: CircularProgressIndicator());
+    }else{
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
         child: Column(
@@ -186,8 +186,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get proteinTotalGChart {
     if (viewModel.isLoading) {
-      return Text('Loading!');
-    } else {
+      return Center(child: CircularProgressIndicator());
+    }else{
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         child: Column(
@@ -221,8 +221,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get carbohydratesTotalGChart {
     if (viewModel.isLoading) {
-      return Text('Loading!');
-    } else {
+      return Center(child: CircularProgressIndicator());
+    }else{
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         child: Column(
@@ -256,8 +256,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
 
   get fatsTotalGChart {
     if (viewModel.isLoading) {
-      return Text('Loading!');
-    } else {
+      return Center(child: CircularProgressIndicator());
+    }else{
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
         child: Column(
@@ -312,7 +312,7 @@ class _ChartsTabViewState extends State<ChartsTabView>
             Duration(days: (365 * (viewModel.dateModifier + 1)) as int)));
         break;
     }
-    print('Start Date: ${viewModel.start}');
+    print('Start Date: ${DateFormat('MM-dd-yy').format(viewModel.start)}');
     setState(() {});
   }
 
@@ -405,11 +405,8 @@ class _ChartsTabViewState extends State<ChartsTabView>
                 ),
               ),
               Text(
-                '${viewModel.start.month}/${viewModel.start.day}/${viewModel.start.year} - ${viewModel.end.month}/${viewModel.end.day}/${viewModel.end.year}',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(fontWeight: FontWeight.bold),
+                '${DateFormat('MM-dd-yy').format(viewModel.start)}    —    ${DateFormat('MM-dd-yy').format(viewModel.end)}',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               CircleAvatar(
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,

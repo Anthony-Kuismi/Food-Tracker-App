@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../model/daily.dart';
 import '../model/meal.dart';
@@ -117,6 +118,20 @@ class DailyViewModel extends ChangeNotifier {
     return out;
   }
 
+  String get dailyNote => _model.dailyNote;
+  set dailyNote(newvalue){
+    _model.dailyNote = newvalue;
+    notifyListeners();
+  }
+
+
+
+  @override
+  void dispose() {
+    isDisposed = true;
+    super.dispose();
+  }
+
   Future<void> init() async {
     isLoading = true;
     await _model.init();
@@ -124,11 +139,5 @@ class DailyViewModel extends ChangeNotifier {
     if (!isDisposed) {
       notifyListeners();
     }
-  }
-
-  @override
-  void dispose() {
-    isDisposed = true;
-    super.dispose();
   }
 }
