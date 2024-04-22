@@ -295,8 +295,8 @@ class MealViewState extends State<MealView> {
                       builder: (context) => SearchView(),
                     ));
                   },
-                  icon: Icon(Icons.add),
-                  label: Text('Add & Edit Foods'),
+                  icon: Icon(Icons.dashboard_customize),
+                  label: Text('Foods'),
                 ),
               ),
             ),

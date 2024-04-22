@@ -12,10 +12,10 @@ class DailyNotes extends StatelessWidget {
   Color? color;
   double? height;
 
-  // bool get isToday =>
-  //     DateTime.now().year == timestamp.year &&
-  //     DateTime.now().month == timestamp.month &&
-  //     DateTime.now().day == timestamp.day;
+  
+  
+  
+  
 
 
   bool isToday;
@@ -71,7 +71,7 @@ class DailyNotes extends StatelessWidget {
                                     timestamp.millisecondsSinceEpoch ==
                                 0) {
                               log('YOU ARE HERE');
-                              // viewModel.dailyNote = notes;
+                              
                               viewModel.addNotes(notes);
                             }
                             if (timestamp.millisecondsSinceEpoch ==

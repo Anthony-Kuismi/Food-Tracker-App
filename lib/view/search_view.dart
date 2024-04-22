@@ -1,4 +1,5 @@
 import 'package:food_tracker_app/view/settings_view.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import '../../service/navigator_service.dart';
@@ -6,6 +7,7 @@ import '../../service/food_selection_service.dart';
 import '../../viewmodel/search_viewmodel.dart';
 import '../../viewmodel/meal_list_viewmodel.dart';
 import '../model/meal.dart';
+import 'component/macro_pie_chart.dart';
 import 'custom_food_view.dart';
 import 'food_view.dart';
 import 'meal_view.dart';
@@ -140,32 +142,50 @@ class SearchResults extends StatelessWidget {
               return Container(
                 margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).colorScheme.surface, 
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Theme.of(context).dividerColor) 
                 ),
                 child: ListTile(
                   title: Text(
                     food.title,
-                    style: const TextStyle(color: Colors.black),
+                    style: TextStyle(color: Theme.of(context).textTheme.bodyText1?.color), 
                   ),
                   subtitle: (food.custom == true
-                      ? Text('[Custom]', style: TextStyle(color: Theme.of(context).dialogBackgroundColor))
+                      ? Text('[Custom]', style: TextStyle(color: Theme.of(context).colorScheme.onSurface)) 
                       : food.servingSizeG == 100
-                      ? Text('Did you mean:\n"$quantity ${food.title}"? "12oz of ${food.title}${plural?'':'s'}?"', style: TextStyle(color: Theme.of(context).dialogBackgroundColor,fontStyle: FontStyle.italic))
+                      ? Text('Did you mean:\n"$quantity ${food.title}"? "12oz of ${food.title}${plural?'':'s'}?"', style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.italic))
                       : null),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      IconButton(
-                        icon: const Icon(Icons.info),
-                        color: Colors.black,
-                        onPressed: () {
+                      InkWell(
+                        onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => FoodView(
                                 currentFood: food,
                                 currentMeal: foodSelectionService.editingMeal!),
                           ));
                         },
+                        child: SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: MacroPieChart(
+                            Theme.of(context).colorScheme.primaryContainer,
+                            Theme.of(context).colorScheme.primary,
+                            Theme.of(context).colorScheme.tertiary,
+                            food.calories,
+                            food.proteinG,
+                            food.carbohydratesTotalG,
+                            food.fatTotalG,
+                            chartRadius: 50,
+                            chartValuesOptions:
+                            const ChartValuesOptions(showChartValues: false),
+                            legendOptions: const LegendOptions(showLegends: false),
+                            centerText: '',
+                            ringStrokeWidth: 8,
+                          ),
+                        ),
                       ),
                       Checkbox(
                         checkColor: Colors.black,
@@ -174,8 +194,8 @@ class SearchResults extends StatelessWidget {
                         onChanged: (bool? newValue) {
                           searchViewModel.toggleSelection(newValue, food);
                         },
-                        side: const BorderSide(
-                          color: Colors.grey,
+                        side: BorderSide(
+                          color: Theme.of(context).dividerColor,
                           width: 1.5,
                         ),
                       ),
@@ -190,6 +210,7 @@ class SearchResults extends StatelessWidget {
     );
   }
 }
+
 
 class AddMealButton extends StatelessWidget {
   final SearchViewModel searchViewModel;
