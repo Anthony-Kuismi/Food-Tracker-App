@@ -191,7 +191,7 @@ class DailyViewState extends State<DailyView> with WidgetsBindingObserver {
                         ),
                       ),
                       Text(
-                        DateFormat('yyyy-MM-dd').format(viewModel.timestamp),
+                        DateFormat('EEEE, MM-dd-yy').format(viewModel.timestamp),
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       CircleAvatar(
